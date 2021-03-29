@@ -1,0 +1,55 @@
+{
+    "name": "layoutkit",
+    "version": "0.0.1",
+    "description": "A kit with the most useful tools to create and test new layouts.",
+    "main": "./dist/main/index.js",
+    "scripts": {
+        "dev": "node .electron-nuxt/dev.js",
+        "build": "yarn run build:icons && node .electron-nuxt/build.js",
+        "build:icons": "electron-icon-builder --flatten --input=./src/renderer/assets/icon-radius.png --output=./build",
+        "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ava",
+        "test:e2e": "cross-env NODE_ENV=test TEST_TYPE=e2e ava",
+        "test": "yarn run test:unit && yarn run test:e2e",
+        "preinstall": "node .electron-nuxt/check-engines.js",
+        "postinstall": "electron-builder install-app-deps "
+    },
+    "keywords": [],
+    "author": "Migushthe2nd",
+    "engines": {
+        "node": ">=12.13.0"
+    },
+    "resolutions": {
+        "@types/node": "12.12.6"
+    },
+    "devDependencies": {
+        "@fortawesome/fontawesome-free": "5.15.3",
+        "@nuxt/types": "^2.15.3",
+        "@nuxt/typescript-build": "2.1.0",
+        "@vue/test-utils": "1.1.0",
+        "@xpda-dev/core": "^0.1.6",
+        "@xpda-dev/electron-builder": "^0.2.1",
+        "@xpda-dev/electron-launcher": "^0.3.0",
+        "@xpda-dev/webpack-step": "^0.1.2",
+        "ava": "2.4.0",
+        "babel-plugin-webpack-alias-7": "0.1.1",
+        "boxicons": "^2.0.7",
+        "browser-env": "3.3.0",
+        "cross-env": "7.0.2",
+        "deepmerge": "4.2.2",
+        "electron": "12.0.2",
+        "electron-builder": "22.10.5",
+        "electron-devtools-installer": "3.1.1",
+        "native-ext-loader": "2.3.0",
+        "node-sass": "4.14.1",
+        "require-extension-hooks": "0.3.3",
+        "require-extension-hooks-babel": "1.0.0",
+        "require-extension-hooks-vue": "0.4.2",
+        "sass-loader": "10.0.2",
+        "vuesax": "^4.0.1-alpha.25",
+        "webpack": "4.44.2",
+        "webpack-node-externals": "2.5.2"
+    },
+    "dependencies": {
+        "nuxt": "^2.15.3"
+    }
+}
