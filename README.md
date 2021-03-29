@@ -1,6 +1,6 @@
-# layoutkit-electron
+# LayoutKit
 
-> An electron-nuxt project
+> An application with the most useful tools to create and test new layouts.
 
 #### Build Setup
 

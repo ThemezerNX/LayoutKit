@@ -1,7 +1,7 @@
 {
     "name": "layoutkit",
     "version": "0.0.1",
-    "description": "A kit with the most useful tools to create and test new layouts.",
+    "description": "An application with the most useful tools to create and test new layouts.",
     "main": "./dist/main/index.js",
     "scripts": {
         "dev": "node .electron-nuxt/dev.js",
