@@ -7,6 +7,7 @@
 ``` bash
 # install dependencies
 yarn install
+yarn global add electron-icon-builder
 
 # serve app with hot reload
 yarn run dev
@@ -20,9 +21,6 @@ yarn test
 
 #### Generate App Icons
 ```bash
-# install icon builder
-yarn global add electron-icon-builder
-
 # regenerate all icon types
 yarn run build:icons
 ```
