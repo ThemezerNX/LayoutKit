@@ -50,6 +50,7 @@
         "webpack-node-externals": "2.5.2"
     },
     "dependencies": {
+        "@themezernx/target-parser": "^1.0.0",
         "nuxt": "^2.15.3"
     }
 }
