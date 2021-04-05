@@ -1,5 +1,6 @@
 /* eslint-disable */
 import {app, Menu, MenuItem} from "electron";
+// @ts-ignore
 import installExtension, {VUEJS_DEVTOOLS} from "electron-devtools-installer";
 import {ELECTRON_RELAUNCH_CODE} from "../../../.electron-nuxt/config";
 
@@ -32,4 +33,5 @@ process.on("SIGQUIT", handleProcessExit);
 process.on("SIGTERM", handleProcessExit);
 
 // Require `main` process to boot app
-require("../index");
+// @ts-ignore
+import ("../index.ts");

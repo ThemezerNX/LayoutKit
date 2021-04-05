@@ -21,7 +21,7 @@ npm manifest:
       "name": "layoutkit-electron",
       "version": "0.0.1",
       "description": "An electron-nuxt project",
-      "main": "./dist/main/index.js",
+      "main": "./dist/main/index.ts",
       "scripts": {
           "dev": "node .electron-nuxt/dev.js",
           "build": "node .electron-nuxt/build.js",

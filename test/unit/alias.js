@@ -6,10 +6,9 @@ module.exports = {
     resolve: {
         alias: {
             "@": ROOT,
-            "~": ROOT,
         },
         extensions: [
-            ".vue", ".js",
+            ".vue", ".js", ".ts",
         ],
     },
 };

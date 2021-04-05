@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9821de44-7967-405c-8977-39075d6a8679" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../../.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/file.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ipc/IpcChannelInterface.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ipc/SystemInfoChannel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/assets/colors.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/app/navbar.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/projectBrowser.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/projectDetails.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/quickSettings.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/vuesaxExtended/card.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/vuesaxExtended/footer.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/vuesaxExtended/list.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/vuesaxExtended/listItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/components/vuesaxExtended/spacer.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/pages/projects.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/pages/settings.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/plugins/ftpController.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/plugins/icons.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/plugins/vuesaxExtended.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/plugins/vuexPersist.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/store/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/store/quickSettings.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../renderer/store/settings.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../shared/IpcRequest.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.electron-nuxt/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../.electron-nuxt/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.electron-nuxt/renderer/NuxtApp.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../.electron-nuxt/renderer/NuxtApp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/LayoutKitElectron.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/LayoutKitElectron.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/webResources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/webResources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BrowserWinHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/BrowserWinHandler.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boot/index.dev.js" beforeDir="false" afterPath="$PROJECT_DIR$/boot/index.dev.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boot/index.prod.js" beforeDir="false" afterPath="$PROJECT_DIR$/boot/index.prod.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainWindow.js" beforeDir="false" afterPath="$PROJECT_DIR$/mainWindow.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/assets/icon-128.png" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/assets/icons/icon-128.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/assets/icon-256.png" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/assets/icons/icon-256.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/assets/icon-64.png" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/assets/icons/icon-64.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/assets/icon-radius.png" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/assets/icons/icon-radius.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/assets/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/assets/icons/icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/components/navbar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/components/sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/components/app/sidebar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/layouts/default.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/layouts/default.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/nuxt.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/nuxt.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/pages/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/pages/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/plugins/icons.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/plugins/vuesax.js" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/plugins/vuesax.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../renderer/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../renderer/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../test/unit/alias.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../test/unit/alias.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../yarn-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/../../yarn-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1qkaNMsEWbl1dOjRXaUts8aKMFj" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9821de44-7967-405c-8977-39075d6a8679" name="Default Changelist" comment="" />
+      <created>1617626001408</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1617626001408</updated>
+      <workItem from="1617626002663" duration="2000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

@@ -1,17 +1,17 @@
 {
+    "_comment-module": "commonjs, amd, umd, system, es<>, none",
+    "_comment-target": "es<>",
     "compilerOptions": {
         "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es5",
+        "moduleResolution": "node",
+        "module": "commonJs",
+        "target": "esNext",
         "allowJs": true,
         "baseUrl": ".",
         "paths": {
-            "~/*": [
-                "./*"
-            ],
             "@/*": [
                 "./*"
-            ]
+            ],
         }
     }
 }

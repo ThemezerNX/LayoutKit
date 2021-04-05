@@ -7,17 +7,23 @@ const isProduction = process.env.NODE_ENV === "production";
 const isDev = process.env.NODE_ENV === "development";
 
 export default class BrowserWinHandler {
+    _eventEmitter: EventEmitter;
+    allowRecreate: boolean;
+    options: any;
+    browserWindow: BrowserWindow;
+
     /**
-     * @param [options] {object} - browser window options
-     * @param [allowRecreate] {boolean}
+     * @param options - browser window options
+     * @param allowRecreate
      */
-    constructor(options, allowRecreate = true) {
+    constructor(options: object, allowRecreate: boolean = true) {
         this._eventEmitter = new EventEmitter();
         this.allowRecreate = allowRecreate;
         this.options = options;
         this.browserWindow = null;
         this._createInstance();
     }
+
 
     _createInstance() {
         // This method will be called when Electron has finished
@@ -65,7 +71,7 @@ export default class BrowserWinHandler {
      *
      * @param callback {onReadyCallback}
      */
-    onCreated(callback) {
+    onCreated(callback: { (browserWindow: BrowserWindow): void; }) {
         if (this.browserWindow !== null) return callback(this.browserWindow);
         this._eventEmitter.once("created", () => {
             callback(this.browserWindow);
@@ -75,7 +81,7 @@ export default class BrowserWinHandler {
         });
     }
 
-    async loadPage(pagePath) {
+    async loadPage(pagePath: string) {
         if (!this.browserWindow) return Promise.reject(new Error("The page could not be loaded before win 'created' event"));
         const serverUrl = isDev ? DEV_SERVER_URL : "app://./index.html";
         const fullPath = serverUrl + "#" + pagePath;

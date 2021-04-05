@@ -6,7 +6,7 @@
     >
         <template #logo>
             <vs-avatar size="32">
-                <img alt="application logo" src="@/assets/icon-64.png">
+                <img alt="application logo" src="~/assets/icons/icon-64.png">
             </vs-avatar>
         </template>
         <vs-sidebar-item id="home">
@@ -123,7 +123,3 @@
         </vs-sidebar-item>
     </vs-sidebar>
 </template>
-
-<script>
-export default {};
-</script>

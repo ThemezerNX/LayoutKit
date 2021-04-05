@@ -18,7 +18,7 @@ app.once("ready", () => {
 });
 
 // Credits: https://github.com/nklayman/vue-cli-plugin-electron-builder/blob/master/lib/createProtocol.js
-function registerProtocol(scheme) {
+function registerProtocol(scheme: string) {
     protocol.registerFileProtocol(
         scheme,
         (request, callback) => {
@@ -32,4 +32,5 @@ function registerProtocol(scheme) {
 }
 
 // Require `main` process to boot app
-require("../index");
+// @ts-ignore
+import("../index.ts");
