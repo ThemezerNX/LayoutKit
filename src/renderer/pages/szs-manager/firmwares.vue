@@ -1,4 +1,4 @@
-<template xmlns="">
+<template>
     <div>
         <vse-card flex max-width="900px" shadow>
             <template #title>

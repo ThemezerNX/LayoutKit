@@ -1,4 +1,4 @@
-<template xmlns="">
+<template>
     <vs-row>
         <vs-col>
             <vse-card max-width="900px" shadow>

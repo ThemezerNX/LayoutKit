@@ -1,4 +1,4 @@
-<template xmlns="">
+<template>
     <vs-row>
         <vs-col class="pr-30" w="9">
             <project-browser ref="browser"/>
