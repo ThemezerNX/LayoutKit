@@ -17,13 +17,13 @@
                 </vs-button>
             </template>
             <template #content>
-                <vs-table>
+                <vs-table :disabled="firmwaresLoading">
                     <template #thead>
                         <vs-tr>
                             <vs-th>
                                 Version
                             </vs-th>
-                            <vs-th>
+                            <vs-th style="width: 200px;">
                                 Actions
                             </vs-th>
                         </vs-tr>
@@ -32,14 +32,14 @@
                         <template v-for="version in firmwares">
                             <vs-tr :key="version">
                                 <vs-td>
-                                    {{ version }}
+                                    <h2 class="ma-0">{{ version }}</h2>
                                 </vs-td>
                                 <vs-td class="actions">
-                                    <vs-button icon @click="openInExplorer(version)">
+                                    <vs-button :disabled="firmwaresLoading" icon @click="openInExplorer(version)">
                                         Open Folder
                                         <i class='bx bx-link-external'></i>
                                     </vs-button>
-                                    <delete-dialog :handle="deleteFirmware" :value="version">
+                                    <delete-dialog :disabled="firmwaresLoading" :handle="deleteFirmware" :value="version">
                                         <template #dataType>
                                             firmware
                                         </template>

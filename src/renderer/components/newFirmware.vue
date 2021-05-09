@@ -5,8 +5,8 @@
         </template>
 
         <p class="mt-0 mb-20">
-            Copy the MicroSD:/themes/systemData folder<br>
-            to your computer. Select the ver.cfg file here:
+            Copy the <i>MicroSD:/themes/systemData</i> folder<br>
+            to your computer. Select the <i>ver.cfg</i> file here:
         </p>
 
         <form class="form">
@@ -17,13 +17,28 @@
             <div class="version">
                 <vs-input v-model="form.major" block class="version-field mb-10" label="Version" placeholder="major"
                           type="number"
-                ></vs-input>
+                >
+                    <template v-if="form.major < 0" #message-warn>
+                        Must be positive
+                    </template>
+                </vs-input>
                 <h2>.</h2>
                 <vs-input v-model="form.minor" block class="version-field mb-10" placeholder="minor"
-                          type="number"></vs-input>
+                          type="number">
+                    <template v-if="form.minor < 0" #message-warn>
+                        Must be positive
+                    </template>
+                </vs-input>
                 <h2>.</h2>
                 <vs-input v-model="form.patch" block class="version-field mb-10" placeholder="patch"
-                          type="number"></vs-input>
+                          type="number">
+                    <template v-if="firmwares.includes(versionString)" #message-danger>
+                        Version already exists
+                    </template>
+                    <template v-if="form.patch < 0" #message-warn>
+                        Must be positive
+                    </template>
+                </vs-input>
             </div>
         </form>
 
@@ -58,7 +73,11 @@ export default {
             return this.cfgPath?.length > 0
                 && this.form.major >= 0
                 && this.form.minor >= 0
-                && this.form.patch >= 0;
+                && this.form.patch >= 0
+                && !this.firmwares.includes(this.versionString);
+        },
+        versionString() {
+            return this.form.major + "." + this.form.minor + "." + this.form.patch;
         },
     },
     watch: {
