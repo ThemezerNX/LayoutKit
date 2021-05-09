@@ -1,7 +1,7 @@
 <template>
-    <vs-dialog width="550px" not-center v-model="popup">
+    <vs-dialog v-model="active" not-center width="550px">
         <template v-if="error" #header>
-            <h4 class="mb-0" :style="!!error ? `color: rgb(${color});` : ''">
+            <h4 :style="!!error ? `color: rgb(${color});` : ''" class="mb-0">
                 An Error Occurred
             </h4>
         </template>
@@ -15,7 +15,7 @@
 <script>
 export default {
     data: () => ({
-        popup: false,
+        active: false,
         color: null,
     }),
     computed: {
@@ -30,15 +30,15 @@ export default {
         message(n) {
             if (n && n !== "") {
                 this.color = "";
-                this.popup = true;
+                this.active = true;
             } else
-                this.popup = false;
+                this.active = false;
         },
         error(n) {
             if (n && n !== "") {
-                this.color = "var(--vs-warn)";
-                this.popup = true;
-            } else this.popup = false;
+                this.color = "var(--vs-danger)";
+                this.active = true;
+            } else this.active = false;
         },
     },
 };

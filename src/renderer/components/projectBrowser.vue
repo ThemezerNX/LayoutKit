@@ -1,77 +1,73 @@
 <template>
-    <vse-card shadow width="100%" style="height: 500px">
-        <template #title>
-            <h2>Project Browser</h2>
-        </template>
-        <template #content>
-            <vs-select filter placeholder="Select Project" v-model="lastSelectedProject">
-                <template v-for="project in projects">
-                    <vs-option
-                        :label="project.name"
-                        :value="project.id"
-                        :key="project.id"
-                    >
-                        {{ project.name }}
-                    </vs-option>
-                </template>
-            </vs-select>
-            <vs-button
-                icon
-            >
-                <i class='bx bx-refresh'></i>
-            </vs-button>
-            <vse-spacer/>
-            <vs-button icon>
-                <i class='bx bx-plus'></i> New
-            </vs-button>
-        </template>
-    </vse-card>
+    <div>
+        <vse-card shadow style="height: 500px" width="100%">
+            <template #title>
+                <h2>Project Browser</h2>
+            </template>
+            <template #content>
+                <vs-select v-if="renderVSSelect" v-model="activeProjectId" :disabled="projects.length === 0" :loading="projectsLoading"
+                           filter
+                           placeholder="Select Project">
+                    <template v-for="project in projects">
+                        <vs-option
+                            :key="project.id"
+                            :label="project.name"
+                            :value="project.id"
+                        >
+                            {{ project.name }}
+                        </vs-option>
+                    </template>
+                </vs-select>
+                <vs-button
+                    :disabled="projectsLoading"
+                    icon
+                    @click="refresh()"
+                >
+                    <i :class="{spin: spinRefreshIcon}" class='bx bx-refresh'></i>
+                </vs-button>
+                <vse-spacer/>
+                <vs-button
+                    :disabled="projectsLoading || projects.length === 0 || !(activeProjectId && activeProjectId.length > 0)"
+                    icon
+                    @click="$refs['copyProjectDialog'].active = true">
+                    <i class='bx bx-copy'></i> Copy
+                </vs-button>
+                <vs-button :disabled="projectsLoading" icon @click="$refs['newProjectDialog'].active = true">
+                    <i class='bx bx-plus'></i> New
+                </vs-button>
+            </template>
+        </vse-card>
+        <copy-project ref="copyProjectDialog"/>
+        <new-project ref="newProjectDialog"/>
+    </div>
 </template>
 
 <script>
-import fs from "fs";
-import path from "path";
-import mkdirp from "mkdirp";
-
-const getDirectories = source =>
-    fs.readdirSync(source, {withFileTypes: true})
-        .filter(dirent => dirent.isDirectory())
-        .map(dirent => dirent.name);
+import newProject from "~/components/newProject.vue";
+import copyProject from "~/components/copyProject.vue";
 
 export default {
+    data: () => ({
+        renderVSSelect: true,
+        spinRefreshIcon: false,
+    }),
+    components: {newProject, copyProject},
+    mounted() {
+        this.refresh();
+    },
     computed: {
-        projects() {
-            this.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                console.log(userDataPath);
-                const projectsPath = path.join(userDataPath, "projects");
-                mkdirp(projectsPath).then(() => {
-                    const projectFolders = getDirectories(projectsPath);
-                    const projects = projectFolders.map((dir) => {
-                        try {
-                            return JSON.parse(fs.readFileSync(path.join(dir, "details.json")));
-                        } catch (e) {
-                            this.$popup.error(e);
-                            return null;
-                        }
-                    });
-                    console.log(projects.filter(p => !!p));
-                });
-            });
-
-
-            return [
-                {
-                    name: "Test Project",
-                    id: "testp",
-                }
-            ];
+        projectsLoading() {
+            return this.$store.state.projectsLoading;
         },
-        lastSelectedProject: {
+        projects() {
+            return this.$store.state.projects;
+        },
+        activeProjectId: {
             get() {
-                return this.$store.state.lastSelectedProject;
+                return this.$store.state.activeProject.id;
             },
             set(value) {
-                this.$store.commit("LAST_SELECTED_PROJECT", value);
+                this.$store.commit("ACTIVE_PROJECT", this.projects.find((p) => p.id === value));
             },
         },
         installOnChange: {
@@ -79,7 +75,7 @@ export default {
                 return this.$store.state.quickSettings.installOnChange;
             },
             set(value) {
-                this.$store.commit("quickSettings/INSTALL_ON_CHANGE", value);
+                this.$store.commit("settings/INSTALL_ON_CHANGE", value);
             },
         },
         rebootOnInstall: {
@@ -87,8 +83,36 @@ export default {
                 return this.$store.state.quickSettings.rebootOnInstall;
             },
             set(value) {
-                this.$store.commit("quickSettings/REBOOT_ON_INSTALL", value);
+                this.$store.commit("settings/REBOOT_ON_INSTALL", value);
             },
+        },
+    },
+    watch: {
+        projects(newValue) {
+            // Remove activeProjectId if it was not found
+            if (this.activeProjectId.length > 0 && !newValue.some((p) => p.id === this.activeProjectId)) {
+                this.activeProjectId = null;
+            }
+            // Force rerender the dropdown, since the label is empty if the id changed while only one option was available
+            this.forceRerenderVSSelect();
+        },
+    },
+    methods: {
+        refresh() {
+            if (!this.projectsLoading) {
+                this.spinRefreshIcon = true;
+                setTimeout(() => {
+                    this.spinRefreshIcon = false;
+                }, 500);
+            }
+
+            this.$projectManager.refresh();
+        },
+        forceRerenderVSSelect() {
+            this.renderVSSelect = false;
+            this.$nextTick(() => {
+                this.renderVSSelect = true;
+            });
         },
     },
 };

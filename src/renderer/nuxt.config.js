@@ -18,6 +18,8 @@ module.exports = {
         {src: "@/plugins/vuesaxExtended", ssr: true},
         {src: "@/plugins/vuexPersist", ssr: false},
         {src: "@/plugins/ftpController", ssr: false},
+        {src: "@/plugins/managers/projectManager", ssr: false},
+        {src: "@/plugins/managers/firmwareManager", ssr: false},
         {src: "@/plugins/ipcService", ssr: false},
         {src: "@/plugins/popup", ssr: false},
     ],

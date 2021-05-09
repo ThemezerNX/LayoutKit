@@ -1,18 +1,21 @@
 <template>
-    <vse-card shadow width="100%">
+    <vse-card :disabled="projectsLoading" shadow width="100%">
         <template #title>
             <h2>Project Details</h2>
         </template>
         <template #subtitle>
-            Last built 5m ago
-
+            <b>ID:</b> {{ activeProjectIdTrimmed }}<br/>
+            <b>Last build:</b> {{ activeProjectLastBuild || "never" }}
         </template>
         <template #content>
-            <vse-list>
+            <vse-list class="form">
                 <vse-list-item>
                     <template #button>
                         <vs-input
-                            label-placeholder="Name"
+                            v-model="activeProjectName"
+                            block
+                            class="pb-10"
+                            placeholder="Name"
                         />
                     </template>
                 </vse-list-item>
@@ -23,29 +26,11 @@
                             Open Folder
                             <i class='bx bx-link-external'></i>
                         </vs-button>
-                        <vs-tooltip bottom shadow not-hover v-model="deleteTooltip">
-                            <vs-button icon danger @click="deleteTooltip = !deleteTooltip">
-                                <i class='bx bxs-trash'></i>
-                            </vs-button>
-                            <template #tooltip>
-                                <div class="content-tooltip">
-                                    <h4 class="center">
-                                        Confirm
-                                    </h4>
-                                    <p>
-                                        Are your sure to move this project and all its files to the trash?
-                                    </p>
-                                    <footer>
-                                        <vs-button @click="deleteTooltip = false; deleteProject()" danger block>
-                                            Delete
-                                        </vs-button>
-                                        <vs-button @click="deleteTooltip = false" dark block>
-                                            Cancel
-                                        </vs-button>
-                                    </footer>
-                                </div>
+                        <delete-dialog :handle="deleteProject">
+                            <template #dataType>
+                                project
                             </template>
-                        </vs-tooltip>
+                        </delete-dialog>
                     </template>
                 </vse-list-item>
             </vse-list>
@@ -54,20 +39,56 @@
 </template>
 
 <script>
-import {shell} from "electron";
+import deleteDialog from "~/components/deleteDialog.vue";
+
+const DONE_TYPING_INTERVAL = 500;
 
 export default {
+    components: {deleteDialog},
     data: () => ({
         rebootLoading: false,
-        deleteTooltip: false,
+        typingTimer: {
+            name: null,
+        },
     }),
     computed: {
+        projectsLoading() {
+            return this.$store.state.projectsLoading;
+        },
+        activeProjectIdTrimmed() {
+            // Trim the unix timestamp, see projectManager for why it is included
+            const matches = /(.*)-/gm.exec(this.activeProjectId);
+            return matches?.length > 1 ? matches[1] : this.activeProjectId;
+        },
+        activeProjectId() {
+            return this.$store.state.activeProject.id;
+        },
+        activeProjectLastBuild() {
+            return this.$store.state.activeProject.lastBuild;
+        },
+        activeProjectName: {
+            get() {
+                return this.$store.state.activeProject.name;
+            },
+            set(value) {
+                clearTimeout(this.typingTimer.name);
+                this.typingTimer.name = setTimeout(() => {
+                    this.saveName(value);
+                    clearTimeout(this.typingTimer.name);
+                }, DONE_TYPING_INTERVAL);
+            },
+        },
+        lastBuild: {
+            get() {
+                return this.$store.state.activeProject.lastBuild;
+            },
+        },
         installOnChange: {
             get() {
                 return this.$store.state.quickSettings.installOnChange;
             },
             set(value) {
-                this.$store.commit("quickSettings/INSTALL_ON_CHANGE", value);
+                this.$store.commit("settings/INSTALL_ON_CHANGE", value);
             },
         },
         rebootOnInstall: {
@@ -75,7 +96,7 @@ export default {
                 return this.$store.state.quickSettings.rebootOnInstall;
             },
             set(value) {
-                this.$store.commit("quickSettings/REBOOT_ON_INSTALL", value);
+                this.$store.commit("settings/REBOOT_ON_INSTALL", value);
             },
         },
     },
@@ -86,12 +107,15 @@ export default {
                 this.rebootLoading = false;
             }, 5000);
         },
+        saveName(newName) {
+            this.$projectManager.setName(this.activeProjectId, newName);
+        },
         openInExplorer() {
-            shell.openPath("K:/NSW/Themes/Very nice theme");
+            this.$projectManager.openInExplorer(this.activeProjectId);
         },
         deleteProject() {
-            // shell.trashItem('');
-        }
+            return this.$projectManager.delete(this.activeProjectId);
+        },
     },
 };
 </script>

@@ -28,5 +28,7 @@
             "@nuxt/types"
         ]
     },
-    "include": ["*.ts"]
+    "include": [
+        "*.ts"
+    ]
 }

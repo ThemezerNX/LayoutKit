@@ -39,6 +39,10 @@ export default {
     font-family: "Arial", serif;
 }
 
+a {
+    color: rgba(var(--vs-primary), 1);
+}
+
 html, body {
     margin: 0 !important;
 }
@@ -107,5 +111,49 @@ $sides: (top, bottom, left, right);
 // Loader text width
 .vs-loading__load__text {
     width: max-content;
+}
+
+// Select fix expanding on no entries
+.vs-select--disabled > i {
+    pointer-events: none !important;
+}
+
+// Make select messages a bit higher
+.vs-select__message {
+    height: 13px !important;
+    margin-top: 2px;
+}
+
+// Fix missing tooltip style
+.vs-tooltip {
+    background: rgba(var(--vs-gray-3), 1) !important;
+    color: var(--vs-text) !important;
+    position: absolute !important;
+    z-index: 1000000 !important;
+    text-align: center !important;
+    padding: 10px !important;
+    border-radius: 12px !important;
+    font-size: .85rem !important;
+    max-width: 350px !important;
+    min-width: 30px !important;
+    min-height: 30px !important;
+}
+
+// Spinner animation for the refresh buttons
+.spin {
+    animation: rotate;
+    animation-duration: 500ms;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(180deg);
+    }
+}
+
+// Use pointer for file select input
+.file-select input {
+    cursor: pointer;
 }
 </style>

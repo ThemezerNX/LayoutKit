@@ -1,6 +1,6 @@
 <template>
-    <vs-navbar shadow target-scroll="#padding-scroll-content" padding-scroll center-collapsed fixed
-               v-model="$parent.$data.active">
+    <vs-navbar v-model="$parent.$data.active" center-collapsed fixed padding-scroll shadow
+               target-scroll="#padding-scroll-content">
         <template #left>
             <!--TODO: Decrease avatar size on scroll-->
             <nuxt-link to="/">
@@ -12,9 +12,9 @@
         </template>
 
         <template v-for="menuItem in menuItems">
-            <vs-navbar-item v-if="!menuItem.children" :key="menuItem.id" :to="menuItem.path"
+            <vs-navbar-item v-if="!menuItem.children" :id="menuItem.id" :key="menuItem.id"
                             :active="$nuxt.$route.path === menuItem.path"
-                            :id="menuItem.id">
+                            :to="menuItem.path">
                 {{ menuItem.title }}
                 <i v-if="menuItem.icon" :class="menuItem.icon" class="navbar-item-icon"></i>
             </vs-navbar-item>
@@ -23,9 +23,9 @@
                 <i v-if="menuItem.icon" :class="menuItem.icon" class="navbar-item-icon"></i>
                 <template #items>
                     <template v-for="child in menuItem.children">
-                        <vs-navbar-item :key="child.id" :to="menuItem.path + child.path"
+                        <vs-navbar-item :id="child.id" :key="child.id"
                                         :active="$nuxt.$route.path === menuItem.path + child.path"
-                                        :id="child.id">
+                                        :to="menuItem.path + child.path">
                             {{ child.title }}
                         </vs-navbar-item>
                     </template>
@@ -37,6 +37,18 @@
             <vs-row style="width: 80px; height: 32px">
                 <div ref="buildLoader"/>
             </vs-row>
+            <vs-tooltip :not-arrow="false" arrow bottom>
+                <vs-avatar :danger="!connected" :loading="connecting" :success="connected" class="ml-10" size="40">
+                    <i class='bx bx-transfer'></i>
+                </vs-avatar>
+                <template #tooltip>
+                    {{
+                        connecting
+                            ? "Trying to connect..."
+                            : (connected ? "Connected to Switch" : "No Connection With Switch")
+                    }}
+                </template>
+            </vs-tooltip>
         </template>
     </vs-navbar>
 </template>
@@ -44,6 +56,7 @@
 <script>
 export default {
     data: () => ({
+        loader: null,
         menuItems: [
             {
                 id: "projects",
@@ -59,7 +72,7 @@ export default {
             },
             {
                 id: "szs_manager",
-                path: "/szs_manager",
+                path: "/szs-manager",
                 title: "SZS Manager",
                 icon: "bx bx-library",
                 children: [
@@ -85,15 +98,23 @@ export default {
             },
         ],
     }),
+    computed: {
+        connected() {
+            return this.$store.state.connected;
+        },
+        connecting() {
+            return this.$store.state.connecting;
+        },
+    },
     methods: {
         buildLoading() {
-            this.$vs.loading({
+            this.loader = this.$vs.loading({
                 target: this.$refs.buildLoader,
                 opacity: "0",
-                type: "scale",
                 scale: "1.0",
                 text: "Packing SZS...", // TODO: remove text on scroll
             });
+            this.loader.close();
         },
     },
     mounted() {

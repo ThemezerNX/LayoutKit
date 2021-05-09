@@ -1,10 +1,10 @@
 <template>
-    <footer class="footer"
-            :style="`
+    <footer :style="`
                  ${shadow ? 'box-shadow: 0px 5px 25px 0px rgba(0, 0, 0, var(--vs-shadow-opacity));' : ''}
                  ${square ? '' : 'border-radius: 15px 15px 0px 0px;'}
                  ${fixed ? 'position: fixed;' : ''}
                  `"
+            class="footer"
     >
         <slot/>
     </footer>

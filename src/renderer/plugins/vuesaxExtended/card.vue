@@ -1,20 +1,22 @@
 <template>
-    <div class="card"
-         :style="`
-         max-width: ${maxWidth};
-         width: ${width};
-         ${shadow ? 'box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity));' : ''}
-         ${square ? '' : 'border-radius: 5px 20px 20px 20px;'}
-    `">
+    <div :style="`
+             max-width: ${maxWidth};
+             width: ${width};
+             ${shadow ? 'box-shadow: 0px 5px 20px 0px rgba(0, 0, 0, var(--vs-shadow-opacity));' : ''}
+             ${square ? '' : 'border-radius: 5px 20px 20px 20px;'}
+             ${disabled ? 'pointer-events: none; opacity: 0.4;' : ''}
+         `"
+         class="card"
+    >
         <slot/>
         <div v-if="!$slots.default" class="vs-card__text" style="padding-top: 10px">
-            <div v-if="!!$slots.title" class="vs-card__title">
+            <div v-if="!!$slots.title" :class="{flex}" class="vs-card__title">
                 <slot name="title"/>
             </div>
-            <p v-if="!!$slots.subtitle">
+            <p v-if="!!$slots.subtitle" :class="{flex}">
                 <slot name="subtitle"/>
             </p>
-            <div v-if="!!$slots.content" class="content">
+            <div v-if="!!$slots.content" :class="{flex}" class="content">
                 <slot name="content"/>
             </div>
         </div>
@@ -25,6 +27,11 @@
 export default {
     name: "card",
     props: {
+        disabled: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         square: {
             type: Boolean,
             required: false,
@@ -44,6 +51,11 @@ export default {
             type: String,
             required: false,
             default: "auto",
+        },
+        flex: {
+            type: Boolean,
+            required: false,
+            default: false,
         },
     },
 };
@@ -69,5 +81,9 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.flex {
+    display: flex;
 }
 </style>

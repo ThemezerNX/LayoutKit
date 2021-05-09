@@ -26,7 +26,9 @@
                         Restart the console manually
                     </template>
                     <template #button>
-                        <vs-button class="ma-0" @click="restartConsole()" :loading="rebootLoading" :disabled="rebootLoading">Restart</vs-button>
+                        <vs-button :disabled="rebootLoading || !connected || recentlyClicked" :loading="rebootLoading" class="ma-0"
+                                   @click="restartConsole()">Restart
+                        </vs-button>
                     </template>
                 </vse-list-item>
             </vse-list>
@@ -38,14 +40,18 @@
 export default {
     data: () => ({
         rebootLoading: false,
+        recentlyClicked: false,
     }),
     computed: {
+        connected() {
+            return !this.$store.state.connecting && this.$store.state.connected;
+        },
         installOnChange: {
             get() {
                 return this.$store.state.quickSettings.installOnChange;
             },
             set(value) {
-                this.$store.commit("quickSettings/INSTALL_ON_CHANGE", value);
+                this.$store.commit("settings/INSTALL_ON_CHANGE", value);
             },
         },
         rebootOnInstall: {
@@ -53,16 +59,22 @@ export default {
                 return this.$store.state.quickSettings.rebootOnInstall;
             },
             set(value) {
-                this.$store.commit("quickSettings/REBOOT_ON_INSTALL", value);
+                this.$store.commit("settings/REBOOT_ON_INSTALL", value);
             },
         },
     },
     methods: {
         restartConsole() {
             this.rebootLoading = true;
+            // Do this so that the button stays disabled in the time the disconnect hasn't been noticed yet.
+            this.recentlyClicked = true;
             setTimeout(() => {
-                this.rebootLoading = false;
+                this.recentlyClicked = false;
             }, 5000);
+
+            this.$ftpController.reboot().then(() => {
+                this.rebootLoading = false;
+            });
         },
     },
 };

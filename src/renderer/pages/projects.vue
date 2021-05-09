@@ -1,14 +1,14 @@
 <template xmlns="">
     <vs-row>
-        <vs-col w="9" class="pr-30">
-            <project-browser/>
+        <vs-col class="pr-30" w="9">
+            <project-browser ref="browser"/>
         </vs-col>
         <vs-col w="3">
             <vs-row>
                 <quick-settings/>
             </vs-row>
             <vs-row>
-                <project-details class="mt-20" v-if="!!$store.state.lastSelectedProject"/>
+                <project-details v-if="$store.state.activeProject.id.length > 0" class="mt-20"/>
             </vs-row>
         </vs-col>
     </vs-row>

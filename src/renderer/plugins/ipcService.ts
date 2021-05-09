@@ -9,6 +9,8 @@ const $ipcService = {
     },
     fs: {
         getUserDataPath: () => fileSystemChannel("getUserDataPath"),
+        selectSingleDirectory: () => fileSystemChannel("selectSingleDirectory"),
+        selectCfgFile: () => fileSystemChannel("selectCfgFile"),
     },
 };
 
