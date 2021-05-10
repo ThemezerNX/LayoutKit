@@ -15,7 +15,10 @@ export default (context: any, inject: any) => {
                 context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
                     const firmwaresPath = path.join(userDataPath, FIRMWARES_DIR);
                     mkdirp(firmwaresPath).then(() => {
-                        const firmwares = getDirectories(firmwaresPath).sort();
+                        const firmwares = getDirectories(firmwaresPath).sort(
+                            (a, b) =>
+                                b.localeCompare(a, "en", {"sensitivity": "base"}),
+                        );
                         context.store.commit("FIRMWARES_LOADING", false);
                         context.store.commit("FIRMWARES", firmwares);
                     });
