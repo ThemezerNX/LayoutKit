@@ -156,4 +156,10 @@ $sides: (top, bottom, left, right);
 .file-select input {
     cursor: pointer;
 }
+
+// Fix for nested tables
+.vs-table__td {
+    padding: 10px 12px !important;
+}
+
 </style>

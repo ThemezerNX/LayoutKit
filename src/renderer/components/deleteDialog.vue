@@ -1,6 +1,6 @@
 <template>
     <vs-tooltip v-model="active" bottom not-hover shadow>
-        <vs-button danger icon @click="active = !active">
+        <vs-button danger icon @click="active = !active" :disabled="disabled">
             <i class='bx bxs-trash'></i>
         </vs-button>
         <template #tooltip>
@@ -14,10 +14,10 @@
                     and all its files to the trash?
                 </p>
                 <footer>
-                    <vs-button :disabled="loading" :loading="loading" block danger @click="del()">
+                    <vs-button :disabled="loading || disabled" :loading="loading" block danger @click="del()">
                         Delete
                     </vs-button>
-                    <vs-button :disabled="loading" block dark @click="active = false">
+                    <vs-button :disabled="loading || disabled" block dark @click="active = false">
                         Cancel
                     </vs-button>
                 </footer>
@@ -33,6 +33,11 @@ export default {
         loading: false,
     }),
     props: {
+        disabled: {
+            type: Boolean,
+            required: false,
+            default: false,
+        },
         value: {
             type: String,
             required: false,

@@ -39,12 +39,44 @@
                                         Open Folder
                                         <i class='bx bx-link-external'></i>
                                     </vs-button>
-                                    <delete-dialog :disabled="firmwaresLoading" :handle="deleteFirmware" :value="version">
+                                    <delete-dialog :disabled="firmwaresLoading" :handle="deleteFirmware"
+                                                   :value="version">
                                         <template #dataType>
                                             firmware
                                         </template>
                                     </delete-dialog>
                                 </vs-td>
+
+                                <template #expand v-if="getFirmwareFiles(version).length > 0">
+                                    <vs-table>
+                                        <template #thead>
+                                            <vs-tr>
+                                                <vs-th>
+                                                    Menu
+                                                </vs-th>
+                                                <vs-th>
+                                                    Filename
+                                                </vs-th>
+                                            </vs-tr>
+                                        </template>
+                                        <template #tbody>
+                                            <template
+                                                v-for="file in getFirmwareFiles(version)">
+                                                <vs-tr
+                                                    :key="file"
+                                                    :data="file"
+                                                >
+                                                    <vs-td>
+                                                        {{ toNice(file) }}
+                                                    </vs-td>
+                                                    <vs-td>
+                                                        {{ file }}
+                                                    </vs-td>
+                                                </vs-tr>
+                                            </template>
+                                        </template>
+                                    </vs-table>
+                                </template>
                             </vs-tr>
                         </template>
                     </template>
@@ -58,23 +90,39 @@
 <script>
 import deleteDialog from "~/components/deleteDialog.vue";
 import newFirmware from "~/components/newFirmware.vue";
+import {toNice} from "@themezernx/target-parser/dist";
 
 export default {
     components: {deleteDialog, newFirmware},
     data: () => ({
         spinRefreshIcon: false,
+        firmwareFiles: [],
     }),
     computed: {
         firmwaresLoading() {
-            return this.$store.state.firmwaresLoading;
+            return this.$store.state.firmwaresLoading || this.firmwareFiles.length === 0;
         },
         firmwares() {
-            return this.$store.state.firmwares;
+            const versions = this.$store.state.firmwares;
+            versions.forEach((version) => {
+                this.$firmwareManager.firmwareFiles(version).then((files) => {
+                    this.firmwareFiles.push({version, files: files});
+                });
+            });
+
+            return versions;
         },
     },
     methods: {
+        getFirmwareFiles(version) {
+            return this.firmwareFiles.find((f) => f.version === version)?.files || [];
+        },
+        toNice(filename) {
+            return toNice(filename);
+        },
         refresh() {
             if (!this.firmwaresLoading) {
+                this.firmwareFiles = [];
                 this.spinRefreshIcon = true;
                 setTimeout(() => {
                     this.spinRefreshIcon = false;
