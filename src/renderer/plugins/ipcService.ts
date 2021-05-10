@@ -5,7 +5,8 @@ const fileSystemChannel = (command, ...args) => ipcRenderer.invoke("file-system"
 
 const $ipcService = {
     system: {
-        version: (...args) => systemInfoChannel("version", ...args),
+        version: () => systemInfoChannel("version"),
+        openUrl: (...args) => systemInfoChannel("openUrl", ...args),
     },
     fs: {
         getUserDataPath: () => fileSystemChannel("getUserDataPath"),

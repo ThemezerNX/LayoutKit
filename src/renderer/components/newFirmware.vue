@@ -84,7 +84,7 @@ export default {
         cfgPath(newValue) {
             if (newValue?.length > 0) {
                 fs.readFile(newValue, "utf8", (err, contents) => {
-                    if (err) return console.log(err);
+                    if (err) return console.error(err);
                     const parts = contents.split(".");
                     this.form.major = parts[0];
                     this.form.minor = parts[1];

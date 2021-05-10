@@ -91,10 +91,10 @@
         </vs-col>
         <vse-footer class="px-10" fixed shadow style="height: 84px">
             <p class="center">
-                Created with ❤️ by Migush
+                Made with ❤️ by ThemezerNX
             </p>
             <p class="center">
-                Source code available on <a href="https://github.com/ThemezerNX/LayoutKit" target="_blank">GitHub</a>
+                Source code available on <a @click="openSource" href="#">GitHub</a>
             </p>
         </vse-footer>
     </vs-row>
@@ -160,6 +160,12 @@ export default {
                 this.validation.ftpPasswordValid = false;
             }
             this.$ftpController.disconnect();
+        },
+    },
+    methods: {
+        openSource(event) {
+            event.preventDefault();
+            this.$ipcService.system.openUrl("https://github.com/ThemezerNX/LayoutKit");
         },
     },
 };

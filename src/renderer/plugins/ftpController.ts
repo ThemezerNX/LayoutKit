@@ -57,7 +57,6 @@ export default (context: any, inject: any) => {
         async reboot() {
             return new Promise(async (resolve) => {
                 this.connect().then(() => {
-                    console.log("SENDING REBOOT");
                     client.send("REB").then(() => {
                         resolve(null);
                     }).catch(resolve);
