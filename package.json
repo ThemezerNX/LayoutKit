@@ -25,6 +25,7 @@
         "@fortawesome/fontawesome-free": "5.15.3",
         "@nuxt/types": "^2.15.3",
         "@nuxt/typescript-build": "2.1.0",
+        "@themezernx/target-parser": "^1.0.4",
         "@types/mkdirp": "^1.0.1",
         "@vue/test-utils": "1.1.0",
         "@xpda-dev/core": "^0.1.6",
@@ -57,7 +58,6 @@
         "webpack-node-externals": "2.5.2"
     },
     "dependencies": {
-        "@themezernx/target-parser": "^1.0.0",
         "nuxt": "^2.15.3"
     }
 }

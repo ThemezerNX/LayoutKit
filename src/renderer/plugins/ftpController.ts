@@ -8,14 +8,14 @@ export default (context: any, inject: any) => {
     // Reset FTP connection state
     context.store.commit("CONNECTED", false);
     context.store.commit("CONNECTING", false);
-    context.store.commit("AWAITING_FTP_RESPONSE", false);
+    context.store.commit("FTP_BUSY", false);
 
     const initConnection = () => {
         return new Promise(async (resolve) => {
             context.store.commit("CONNECTED", false);
             context.store.commit("CONNECTING", true);
             try {
-                context.store.commit("AWAITING_FTP_RESPONSE", true);
+                context.store.commit("FTP_BUSY", true);
                 await client.access({
                     host: context.store.state.settings.switchIp,
                     port: context.store.state.settings.switchPort,
@@ -29,7 +29,7 @@ export default (context: any, inject: any) => {
                 // console.error(e);
                 // Try again
             } finally {
-                context.store.commit("AWAITING_FTP_RESPONSE", false);
+                context.store.commit("FTP_BUSY", false);
             }
         });
     };
@@ -72,7 +72,7 @@ export default (context: any, inject: any) => {
     };
 
     const ping = () => {
-        if (!context.store.state.awaitingFtpResponse) {
+        if (!context.store.state.ftpBusy) {
             client.send("NOOP").catch(initConnection);
         }
     };

@@ -5,7 +5,7 @@ import {ncp} from "ncp";
 import {shell} from "electron";
 import * as mkdirp from "mkdirp";
 import editJsonFile from "edit-json-file";
-import {FIRMWARES_DIR, getDirectories, PROJECTS_DIR} from "./managerUtils";
+import {FIRMWARE_VERSION_CFG, FIRMWARES_DIR, getDirectories, PROJECTS_DIR} from "./managerUtils";
 
 const DETAILS_FILE = "details.json";
 const INVALID_ID_CHARS_REGEX = /[\\~#*{}\/:<>?|"\s]/gm;
@@ -103,14 +103,20 @@ export default (context: any, inject: any) => {
                 });
             });
         },
-        createNew(name, firmware) {
+        createNew(name, firmware, selectedFirmwareFiles) {
             const id = nameToId(name);
             // This appendix is required https://github.com/lusaxweb/vuesax-next/issues/121
             return new Promise((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
                     const firmwarePath = path.join(userDataPath, FIRMWARES_DIR, firmware);
                     const projectPath = path.join(userDataPath, PROJECTS_DIR, id);
-                    ncp(firmwarePath, projectPath, () => {
+
+                    ncp(firmwarePath, projectPath, {
+                        filter: (path) =>
+                            fs.lstatSync(path).isDirectory() ||
+                            path.endsWith(FIRMWARE_VERSION_CFG) ||
+                            selectedFirmwareFiles.some((f) => path.endsWith(f)),
+                    }, () => {
                         try {
                             const detailsFile = editJsonFile(path.join(projectPath, DETAILS_FILE));
                             detailsFile.set("name", name);

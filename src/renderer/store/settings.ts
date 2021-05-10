@@ -1,10 +1,10 @@
 export const state = () => ({
     installOnChange: true,
     rebootOnInstall: true,
-    switchIp: "",
-    switchPort: 5000,
-    switchUser: "nxthemer",
-    switchPassword: "nxthemer",
+    ftpIp: undefined,
+    ftpPort: 5000,
+    ftpUsername: "nxthemer",
+    ftpPassword: "nxthemer",
 });
 
 export const mutations = {
@@ -14,16 +14,16 @@ export const mutations = {
     REBOOT_ON_INSTALL(state: any, value: boolean) {
         state.rebootOnInstall = value;
     },
-    SWITCH_IP(state: any, value: string) {
-        state.switchIp = value;
+    FTP_IP(state: any, value: string) {
+        state.ftpIp = value;
     },
-    SWITCH_PORT(state: any, value: number) {
-        state.switchPort = value;
+    FTP_PORT(state: any, value: number) {
+        state.ftpPort = value;
     },
-    SWITCH_USER(state: any, value: string) {
-        state.switchUser = value || "nxthemer";
+    FTP_USERNAME(state: any, value: string) {
+        state.ftpUsername = value || "nxthemer";
     },
-    SWITCH_PASSWORD(state: any, value: string) {
-        state.switchPassword = value || "nxthemer";
+    FTP_PASSWORD(state: any, value: string) {
+        state.ftpPassword = value || "nxthemer";
     },
 };

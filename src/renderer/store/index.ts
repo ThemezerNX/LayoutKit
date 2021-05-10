@@ -1,7 +1,7 @@
 export const state = () => ({
     connected: false,
     connecting: false,
-    awaitingFtpResponse: false,
+    ftpBusy: false,
     activeProject: {id: ""},
     projects: [],
     projectsLoading: false,
@@ -16,7 +16,7 @@ export const mutations = {
     CONNECTING(state: any, value: boolean) {
         state.connecting = value;
     },
-    AWAITING_FTP_RESPONSE(state: any, value: boolean) {
+    FTP_BUSY(state: any, value: boolean) {
         state.awaitingFtpResponse = value;
     },
     ACTIVE_PROJECT(state: any, value: string) {

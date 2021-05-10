@@ -4,7 +4,8 @@ import * as trash from "trash";
 import {ncp} from "ncp";
 import {shell} from "electron";
 import * as mkdirp from "mkdirp";
-import {FIRMWARES_DIR, getDirectories} from "./managerUtils";
+import {FIRMWARE_VERSION_CFG, FIRMWARES_DIR, getDirectories, getFiles} from "./managerUtils";
+import {isTarget} from "@themezernx/target-parser/dist";
 
 export default (context: any, inject: any) => {
     const $firmwareManager = {
@@ -14,28 +15,41 @@ export default (context: any, inject: any) => {
                 context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
                     const firmwaresPath = path.join(userDataPath, FIRMWARES_DIR);
                     mkdirp(firmwaresPath).then(() => {
-                        const firmwares = getDirectories(firmwaresPath);
+                        const firmwares = getDirectories(firmwaresPath).sort();
                         context.store.commit("FIRMWARES_LOADING", false);
                         context.store.commit("FIRMWARES", firmwares);
                     });
                 });
             }, 500);
         },
-        import(directory, version) {
+        firmwareFiles(version) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
+                        const firmwarePath = path.join(userDataPath, FIRMWARES_DIR, version);
+                        const files = getFiles(firmwarePath);
+                        const usableFiles = files.filter((f) => isTarget(f));
+                        resolve(usableFiles);
+                    });
+                }, 500);
+            });
+        },
+        import(directory) {
             return new Promise((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                    const newDirectory = path.join(userDataPath, FIRMWARES_DIR, version);
-                    console.log(directory, newDirectory);
-                    ncp(directory, newDirectory, {
-                        filter: (source) => fs.lstatSync(source).isDirectory() || (/.*szs/i).test(source),
-                    }, () => {
-                        try {
-                            this.refresh();
-                            resolve(null);
-                        } catch (e) {
-                            context.$popup.error(e);
-                            resolve(null);
-                        }
+                    fs.readFile(path.join(directory, FIRMWARE_VERSION_CFG), "utf8", (err, versionString) => {
+                        if (err) return console.log(err);
+
+                        const newDirectory = path.join(userDataPath, FIRMWARES_DIR, versionString);
+                        ncp(directory, newDirectory, () => {
+                            try {
+                                this.refresh();
+                                resolve(null);
+                            } catch (e) {
+                                context.$popup.error(e);
+                                resolve(null);
+                            }
+                        });
                     });
                 });
             });

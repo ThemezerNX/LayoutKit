@@ -104,8 +104,7 @@ export default {
         async create() {
             this.loading = true;
             const directory = this.cfgPath.match(/(.*)[\/\\]/)[1];
-            const firmwareString = this.form.major + "." + this.form.minor + "." + this.form.patch;
-            await this.$firmwareManager.import(directory, firmwareString);
+            await this.$firmwareManager.import(directory);
             setTimeout(() => {
                 this.loading = false;
                 this.cfgPath = "";
