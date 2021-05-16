@@ -75,24 +75,10 @@ export default {
                 icon: "bx bxs-book",
             },
             {
-                id: "szs_manager",
-                path: "/szs-manager",
-                title: "SZS Manager",
+                id: "firmwares",
+                path: "/firmwares",
+                title: "Firmwares",
                 icon: "bx bx-library",
-                children: [
-                    {
-                        id: "projects_szs",
-                        path: "/projects",
-                        title: "Projects",
-                        icon: "",
-                    },
-                    {
-                        id: "firmwares_szs",
-                        path: "/firmwares",
-                        title: "Firmwares",
-                        icon: "",
-                    },
-                ],
             },
             {
                 id: "settings",
@@ -118,7 +104,7 @@ export default {
                 scale: "1.0",
                 text: "Packing SZS...", // TODO: remove text on scroll
             });
-            this.loader.close();
+            // this.loader.close();
         },
     },
     mounted() {

@@ -33,6 +33,7 @@ export default (context: any, inject: any) => {
             });
         }
     };
+
     const $projectManager = {
         refresh() {
             return new Promise((resolve) => {
@@ -67,7 +68,7 @@ export default (context: any, inject: any) => {
             const matches = /(.*)-/gm.exec(projectId);
             return matches?.length > 1 ? matches[1] : projectId;
         },
-        firmwareFiles(id) {
+        firmwareFiles(id: string) {
             return new Promise((resolve) => {
                 setTimeout(() => {
                     context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
@@ -127,8 +128,8 @@ export default (context: any, inject: any) => {
                 });
             } else return;
         },
-        setBuildDate(projectId: string) {
-            updateDetails(projectId, "lastBuild", new Date().getTime().toString());
+        setInstallDate(projectId: string) {
+            updateDetails(projectId, "lastInstall", new Date().getTime().toString());
         },
         copyToNew(oldId, newName) {
             const newId = nameToId(newName);
@@ -140,7 +141,7 @@ export default (context: any, inject: any) => {
                         try {
                             const detailsFile = editJsonFile(path.join(newProjectPath, DETAILS_FILE));
                             detailsFile.set("name", newName);
-                            detailsFile.set("lastBuild", null);
+                            detailsFile.set("lastInstall", null);
                             detailsFile.save();
                             context.store.commit("ACTIVE_PROJECT", {
                                 id: newId,
@@ -174,7 +175,7 @@ export default (context: any, inject: any) => {
                             const detailsFile = editJsonFile(path.join(projectPath, DETAILS_FILE));
                             detailsFile.set("name", name);
                             detailsFile.set("firmware", firmware);
-                            detailsFile.set("lastBuild", null);
+                            detailsFile.set("lastInstall", null);
                             detailsFile.save();
                             context.store.commit("ACTIVE_PROJECT", {
                                 id: id,

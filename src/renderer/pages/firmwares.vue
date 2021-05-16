@@ -141,7 +141,7 @@ export default {
         },
     },
     head() {
-        const metaTitle = "Firmwares - SZS Manager";
+        const metaTitle = "Firmwares";
 
         return {
             title: metaTitle,

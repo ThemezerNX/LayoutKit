@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vse-card shadow style="height: 500px" width="100%">
+        <vse-card shadow width="100%">
             <template #title>
                 <h2>Project Browser</h2>
             </template>
@@ -30,6 +30,12 @@
                 <vs-button
                     :disabled="projectsLoading || projects.length === 0 || !(activeProjectId && activeProjectId.length > 0)"
                     icon
+                    @click="$refs['editProjectDialog'].active = true">
+                    <i class='bx bx-pencil'></i>
+                </vs-button>
+                <vs-button
+                    :disabled="projectsLoading || projects.length === 0 || !(activeProjectId && activeProjectId.length > 0)"
+                    icon
                     @click="$refs['copyProjectDialog'].active = true">
                     <i class='bx bx-copy'></i> Copy
                 </vs-button>
@@ -37,37 +43,93 @@
                     <i class='bx bx-plus'></i> New
                 </vs-button>
             </template>
+            <template #content2>
+                <div ref="firmwareLoader" class="firmware-loader"/>
+                <vs-table v-if="firmwareFiles.length > 0" class="firmware-files-table">
+                    <template #thead>
+                        <vs-tr>
+                            <vs-th>
+                                Menu
+                            </vs-th>
+                            <vs-th>
+                                Filename
+                            </vs-th>
+                            <vs-th style="width: 50px;">
+                                Actions
+                            </vs-th>
+                        </vs-tr>
+                    </template>
+                    <template #tbody>
+                        <template
+                            v-for="file in firmwareFiles">
+                            <vs-tr
+                                :key="file"
+                                :data="file"
+                            >
+                                <vs-td>
+                                    {{ toNice(file) }}
+                                </vs-td>
+                                <vs-td>
+                                    {{ file }}
+                                </vs-td>
+                                <vs-td class="actions">
+                                    <delete-dialog
+                                        :args="[file]"
+                                        :disabled="projectsLoading || firmwareFiles.length === 1"
+                                        :handle="deleteFirmwareFile" :callback="getFirmwareFiles">
+                                        <template #dataType>
+                                            project
+                                        </template>
+                                    </delete-dialog>
+                                </vs-td>
+                            </vs-tr>
+                        </template>
+                    </template>
+                </vs-table>
+            </template>
         </vse-card>
         <copy-project ref="copyProjectDialog"/>
         <new-project ref="newProjectDialog"/>
+        <edit-project ref="editProjectDialog"/>
     </div>
 </template>
 
 <script>
 import newProject from "~/components/newProject.vue";
 import copyProject from "~/components/copyProject.vue";
+import editProject from "~/components/editProject";
+import deleteDialog from "~/components/deleteDialog.vue";
+import {toNice} from "@themezernx/target-parser/dist";
 
 export default {
     data: () => ({
+        loading: false,
         renderVSSelect: true,
         spinRefreshIcon: false,
+        firmwareFiles: [],
+        editProject: null,
+        editActive: false,
+        loader: null,
     }),
-    components: {newProject, copyProject},
+    components: {newProject, copyProject, editProject, deleteDialog},
     mounted() {
         this.refresh();
     },
     computed: {
         projectsLoading() {
-            return this.$store.state.projectsLoading;
+            return this.loading || this.$store.state.projectsLoading;
         },
         projects() {
             return this.$store.state.projects;
         },
         activeProjectId: {
             get() {
-                return this.$store.state.activeProject.id;
+                const id = this.$store.state.activeProject.id;
+                this.getFirmwareFiles(id);
+                return id;
             },
             set(value) {
+                this.showFirmwareLoader();
                 this.$store.commit("ACTIVE_PROJECT", this.projects.find((p) => p.id === value));
             },
         },
@@ -89,6 +151,14 @@ export default {
         },
     },
     watch: {
+        projectsLoading(value) {
+            if (value) {
+                this.showFirmwareLoader();
+            } else {
+                this.loader?.close();
+                this.loader = null;
+            }
+        },
         projects(newValue) {
             // Remove activeProjectId if it was not found
             if (this.activeProjectId.length > 0 && !newValue.some((p) => p.id === this.activeProjectId)) {
@@ -99,6 +169,20 @@ export default {
         },
     },
     methods: {
+        forceRerenderVSSelect() {
+            this.renderVSSelect = false;
+            this.$nextTick(() => {
+                this.renderVSSelect = true;
+            });
+        },
+        showFirmwareLoader() {
+            if (!this.loader) {
+                this.loader = this.$vs.loading({
+                    target: this.$refs.firmwareLoader,
+                    opacity: "0.5",
+                });
+            }
+        },
         refresh() {
             if (!this.projectsLoading) {
                 this.spinRefreshIcon = true;
@@ -107,14 +191,38 @@ export default {
                 }, 300);
             }
 
-            this.$projectManager.refresh();
+            this.firmwareFiles = [];
+            this.$projectManager.refresh().then(() => {
+                this.getFirmwareFiles();
+            });
         },
-        forceRerenderVSSelect() {
-            this.renderVSSelect = false;
-            this.$nextTick(() => {
-                this.renderVSSelect = true;
+        toNice(filename) {
+            return toNice(filename);
+        },
+        deleteFirmwareFile(file) {
+            this.showFirmwareLoader();
+            return this.$projectManager.deleteFirmwareFile(this.activeProjectId, file);
+        },
+        getFirmwareFiles(id) {
+            this.$projectManager.firmwareFiles(id || this.activeProjectId).then((files) => {
+                this.firmwareFiles = files;
+                this.loader?.close();
+                this.loader = null;
             });
         },
     },
 };
 </script>
+
+<style lang="scss">
+.firmware-loader {
+    min-height: 394px;
+    z-index: 10;
+    border-radius: 14px;
+}
+
+.firmware-files-table {
+    margin: auto;
+    margin-top: 0;
+}
+</style>

@@ -4,22 +4,14 @@
             <h2>Project Details</h2>
         </template>
         <template #subtitle>
+            <h3>{{ activeProjectName }}</h3>
+            <br/>
             <b>ID:</b> {{ activeProjectIdTrimmed }}<br/>
             <b>FW:</b> {{ activeProjectFirmware }}<br/>
-            <b>Last build:</b> {{ activeProjectLastBuild || "never" }}
+            <b>Last Install:</b> {{ activeProjectLastInstall || "never" }}
         </template>
         <template #content>
-            <vse-list class="form">
-                <vse-list-item>
-                    <template #button>
-                        <vs-input
-                            v-model="activeProjectName"
-                            block
-                            class="pb-10"
-                            placeholder="Name"
-                        />
-                    </template>
-                </vse-list-item>
+            <vse-list>
                 <vse-list-item>
                     <template #button>
                         <vse-spacer/>
@@ -42,15 +34,10 @@
 <script>
 import deleteDialog from "~/components/deleteDialog.vue";
 
-const DONE_TYPING_INTERVAL = 500;
-
 export default {
     components: {deleteDialog},
     data: () => ({
         rebootLoading: false,
-        typingTimer: {
-            name: null,
-        },
     }),
     computed: {
         projectsLoading() {
@@ -62,28 +49,14 @@ export default {
         activeProjectId() {
             return this.$store.state.activeProject.id;
         },
-        activeProjectLastBuild() {
-            return this.$store.state.activeProject.lastBuild;
+        activeProjectLastInstall() {
+            return this.$store.state.activeProject.lastInstall;
         },
         activeProjectFirmware() {
             return this.$store.state.activeProject.firmware;
         },
-        activeProjectName: {
-            get() {
-                return this.$store.state.activeProject.name;
-            },
-            set(value) {
-                clearTimeout(this.typingTimer.name);
-                this.typingTimer.name = setTimeout(() => {
-                    this.saveName(value);
-                    clearTimeout(this.typingTimer.name);
-                }, DONE_TYPING_INTERVAL);
-            },
-        },
-        lastBuild: {
-            get() {
-                return this.$store.state.activeProject.lastBuild;
-            },
+        activeProjectName() {
+            return this.$store.state.activeProject.name;
         },
         installOnChange: {
             get() {
@@ -108,9 +81,6 @@ export default {
             setTimeout(() => {
                 this.rebootLoading = false;
             }, 5000);
-        },
-        saveName(newName) {
-            this.$projectManager.setName(this.activeProjectId, newName);
         },
         openInExplorer() {
             this.$projectManager.openInExplorer(this.activeProjectId);

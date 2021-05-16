@@ -1,10 +1,21 @@
 import * as fs from "fs";
 import * as path from "path";
-import {LAYOUTEDITOR_DIR, SARCTOOL_DIR, TOOLBOX_DIR, TOOLS_DIR, VERSION_CFG} from "./managerUtils";
+import {
+    getFiles,
+    LAYOUTEDITOR_DIR,
+    PROJECTS_DIR,
+    SARCTOOL_DIR,
+    SARCTOOL_EXE,
+    TOOLBOX_DIR,
+    TOOLBOX_EXE,
+    TOOLS_DIR,
+    VERSION_CFG,
+} from "./managerUtils";
 import axios from "axios";
 import Downloader from "nodejs-file-downloader";
 import AdmZip from "adm-zip";
 import * as trash from "trash";
+import {execFile} from "child_process";
 
 const UPDATE_MESSAGE_TIMEOUT = 300;
 
@@ -78,6 +89,7 @@ export default (context: any, inject: any) => {
             });
         });
     };
+
     const $toolManager = {
         async updateSarcTool() {
             const userDataPath = await context.$ipcService.fs.getUserDataPath();
@@ -98,13 +110,66 @@ export default (context: any, inject: any) => {
             const directory = path.join(userDataPath, TOOLS_DIR, LAYOUTEDITOR_DIR);
             const url = "https://api.github.com/repos/FuryBaguette/SwitchLayoutEditor/releases";
 
-            await fetchLatestGithubAsset(directory, LAYOUTEDITOR_DIR, url, "application/octet-stream");
+            await fetchLatestGithubAsset(directory, LAYOUTEDITOR_DIR, url, "application/x-zip-compressed");
         },
         async updateAllTools() {
             await $toolManager.updateSarcTool();
             await $toolManager.updateToolbox();
             await $toolManager.updateLayoutEditor();
             context.store.commit("CHECKING_FOR_TOOL_UPDATES_MESSAGE", "");
+        },
+        szs: {
+            unpack(filePath) {
+                return new Promise(async (resolve) => {
+                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                    const sarcToolPath = path.join(userDataPath, SARCTOOL_DIR, SARCTOOL_EXE);
+                    // Unpack the szs next to the original file
+                    execFile(sarcToolPath, [filePath], function (err, data) {
+                        if (err) console.log(err);
+                        else resolve(null);
+                    });
+                });
+            },
+            pack(originDir, destFile) {
+                return new Promise(async (resolve) => {
+                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                    const sarcToolPath = path.join(userDataPath, SARCTOOL_DIR, SARCTOOL_EXE);
+                    // Unpack the szs next to the original file
+                    execFile(sarcToolPath, ["-little", "-compress", "0", "-o", destFile, originDir], function (err, data) {
+                        if (err) console.log(err);
+                        else resolve(null);
+                    });
+                });
+            },
+        },
+        toolbox: {
+            open() {
+                return new Promise(async (resolve) => {
+                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                    const toolboxPath = path.join(userDataPath, TOOLBOX_DIR, TOOLBOX_EXE);
+                    execFile(toolboxPath, function (err, data) {
+                        if (err) console.log(err);
+                        else resolve(null);
+                    });
+                });
+            },
+            openFiles(projectId: string, files: Array<string>) {
+                return new Promise(async (resolve) => {
+                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                    const toolboxPath = path.join(userDataPath, TOOLBOX_DIR, TOOLBOX_EXE);
+                    const filePaths = files.map((f) => path.join(userDataPath, PROJECTS_DIR, projectId, f));
+                    execFile(toolboxPath, filePaths, function (err, data) {
+                        if (err) console.log(err);
+                        else resolve(null);
+                    });
+                });
+            },
+            async openFolder(projectId) {
+                const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                const projectPath = path.join(userDataPath, PROJECTS_DIR, projectId);
+                const fileNames = getFiles(projectPath);
+                await this.openFiles(projectId, fileNames);
+            },
         },
     };
 

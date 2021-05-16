@@ -5,7 +5,7 @@
         </template>
 
         <form class="form">
-            <vs-input v-model="form.name" block class="project-name mb-10" placeholder="Project Name"></vs-input>
+            <vs-input v-model="form.name" block class="project-name mb-10" placeholder="Project Name"/>
             <firmware-picker v-model="selectedFirmwareFiles" :firmwareFiles="firmwareFiles"
                              :loading="firmwareFilesLoading"/>
         </form>
@@ -25,6 +25,7 @@ import FirmwarePicker from "~/components/firmwarePicker.vue";
 export default {
     components: {FirmwarePicker},
     data: () => ({
+        active: false,
         loading: false,
         firmwareFiles: [],
         firmwareFilesLoading: false,
@@ -33,31 +34,13 @@ export default {
             name: "",
         },
     }),
-    props: {
-        value: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
-        project: {
-            type: Object | null,
-            required: true,
-        },
-    },
-    watch: {
-        project(project) {
-            this.form.name = project.name;
-            this.getFirmwareFiles();
-        },
-    },
     computed: {
-        active: {
-            get() {
-                return this.value;
-            },
-            set(status) {
-                this.$emit("input", status);
-            },
+        project() {
+            const project = this.$store.state.activeProject;
+            this.form.name = project.name;
+            this.getFirmwareFiles(project);
+
+            return project;
         },
         formValid() {
             return this.form.name?.length > 0 &&
@@ -68,11 +51,11 @@ export default {
         toNice(filename) {
             return toNice(filename);
         },
-        getFirmwareFiles() {
+        getFirmwareFiles(project) {
             this.firmwareFiles = [];
             this.firmwareFilesLoading = true;
-            this.$firmwareManager.firmwareFiles(this.project.firmware).then((newFiles) => {
-                this.$projectManager.firmwareFiles(this.project.id).then((existingFiles) => {
+            this.$firmwareManager.firmwareFiles(project.firmware).then((newFiles) => {
+                this.$projectManager.firmwareFiles(project.id).then((existingFiles) => {
                     this.firmwareFiles = newFiles.filter((nf) => !existingFiles.includes(nf));
                     this.firmwareFilesLoading = false;
                 });
@@ -85,9 +68,7 @@ export default {
 
             setTimeout(() => {
                 this.loading = false;
-                this.firmwareFiles = [];
                 this.selectedFirmwareFiles = [];
-                this.form.name = "";
                 this.active = false;
             }, 300);
         },

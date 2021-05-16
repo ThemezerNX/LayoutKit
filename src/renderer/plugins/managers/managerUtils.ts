@@ -6,8 +6,11 @@ const VERSION_CFG = "ver.cfg";
 const TOOLS_DIR = "tools";
 
 const SARCTOOL_DIR = "sarctool";
+const SARCTOOL_EXE = "sarc_tool.exe";
 const TOOLBOX_DIR = "toolbox";
+const TOOLBOX_EXE = "Toolbox.exe";
 const LAYOUTEDITOR_DIR = "layouteditor";
+const LAYOUTEDITOR_EXE = "Switch Layout Editor.exe";
 
 const getDirectories = source =>
     fs.readdirSync(source, {withFileTypes: true})
@@ -24,8 +27,11 @@ export {
     TOOLS_DIR,
     VERSION_CFG,
     SARCTOOL_DIR,
+    SARCTOOL_EXE,
     TOOLBOX_DIR,
+    TOOLBOX_EXE,
     LAYOUTEDITOR_DIR,
+    LAYOUTEDITOR_EXE,
     getDirectories,
     getFiles,
 };

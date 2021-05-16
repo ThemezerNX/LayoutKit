@@ -88,7 +88,7 @@
                         <h3>Updates</h3>
                         <vse-list-item>
                             <template #description>
-                                Check for and download tool updates on launch
+                                Check and download tool updates on launch
                             </template>
                             <template #button>
                                 <vs-switch v-model="checkToolUpdatesOnLaunch"/>

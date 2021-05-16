@@ -47,6 +47,10 @@ export default {
             type: Function,
             required: true,
         },
+        callback: {
+            type: Function,
+            required: false,
+        },
     },
     methods: {
         del() {
@@ -56,6 +60,7 @@ export default {
                 console.log("finished");
                 this.loading = false;
                 this.active = false;
+                if (this.callback) this.callback();
             });
         },
     },
