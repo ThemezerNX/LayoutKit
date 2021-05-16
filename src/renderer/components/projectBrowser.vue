@@ -28,7 +28,7 @@
                 </vs-button>
                 <vse-spacer/>
                 <vs-button
-                    :disabled="projectsLoading || openInToolboxLoading"
+                    :disabled="openInToolboxLoading || projectsLoading || projects.length === 0 || !(activeProjectId && activeProjectId.length > 0)"
                     :loading="openInToolboxLoading"
                     icon
                     color="#0096D8"
@@ -126,8 +126,6 @@ export default {
         renderVSSelect: true,
         spinRefreshIcon: false,
         firmwareFiles: [],
-        editProject: null,
-        editActive: false,
         loader: null,
         openInToolboxLoading: false,
         openFileInToolboxLoading: {},
@@ -146,7 +144,9 @@ export default {
         activeProjectId: {
             get() {
                 const id = this.$store.state.activeProject.id;
-                this.getFirmwareFiles(id);
+                if (id) {
+                    this.getFirmwareFiles(id);
+                }
                 return id;
             },
             set(value) {
@@ -184,6 +184,9 @@ export default {
             // Remove activeProjectId if it was not found
             if (this.activeProjectId.length > 0 && !newValue.some((p) => p.id === this.activeProjectId)) {
                 this.activeProjectId = null;
+                this.firmwareFiles = [];
+                this.loader?.close();
+                this.loader = null;
             }
             // Force rerender the dropdown, since the label is empty if the id changed while only one option was available
             this.forceRerenderVSSelect();
@@ -232,9 +235,9 @@ export default {
             });
         },
         openFileInToolbox(fileName) {
-            this.$set(this.openFileInToolboxLoading, fileName, true)
+            this.$set(this.openFileInToolboxLoading, fileName, true);
             this.$toolManager.toolbox.openFiles(this.activeProjectId, [fileName]).then(() => {
-                this.$set(this.openFileInToolboxLoading, fileName, false)
+                this.$set(this.openFileInToolboxLoading, fileName, false);
             });
         },
         openInToolbox() {
