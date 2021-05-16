@@ -1,5 +1,5 @@
 <template>
-    <vs-dialog v-model="active" blur>
+    <vs-dialog v-model="active" :loading="loading">
         <template #header>
             <h3>Create Copy of '{{ projectName }}'</h3>
         </template>
@@ -46,7 +46,7 @@ export default {
                 this.loading = false;
                 this.form.name = "";
                 this.active = false;
-            }, 500);
+            }, 300);
         },
     },
 };

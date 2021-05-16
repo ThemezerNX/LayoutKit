@@ -1,5 +1,5 @@
 <template>
-    <vs-dialog v-model="active" blur>
+    <vs-dialog v-model="active" :loading="loading">
         <template #header>
             <h3>Import New Firmware</h3>
         </template>
@@ -112,7 +112,7 @@ export default {
                 this.form.minor = undefined;
                 this.form.patch = undefined;
                 this.active = false;
-            }, 500);
+            }, 300);
         },
     },
 };

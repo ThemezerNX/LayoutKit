@@ -7,6 +7,33 @@
             <vse-list>
                 <vse-list-item>
                     <template #description>
+                        Install changes
+                    </template>
+                    <template #button>
+                        <vs-button
+                            :disabled="installLoading || rebootLoading || !connected || installRecentlyClicked || restartRecentlyClicked"
+                            :loading="installLoading"
+                            class="ma-0"
+                            @click="installOnConsole()">
+                            Install
+                        </vs-button>
+                    </template>
+                </vse-list-item>
+                <vse-list-item>
+                    <template #description>
+                        Restart the console
+                    </template>
+                    <template #button>
+                        <vs-button :disabled="rebootLoading || !connected || restartRecentlyClicked"
+                                   :loading="rebootLoading"
+                                   class="ma-0"
+                                   @click="restartConsole()">
+                            Restart
+                        </vs-button>
+                    </template>
+                </vse-list-item>
+                <vse-list-item>
+                    <template #description>
                         Install on change
                     </template>
                     <template #button>
@@ -21,16 +48,6 @@
                         <vs-switch v-model="rebootOnInstall"/>
                     </template>
                 </vse-list-item>
-                <vse-list-item>
-                    <template #description>
-                        Restart the console manually
-                    </template>
-                    <template #button>
-                        <vs-button :disabled="rebootLoading || !connected || recentlyClicked" :loading="rebootLoading" class="ma-0"
-                                   @click="restartConsole()">Restart
-                        </vs-button>
-                    </template>
-                </vse-list-item>
             </vse-list>
         </template>
     </vse-card>
@@ -39,8 +56,10 @@
 <script>
 export default {
     data: () => ({
+        installLoading: false,
         rebootLoading: false,
-        recentlyClicked: false,
+        installRecentlyClicked: false,
+        restartRecentlyClicked: false,
     }),
     computed: {
         connected() {
@@ -48,7 +67,7 @@ export default {
         },
         installOnChange: {
             get() {
-                return this.$store.state.quickSettings.installOnChange;
+                return this.$store.state.settings.installOnChange;
             },
             set(value) {
                 this.$store.commit("settings/INSTALL_ON_CHANGE", value);
@@ -56,7 +75,7 @@ export default {
         },
         rebootOnInstall: {
             get() {
-                return this.$store.state.quickSettings.rebootOnInstall;
+                return this.$store.state.settings.rebootOnInstall;
             },
             set(value) {
                 this.$store.commit("settings/REBOOT_ON_INSTALL", value);
@@ -64,12 +83,24 @@ export default {
         },
     },
     methods: {
+        installOnConsole() {
+            this.installLoading = true;
+            // Do this so that the button stays disabled in the time the disconnect hasn't been noticed yet.
+            this.installRecentlyClicked = true;
+            setTimeout(() => {
+                this.installRecentlyClicked = false;
+            }, 5000);
+
+            this.$ftpController.reboot().then(() => {
+                this.installLoading = false;
+            });
+        },
         restartConsole() {
             this.rebootLoading = true;
             // Do this so that the button stays disabled in the time the disconnect hasn't been noticed yet.
-            this.recentlyClicked = true;
+            this.restartRecentlyClicked = true;
             setTimeout(() => {
-                this.recentlyClicked = false;
+                this.restartRecentlyClicked = false;
             }, 5000);
 
             this.$ftpController.reboot().then(() => {

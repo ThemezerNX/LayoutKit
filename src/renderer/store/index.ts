@@ -7,6 +7,8 @@ export const state = () => ({
     projectsLoading: false,
     firmwares: [],
     firmwaresLoading: false,
+    checkingForToolUpdates: false,
+    checkingForToolUpdatesMessage: "",
 });
 
 export const mutations = {
@@ -35,5 +37,11 @@ export const mutations = {
     },
     FIRMWARES_LOADING(state: any, value: boolean) {
         state.firmwaresLoading = value;
+    },
+    CHECKING_FOR_TOOL_UPDATES(state: any, value: boolean) {
+        state.checkingForToolUpdates = value;
+    },
+    CHECKING_FOR_TOOL_UPDATES_MESSAGE(state: any, value: string) {
+        state.checkingForToolUpdatesMessage = value;
     },
 };

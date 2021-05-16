@@ -1,6 +1,7 @@
 /* eslint-disable */
 import {EventEmitter} from "events";
 import {app, BrowserWindow} from "electron";
+import * as windowStateKeeper from "electron-window-state";
 
 const DEV_SERVER_URL = process.env.DEV_SERVER_URL;
 const isProduction = process.env.NODE_ENV === "production";
@@ -40,9 +41,17 @@ export default class BrowserWinHandler {
     }
 
     _create() {
+        // Load the previous state with fallback to defaults
+        const mainWindowState = windowStateKeeper({
+            defaultWidth: this.options.width,
+            defaultHeight: this.options.height,
+        });
+
         this.browserWindow = new BrowserWindow(
             {
                 ...this.options,
+                height: mainWindowState.height,
+                width: mainWindowState.width,
                 webPreferences: {
                     ...this.options.webPreferences,
                     webSecurity: isProduction, // disable on dev to allow loading local resources
@@ -51,10 +60,24 @@ export default class BrowserWinHandler {
                 },
             },
         );
+
+        // Let us register listeners on the window, so we can update the state
+        // automatically (the listeners will be removed when the window is closed)
+        // and restore the maximized or full screen state
+        mainWindowState.manage(this.browserWindow);
+
         this.browserWindow.on("closed", () => {
             // Dereference the window object
             this.browserWindow = null;
         });
+
+        // Fix for the window not closing with devtools open and autoHideMenuBar: true
+        this.browserWindow.on("close", () => {
+            if (this.browserWindow.webContents.isDevToolsOpened()) {
+                this.browserWindow.webContents.closeDevTools();
+            }
+        });
+
         this._eventEmitter.emit("created");
     }
 

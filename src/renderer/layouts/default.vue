@@ -7,15 +7,17 @@
             <nuxt/>
         </div>
         <popup/>
+        <update-checker/>
     </div>
 </template>
 
 <script>
 import appNavbar from "~/components/app/navbar.vue";
 import appSidebar from "~/components/app/sidebar.vue";
+import updateChecker from "~/components/updateChecker.vue";
 
 export default {
-    components: {appNavbar, appSidebar},
+    components: {appNavbar, appSidebar, updateChecker},
     data: () => ({
         activeSidebar: false,
     }),
@@ -162,4 +164,13 @@ $sides: (top, bottom, left, right);
     padding: 10px 12px !important;
 }
 
+// Fix expanded tables not having border radius
+.vs-table__expand__td {
+    border-radius: 0 0 15px 15px;
+}
+
+// Fix for table body not growing when content changed
+//.vs-table__tr__expand td .vs-table__expand__td__content {
+//    height: auto !important;
+//}
 </style>

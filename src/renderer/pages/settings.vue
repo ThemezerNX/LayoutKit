@@ -85,6 +85,15 @@
                                 </vs-input>
                             </template>
                         </vse-list-item>
+                        <h3>Updates</h3>
+                        <vse-list-item>
+                            <template #description>
+                                Check for and download tool updates on launch
+                            </template>
+                            <template #button>
+                                <vs-switch v-model="checkToolUpdatesOnLaunch"/>
+                            </template>
+                        </vse-list-item>
                     </vse-list>
                 </template>
             </vse-card>
@@ -94,7 +103,7 @@
                 Made with ❤️ by ThemezerNX
             </p>
             <p class="center">
-                Source code available on <a @click="openSource" href="#">GitHub</a>
+                Source code available on <a href="#" @click="openSource">GitHub</a>
             </p>
         </vse-footer>
     </vs-row>
@@ -162,11 +171,36 @@ export default {
             this.$ftpController.disconnect();
         },
     },
+    computed: {
+        checkToolUpdatesOnLaunch: {
+            get() {
+                return this.$store.state.settings.checkToolUpdatesOnLaunch;
+            },
+            set(value) {
+                this.$store.commit("settings/CHECK_TOOL_UPDATES_ON_LAUNCH", value);
+            },
+        },
+    },
     methods: {
         openSource(event) {
             event.preventDefault();
             this.$ipcService.system.openUrl("https://github.com/ThemezerNX/LayoutKit");
         },
+    },
+    head() {
+        const metaTitle = "Settings";
+
+        return {
+            title: metaTitle,
+            meta: [
+                {
+                    hid: "og:title",
+                    name: "og:title",
+                    property: "og:title",
+                    content: metaTitle,
+                },
+            ],
+        };
     },
 };
 </script>

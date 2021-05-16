@@ -22,5 +22,20 @@ import projectDetails from "~/components/projectDetails.vue";
 export default {
     components: {projectBrowser, quickSettings, projectDetails},
     data: () => ({}),
+    head() {
+        const metaTitle = "Projects";
+
+        return {
+            title: metaTitle,
+            meta: [
+                {
+                    hid: "og:title",
+                    name: "og:title",
+                    property: "og:title",
+                    content: metaTitle,
+                },
+            ],
+        };
+    },
 };
 </script>

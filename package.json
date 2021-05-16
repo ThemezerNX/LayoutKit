@@ -32,6 +32,7 @@
         "@xpda-dev/electron-builder": "^0.2.1",
         "@xpda-dev/electron-launcher": "^0.3.0",
         "@xpda-dev/webpack-step": "^0.1.2",
+        "adm-zip": "^0.5.5",
         "ava": "2.4.0",
         "babel-plugin-webpack-alias-7": "0.1.1",
         "basic-ftp": "^4.6.6",
@@ -40,13 +41,14 @@
         "cross-env": "7.0.2",
         "deepmerge": "4.2.2",
         "edit-json-file": "^1.6.0",
-        "electron": "12.0.2",
+        "electron": "12.0.7",
         "electron-builder": "22.10.5",
         "electron-devtools-installer": "3.1.1",
         "mkdirp": "^1.0.4",
         "native-ext-loader": "2.3.0",
         "ncp": "^2.0.0",
         "node-sass": "4.14.1",
+        "nodejs-file-downloader": "^4.5.3",
         "require-extension-hooks": "0.3.3",
         "require-extension-hooks-babel": "1.0.0",
         "require-extension-hooks-vue": "0.4.2",
@@ -58,6 +60,7 @@
         "webpack-node-externals": "2.5.2"
     },
     "dependencies": {
+        "electron-window-state": "^5.0.3",
         "nuxt": "^2.15.3"
     }
 }

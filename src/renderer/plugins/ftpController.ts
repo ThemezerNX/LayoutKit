@@ -64,7 +64,7 @@ export default (context: any, inject: any) => {
             });
         },
         install() {
-            if (context.store.state.quickSettings.rebootOnInstall) {
+            if (context.store.state.settings.rebootOnInstall) {
                 this.reboot();
             }
         },

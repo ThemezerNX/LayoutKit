@@ -4,26 +4,29 @@ import * as trash from "trash";
 import {ncp} from "ncp";
 import {shell} from "electron";
 import * as mkdirp from "mkdirp";
-import {FIRMWARE_VERSION_CFG, FIRMWARES_DIR, getDirectories, getFiles} from "./managerUtils";
+import {FIRMWARES_DIR, getDirectories, getFiles, VERSION_CFG} from "./managerUtils";
 import {isTarget} from "@themezernx/target-parser/dist";
 
 export default (context: any, inject: any) => {
     const $firmwareManager = {
         refresh() {
-            context.store.commit("FIRMWARES_LOADING", true);
-            setTimeout(() => {
-                context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                    const firmwaresPath = path.join(userDataPath, FIRMWARES_DIR);
-                    mkdirp(firmwaresPath).then(() => {
-                        const firmwares = getDirectories(firmwaresPath).sort(
-                            (a, b) =>
-                                b.localeCompare(a, "en", {"sensitivity": "base"}),
-                        );
-                        context.store.commit("FIRMWARES_LOADING", false);
-                        context.store.commit("FIRMWARES", firmwares);
+            return new Promise((resolve) => {
+                context.store.commit("FIRMWARES_LOADING", true);
+                setTimeout(() => {
+                    context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
+                        const firmwaresPath = path.join(userDataPath, FIRMWARES_DIR);
+                        mkdirp(firmwaresPath).then(() => {
+                            const firmwares = getDirectories(firmwaresPath).sort(
+                                (a, b) =>
+                                    b.localeCompare(a, "en", {"sensitivity": "base"}),
+                            );
+                            context.store.commit("FIRMWARES_LOADING", false);
+                            context.store.commit("FIRMWARES", firmwares);
+                            resolve(null);
+                        });
                     });
-                });
-            }, 500);
+                }, 300);
+            });
         },
         firmwareFiles(version) {
             return new Promise((resolve) => {
@@ -34,13 +37,13 @@ export default (context: any, inject: any) => {
                         const usableFiles = files.filter((f) => isTarget(f));
                         resolve(usableFiles);
                     });
-                }, 500);
+                }, 300);
             });
         },
         import(directory) {
             return new Promise((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                    fs.readFile(path.join(directory, FIRMWARE_VERSION_CFG), "utf8", (err, versionString) => {
+                    fs.readFile(path.join(directory, VERSION_CFG), "utf8", (err, versionString) => {
                         if (err) return console.error(err);
 
                         const newDirectory = path.join(userDataPath, FIRMWARES_DIR, versionString);
@@ -59,13 +62,15 @@ export default (context: any, inject: any) => {
         },
         openInExplorer(version: string) {
             context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                shell.openPath(path.join(userDataPath, FIRMWARES_DIR, version));
+                shell.openPath(path.join(userDataPath, FIRMWARES_DIR, version)).then();
             });
         },
         delete(version: string) {
             return new Promise((resolve) => {
-                context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                    resolve(trash(path.join(userDataPath, FIRMWARES_DIR, version)).then(this.refresh));
+                context.$ipcService.fs.getUserDataPath().then(async (userDataPath) => {
+                    await trash(path.join(userDataPath, FIRMWARES_DIR, version));
+                    resolve(null);
+                    await this.refresh();
                 });
             });
         },

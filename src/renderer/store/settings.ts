@@ -1,10 +1,11 @@
 export const state = () => ({
-    installOnChange: true,
+    installOnChange: false,
     rebootOnInstall: true,
     ftpIp: undefined,
     ftpPort: 5000,
     ftpUsername: "nxthemer",
     ftpPassword: "nxthemer",
+    checkToolUpdatesOnLaunch: true,
 });
 
 export const mutations = {
@@ -25,5 +26,8 @@ export const mutations = {
     },
     FTP_PASSWORD(state: any, value: string) {
         state.ftpPassword = value || "nxthemer";
+    },
+    CHECK_TOOL_UPDATES_ON_LAUNCH(state: any, value: boolean) {
+        state.checkToolUpdatesOnLaunch = value;
     },
 };

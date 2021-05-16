@@ -2,23 +2,16 @@
     <vs-navbar v-model="$parent.$data.active" center-collapsed fixed padding-scroll shadow
                target-scroll="#padding-scroll-content">
         <template #left>
-            <!--TODO: Decrease avatar size on scroll-->
-            <nuxt-link to="/">
+            <nuxt-link class="navbar-index-href" to="/">
                 <vs-avatar size="40">
                     <img alt="application logo" src="~/assets/icons/icon-64.png">
                 </vs-avatar>
+                <h1 class="navbar-title my-0 ml-15">LayoutKit</h1>
             </nuxt-link>
-            <h1 class="my-0 ml-15">LayoutKit</h1>
         </template>
 
         <template v-for="menuItem in menuItems">
-            <vs-navbar-item v-if="!menuItem.children" :id="menuItem.id" :key="menuItem.id"
-                            :active="$nuxt.$route.path === menuItem.path"
-                            :to="menuItem.path">
-                {{ menuItem.title }}
-                <i v-if="menuItem.icon" :class="menuItem.icon" class="navbar-item-icon"></i>
-            </vs-navbar-item>
-            <vs-navbar-group v-else :key="menuItem.id">
+            <vs-navbar-group v-if="!!menuItem.children" :key="menuItem.id">
                 {{ menuItem.title }}
                 <i v-if="menuItem.icon" :class="menuItem.icon" class="navbar-item-icon"></i>
                 <template #items>
@@ -31,6 +24,17 @@
                     </template>
                 </template>
             </vs-navbar-group>
+            <vs-navbar-item v-else-if="!!menuItem.href" :id="menuItem.id" :key="menuItem.id"
+                            :href="menuItem.href">
+                {{ menuItem.title }}
+                <i v-if="menuItem.icon" :class="menuItem.icon" class="navbar-item-icon"></i>
+            </vs-navbar-item>
+            <vs-navbar-item v-else :id="menuItem.id" :key="menuItem.id"
+                            :active="$nuxt.$route.path === menuItem.path"
+                            :to="menuItem.path">
+                {{ menuItem.title }}
+                <i v-if="menuItem.icon" :class="menuItem.icon" class="navbar-item-icon"></i>
+            </vs-navbar-item>
         </template>
 
         <template #right>
@@ -66,7 +70,7 @@ export default {
             },
             {
                 id: "documentation",
-                path: "/documentation",
+                href: "https://themezernx.github.io/LayoutDocs/",
                 title: "Documentation",
                 icon: "bx bxs-book",
             },
@@ -127,5 +131,17 @@ export default {
 <style lang="scss" scoped>
 .navbar-item-icon {
     transform: translateY(1px);
+}
+
+.navbar-index-href {
+    display: inline-flex;
+    color: inherit;
+    text-decoration: none;
+}
+
+.navbar-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>

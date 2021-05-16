@@ -1,9 +1,9 @@
 <template>
     <vs-dialog v-model="active" not-center width="550px">
         <template v-if="error" #header>
-            <h4 :style="!!error ? `color: rgb(${color});` : ''" class="mb-0">
+            <h3 :style="!!error ? `color: rgb(${color});` : ''" class="mb-0">
                 An Error Occurred
-            </h4>
+            </h3>
         </template>
 
         <span>

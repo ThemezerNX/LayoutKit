@@ -5,6 +5,7 @@
         </template>
         <template #subtitle>
             <b>ID:</b> {{ activeProjectIdTrimmed }}<br/>
+            <b>FW:</b> {{ activeProjectFirmware }}<br/>
             <b>Last build:</b> {{ activeProjectLastBuild || "never" }}
         </template>
         <template #content>
@@ -56,15 +57,16 @@ export default {
             return this.$store.state.projectsLoading;
         },
         activeProjectIdTrimmed() {
-            // Trim the unix timestamp, see projectManager for why it is included
-            const matches = /(.*)-/gm.exec(this.activeProjectId);
-            return matches?.length > 1 ? matches[1] : this.activeProjectId;
+            this.$projectManager.trimProjectIdTimestamp(this.activeProjectId);
         },
         activeProjectId() {
             return this.$store.state.activeProject.id;
         },
         activeProjectLastBuild() {
             return this.$store.state.activeProject.lastBuild;
+        },
+        activeProjectFirmware() {
+            return this.$store.state.activeProject.firmware;
         },
         activeProjectName: {
             get() {
@@ -85,7 +87,7 @@ export default {
         },
         installOnChange: {
             get() {
-                return this.$store.state.quickSettings.installOnChange;
+                return this.$store.state.settings.installOnChange;
             },
             set(value) {
                 this.$store.commit("settings/INSTALL_ON_CHANGE", value);
@@ -93,7 +95,7 @@ export default {
         },
         rebootOnInstall: {
             get() {
-                return this.$store.state.quickSettings.rebootOnInstall;
+                return this.$store.state.settings.rebootOnInstall;
             },
             set(value) {
                 this.$store.commit("settings/REBOOT_ON_INSTALL", value);

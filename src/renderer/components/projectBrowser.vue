@@ -5,7 +5,8 @@
                 <h2>Project Browser</h2>
             </template>
             <template #content>
-                <vs-select v-if="renderVSSelect" v-model="activeProjectId" :disabled="projects.length === 0" :loading="projectsLoading"
+                <vs-select v-if="renderVSSelect" v-model="activeProjectId" :disabled="projects.length === 0"
+                           :loading="projectsLoading"
                            filter
                            placeholder="Select Project">
                     <template v-for="project in projects">
@@ -72,7 +73,7 @@ export default {
         },
         installOnChange: {
             get() {
-                return this.$store.state.quickSettings.installOnChange;
+                return this.$store.state.settings.installOnChange;
             },
             set(value) {
                 this.$store.commit("settings/INSTALL_ON_CHANGE", value);
@@ -80,7 +81,7 @@ export default {
         },
         rebootOnInstall: {
             get() {
-                return this.$store.state.quickSettings.rebootOnInstall;
+                return this.$store.state.settings.rebootOnInstall;
             },
             set(value) {
                 this.$store.commit("settings/REBOOT_ON_INSTALL", value);
@@ -103,7 +104,7 @@ export default {
                 this.spinRefreshIcon = true;
                 setTimeout(() => {
                     this.spinRefreshIcon = false;
-                }, 500);
+                }, 300);
             }
 
             this.$projectManager.refresh();
