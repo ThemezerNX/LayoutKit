@@ -98,12 +98,12 @@ export default {
     },
     methods: {
         buildLoading() {
-            this.loader = this.$vs.loading({
-                target: this.$refs.buildLoader,
-                opacity: "0",
-                scale: "1.0",
-                text: "Packing SZS...", // TODO: remove text on scroll
-            });
+            // this.loader = this.$vs.loading({
+            //     target: this.$refs.buildLoader,
+            //     opacity: "0",
+            //     scale: "1.0",
+            //     text: "Packing SZS...", // TODO: remove text on scroll
+            // });
             // this.loader.close();
         },
     },

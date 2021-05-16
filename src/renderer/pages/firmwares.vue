@@ -157,13 +157,3 @@ export default {
     },
 };
 </script>
-
-<style lang="scss" scoped>
-.actions {
-    display: flex;
-}
-
-.center {
-    text-align: center;
-}
-</style>

@@ -173,4 +173,9 @@ $sides: (top, bottom, left, right);
 //.vs-table__tr__expand td .vs-table__expand__td__content {
 //    height: auto !important;
 //}
+
+// Actions col in tables should flex
+.actions {
+    display: flex;
+}
 </style>

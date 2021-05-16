@@ -28,6 +28,16 @@
                 </vs-button>
                 <vse-spacer/>
                 <vs-button
+                    :disabled="projectsLoading || openInToolboxLoading"
+                    :loading="openInToolboxLoading"
+                    icon
+                    color="#0096D8"
+                    @click="openInToolbox()"
+                >
+                    <i class='bx bx-wrench'></i> Open All In Toolbox
+                </vs-button>
+                <vse-spacer/>
+                <vs-button
                     :disabled="projectsLoading || projects.length === 0 || !(activeProjectId && activeProjectId.length > 0)"
                     icon
                     @click="$refs['editProjectDialog'].active = true">
@@ -54,7 +64,7 @@
                             <vs-th>
                                 Filename
                             </vs-th>
-                            <vs-th style="width: 50px;">
+                            <vs-th style="width: 100px;">
                                 Actions
                             </vs-th>
                         </vs-tr>
@@ -73,6 +83,15 @@
                                     {{ file }}
                                 </vs-td>
                                 <vs-td class="actions">
+                                    <vs-button
+                                        :disabled="projectsLoading || openFileInToolboxLoading[file]"
+                                        :loading="openFileInToolboxLoading[file]"
+                                        icon
+                                        color="#0096D8"
+                                        @click="openFileInToolbox(file)"
+                                    >
+                                        <i class='bx bx-wrench'></i>
+                                    </vs-button>
                                     <delete-dialog
                                         :args="[file]"
                                         :disabled="projectsLoading || firmwareFiles.length === 1"
@@ -110,6 +129,8 @@ export default {
         editProject: null,
         editActive: false,
         loader: null,
+        openInToolboxLoading: false,
+        openFileInToolboxLoading: {},
     }),
     components: {newProject, copyProject, editProject, deleteDialog},
     mounted() {
@@ -208,6 +229,18 @@ export default {
                 this.firmwareFiles = files;
                 this.loader?.close();
                 this.loader = null;
+            });
+        },
+        openFileInToolbox(fileName) {
+            this.$set(this.openFileInToolboxLoading, fileName, true)
+            this.$toolManager.toolbox.openFiles(this.activeProjectId, [fileName]).then(() => {
+                this.$set(this.openFileInToolboxLoading, fileName, false)
+            });
+        },
+        openInToolbox() {
+            this.openInToolboxLoading = true;
+            this.$toolManager.toolbox.openFolder(this.activeProjectId).then(() => {
+                this.openInToolboxLoading = false;
             });
         },
     },
