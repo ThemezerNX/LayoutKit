@@ -23,7 +23,7 @@
                             <vs-th>
                                 Version
                             </vs-th>
-                            <vs-th style="width: 200px;">
+                            <vs-th style="width: 230px;">
                                 Actions
                             </vs-th>
                         </vs-tr>
@@ -35,6 +35,15 @@
                                     <h2 class="ma-0">{{ version }}</h2>
                                 </vs-td>
                                 <vs-td class="actions">
+                                    <vs-button
+                                        :disabled="firmwaresLoading || openInToolboxLoading[version]"
+                                        :loading="openInToolboxLoading[version]"
+                                        icon
+                                        color="#0096D8"
+                                        @click.stop="openInToolbox(version)"
+                                    >
+                                        <i class='bx bx-wrench'></i>
+                                    </vs-button>
                                     <vs-button :disabled="firmwaresLoading" icon
                                                @click.stop="openInExplorer(version)">
                                         Open Folder
@@ -98,6 +107,7 @@ export default {
     data: () => ({
         spinRefreshIcon: false,
         firmwareFiles: [],
+        openInToolboxLoading: {},
     }),
     computed: {
         firmwaresLoading() {
@@ -138,6 +148,12 @@ export default {
                 element.dispatchEvent(new Event("click"));
             }
             return this.$firmwareManager.delete(version);
+        },
+        openInToolbox(version) {
+            this.$set(this.openInToolboxLoading, version, true);
+            this.$firmwareManager.openFirmwareFolderInToolbox(version).then(() => {
+                this.$set(this.openInToolboxLoading, version, false);
+            });
         },
     },
     head() {

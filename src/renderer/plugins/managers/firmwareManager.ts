@@ -1,10 +1,13 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as mkdirp from "mkdirp";
+import temp from "temp";
 import {ncp} from "ncp";
 import {shell} from "electron";
-import * as mkdirp from "mkdirp";
 import {FIRMWARES_DIR, getDirectories, getFiles, VERSION_CFG} from "./managerUtils";
 import {isTarget} from "@themezernx/target-parser/dist";
+
+temp.track();
 
 export default (context: any, inject: any) => {
     const $firmwareManager = {
@@ -70,6 +73,27 @@ export default (context: any, inject: any) => {
                     await context.$ipcService.fs.trash([path.join(userDataPath, FIRMWARES_DIR, version)]);
                     resolve(null);
                     await this.refresh();
+                });
+            });
+        },
+        async openFirmwareFolderInToolbox(version) {
+            const userDataPath = await context.$ipcService.fs.getUserDataPath();
+            const firmwarePath = path.join(userDataPath, FIRMWARES_DIR, version);
+            const dirPath = temp.mkdirSync("layoutkit");
+            return new Promise((resolve) => {
+                ncp(firmwarePath, dirPath, {
+                    filter: (filePath) =>
+                        fs.lstatSync(filePath).isDirectory() ||
+                        isTarget(path.basename(filePath)),
+                }, () => {
+                    for (const file of getFiles(dirPath)) {
+                        const filePath = path.join(dirPath, file);
+                        const fileName = path.basename(filePath);
+                        // This will match the first occurrence. In the case the dir has a same name, this will fail.
+                        // Very unlikely!
+                        fs.renameSync(filePath, filePath.replace(fileName, `${version}-${fileName}`));
+                    }
+                    context.$toolManager.toolbox.openFolder(dirPath).then(resolve);
                 });
             });
         },

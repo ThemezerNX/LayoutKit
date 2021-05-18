@@ -15,7 +15,7 @@ import axios from "axios";
 import Downloader from "nodejs-file-downloader";
 import AdmZip from "adm-zip";
 import {execFile, spawn} from "child_process";
-// spawn if the program stays open, execFile if it exits automatically
+// 'spawn' if the program stays open, 'execFile' if it exits automatically
 
 const UPDATE_MESSAGE_TIMEOUT = 300;
 
@@ -142,14 +142,13 @@ export default (context: any, inject: any) => {
             },
             toolbox: {
                 open() {
-                    return this.openFiles(null, []); // quick solution
+                    return this.openPaths([]); // quick solution
                 },
-                openFiles(projectId: string, files: Array<string>) {
+                openPaths(paths: Array<string>) {
                     return new Promise(async (resolve) => {
                         const userDataPath = await context.$ipcService.fs.getUserDataPath();
                         const toolboxPath = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR, TOOLBOX_EXE);
-                        const filePaths = files.map((f) => path.join(userDataPath, PROJECTS_DIR, projectId, f));
-                        const ls = spawn(toolboxPath, filePaths);
+                        const ls = spawn(toolboxPath, paths);
                         ls.stdout.on("data", () => {
                             setTimeout(() => {
                                 resolve(null);
@@ -157,11 +156,20 @@ export default (context: any, inject: any) => {
                         });
                     });
                 },
-                async openFolder(projectId) {
+                async openFolder(dirPath) {
+                    const filePaths = getFiles(dirPath)
+                        .map((f) => path.join(dirPath, f));
+                    await this.openPaths(filePaths);
+                },
+                async openProjectFiles(projectId: string, files: Array<string>) {
+                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                    const filePaths = files.map((f) => path.join(userDataPath, PROJECTS_DIR, projectId, f));
+                    await this.openPaths(filePaths);
+                },
+                async openProjectFolder(projectId) {
                     const userDataPath = await context.$ipcService.fs.getUserDataPath();
                     const projectPath = path.join(userDataPath, PROJECTS_DIR, projectId);
-                    const fileNames = getFiles(projectPath).filter((f) => path.extname(f) === ".szs");
-                    await this.openFiles(projectId, fileNames);
+                    await this.openFolder(projectPath);
                 },
             },
         }
