@@ -91,80 +91,81 @@ export default (context: any, inject: any) => {
     };
 
     const $toolManager = {
-        async updateSarcTool() {
-            const userDataPath = await context.$ipcService.fs.getUserDataPath();
-            const directory = path.join(userDataPath, TOOLS_DIR, SARCTOOL_DIR);
-            const url = "https://api.github.com/repos/aboood40091/SARC-Tool/releases";
-
-            await fetchLatestGithubAsset(directory, SARCTOOL_DIR, url, "application/x-zip-compressed");
-        },
-        async updateToolbox() {
-            const userDataPath = await context.$ipcService.fs.getUserDataPath();
-            const directory = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR);
-            const url = "https://api.github.com/repos/KillzXGaming/Switch-Toolbox/releases";
-
-            await fetchLatestGithubAsset(directory, TOOLBOX_DIR, url, "application/octet-stream");
-        },
-        async updateLayoutEditor() {
-            const userDataPath = await context.$ipcService.fs.getUserDataPath();
-            const directory = path.join(userDataPath, TOOLS_DIR, LAYOUTEDITOR_DIR);
-            const url = "https://api.github.com/repos/FuryBaguette/SwitchLayoutEditor/releases";
-
-            await fetchLatestGithubAsset(directory, LAYOUTEDITOR_DIR, url, "application/x-zip-compressed");
-        },
-        async updateAllTools() {
-            await $toolManager.updateSarcTool();
-            await $toolManager.updateToolbox();
-            await $toolManager.updateLayoutEditor();
-            context.store.commit("CHECKING_FOR_TOOL_UPDATES_MESSAGE", "");
-        },
-        szs: {
-            unpack(filePath) {
-                return new Promise(async (resolve) => {
-                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
-                    const sarcToolPath = path.join(userDataPath, TOOLS_DIR, SARCTOOL_DIR, SARCTOOL_EXE);
-                    // Unpack the szs next to the original file
-                    execFile(sarcToolPath, [filePath], () => {
-                        resolve(null);
-                    });
-                });
-            },
-            pack(originDir, destFile) {
-                return new Promise(async (resolve) => {
-                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
-                    const sarcToolPath = path.join(userDataPath, TOOLS_DIR, SARCTOOL_DIR, SARCTOOL_EXE);
-                    // Unpack the szs next to the original file
-                    execFile(sarcToolPath, ["-little", "-compress", "0", "-o", destFile, originDir], () => {
-                        resolve(null);
-                    });
-                });
-            },
-        },
-        toolbox: {
-            open() {
-                return this.openFiles(null, []); // quick solution
-            },
-            openFiles(projectId: string, files: Array<string>) {
-                return new Promise(async (resolve) => {
-                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
-                    const toolboxPath = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR, TOOLBOX_EXE);
-                    const filePaths = files.map((f) => path.join(userDataPath, PROJECTS_DIR, projectId, f));
-                    const ls = spawn(toolboxPath, filePaths);
-                    ls.stdout.on("data", () => {
-                        setTimeout(() => {
-                            resolve(null);
-                        }, 500);
-                    });
-                });
-            },
-            async openFolder(projectId) {
+            async updateSarcTool() {
                 const userDataPath = await context.$ipcService.fs.getUserDataPath();
-                const projectPath = path.join(userDataPath, PROJECTS_DIR, projectId);
-                const fileNames = getFiles(projectPath);
-                await this.openFiles(projectId, fileNames);
+                const directory = path.join(userDataPath, TOOLS_DIR, SARCTOOL_DIR);
+                const url = "https://api.github.com/repos/aboood40091/SARC-Tool/releases";
+
+                await fetchLatestGithubAsset(directory, SARCTOOL_DIR, url, "application/x-zip-compressed");
             },
-        },
-    };
+            async updateToolbox() {
+                const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                const directory = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR);
+                const url = "https://api.github.com/repos/KillzXGaming/Switch-Toolbox/releases";
+
+                await fetchLatestGithubAsset(directory, TOOLBOX_DIR, url, "application/octet-stream");
+            },
+            async updateLayoutEditor() {
+                const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                const directory = path.join(userDataPath, TOOLS_DIR, LAYOUTEDITOR_DIR);
+                const url = "https://api.github.com/repos/FuryBaguette/SwitchLayoutEditor/releases";
+
+                await fetchLatestGithubAsset(directory, LAYOUTEDITOR_DIR, url, "application/x-zip-compressed");
+            },
+            async updateAllTools() {
+                await $toolManager.updateSarcTool();
+                await $toolManager.updateToolbox();
+                await $toolManager.updateLayoutEditor();
+                context.store.commit("CHECKING_FOR_TOOL_UPDATES_MESSAGE", "");
+            },
+            szs: {
+                unpack(filePath) {
+                    return new Promise(async (resolve) => {
+                        const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                        const sarcToolPath = path.join(userDataPath, TOOLS_DIR, SARCTOOL_DIR, SARCTOOL_EXE);
+                        // Unpack the szs next to the original file
+                        execFile(sarcToolPath, [filePath], () => {
+                            resolve(null);
+                        });
+                    });
+                },
+                pack(originDir, destFile) {
+                    return new Promise(async (resolve) => {
+                        const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                        const sarcToolPath = path.join(userDataPath, TOOLS_DIR, SARCTOOL_DIR, SARCTOOL_EXE);
+                        // Unpack the szs next to the original file
+                        execFile(sarcToolPath, ["-little", "-compress", "0", "-o", destFile, originDir], () => {
+                            resolve(null);
+                        });
+                    });
+                },
+            },
+            toolbox: {
+                open() {
+                    return this.openFiles(null, []); // quick solution
+                },
+                openFiles(projectId: string, files: Array<string>) {
+                    return new Promise(async (resolve) => {
+                        const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                        const toolboxPath = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR, TOOLBOX_EXE);
+                        const filePaths = files.map((f) => path.join(userDataPath, PROJECTS_DIR, projectId, f));
+                        const ls = spawn(toolboxPath, filePaths);
+                        ls.stdout.on("data", () => {
+                            setTimeout(() => {
+                                resolve(null);
+                            }, 500);
+                        });
+                    });
+                },
+                async openFolder(projectId) {
+                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                    const projectPath = path.join(userDataPath, PROJECTS_DIR, projectId);
+                    const fileNames = getFiles(projectPath).filter((f) => path.extname(f) === ".szs");
+                    await this.openFiles(projectId, fileNames);
+                },
+            },
+        }
+    ;
 
     // Check for updates on boot
     if (context.store.state.settings.checkToolUpdatesOnLaunch) {
