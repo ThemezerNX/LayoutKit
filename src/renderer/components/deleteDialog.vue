@@ -55,9 +55,7 @@ export default {
     methods: {
         del() {
             this.loading = true;
-            console.log("requesting");
             this.handle(...this.args).then(() => {
-                console.log("finished");
                 this.loading = false;
                 this.active = false;
                 if (this.callback) this.callback();

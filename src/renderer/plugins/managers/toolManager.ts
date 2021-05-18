@@ -14,7 +14,6 @@ import {
 import axios from "axios";
 import Downloader from "nodejs-file-downloader";
 import AdmZip from "adm-zip";
-import * as trash from "trash";
 import {execFile, spawn} from "child_process";
 // spawn if the program stays open, execFile if it exits automatically
 
@@ -68,7 +67,7 @@ export default (context: any, inject: any) => {
                                             resolve(null);
                                         }, UPDATE_MESSAGE_TIMEOUT + 200);
                                     } finally {
-                                        await trash(zipPath);
+                                        await context.$ipcService.fs.trash([zipPath]);
                                     }
                                 }, UPDATE_MESSAGE_TIMEOUT);
                             } else {

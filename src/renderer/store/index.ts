@@ -24,14 +24,12 @@ export const mutations = {
         state.activeProject = value || {id: ""};
     },
     PROJECTS(state: any, value: Array<object>) {
-        console.log("projects:", value.filter(p => !!p));
         state.projects = value;
     },
     PROJECTS_LOADING(state: any, value: boolean) {
         state.projectsLoading = value;
     },
     FIRMWARES(state: any, value: Array<object>) {
-        console.log("firmwares:", value.filter(p => !!p));
         state.firmwares = value;
     },
     FIRMWARES_LOADING(state: any, value: boolean) {

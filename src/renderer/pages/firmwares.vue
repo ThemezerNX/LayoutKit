@@ -101,7 +101,7 @@ export default {
     }),
     computed: {
         firmwaresLoading() {
-            return this.$store.state.firmwaresLoading || this.firmwareFiles.length === 0;
+            return this.$store.state.firmwaresLoading;
         },
         firmwares() {
             const versions = this.$store.state.firmwares;

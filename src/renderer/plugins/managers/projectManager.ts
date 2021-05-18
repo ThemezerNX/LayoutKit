@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as trash from "trash";
 import {ncp} from "ncp";
 import {shell} from "electron";
 import * as mkdirp from "mkdirp";
@@ -88,10 +87,9 @@ export default (context: any, inject: any) => {
         deleteFirmwareFile(projectId: string, file: string) {
             return new Promise(((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then(async (userDataPath) => {
-                    const matches = /(.+)\./gmi.exec(file);
-                    await trash([
+                    await context.$ipcService.fs.trash([
                         path.join(userDataPath, PROJECTS_DIR, projectId, file), // file
-                        path.join(userDataPath, PROJECTS_DIR, projectId, matches[1]), // folder
+                        // path.join(userDataPath, PROJECTS_DIR, projectId, matches[1]), // folder
                     ]);
                     resolve(null);
                     await this.refresh();
@@ -101,7 +99,7 @@ export default (context: any, inject: any) => {
         delete(projectId: string) {
             return new Promise(((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then(async (userDataPath) => {
-                    await trash(path.join(userDataPath, PROJECTS_DIR, projectId));
+                    await context.$ipcService.fs.trash([path.join(userDataPath, PROJECTS_DIR, projectId)]);
                     resolve(null);
                     await this.refresh();
                 });

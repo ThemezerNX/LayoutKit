@@ -3,14 +3,12 @@ import IpcChannel from "./IpcChannel.ts";
 import {execSync} from "child_process";
 import {shell} from "electron";
 
-export default class SystemInfoChannel extends IpcChannel {
-    NAME = "system-info";
+export default class SystemChannel extends IpcChannel {
+    NAME = "system";
 
     constructor() {
         super({
-            version(): string {
-                return execSync("uname -a").toString();
-            },
+            version: (): string => execSync("uname -a").toString(),
             openUrl(url: string) {
                 shell.openExternal(url).then();
             },

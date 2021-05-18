@@ -1,6 +1,6 @@
 import {app, ipcMain} from "electron";
 // @ts-ignore
-import SystemInfoChannel from "./ipc/SystemInfoChannel.ts";
+import SystemChannel from "./ipc/SystemChannel.ts";
 // @ts-ignore
 import FileSystemChannel from "./ipc/FileSystemChannel.ts";
 // @ts-ignore
@@ -19,7 +19,7 @@ app.on("window-all-closed", function () {
 
 // We will also create our IPC channels for communication with the renderer
 registerIpcChannels([
-    new SystemInfoChannel(),
+    new SystemChannel(),
     new FileSystemChannel(),
 ]);
 

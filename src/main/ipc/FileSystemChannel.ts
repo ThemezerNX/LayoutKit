@@ -1,6 +1,6 @@
 // @ts-ignore
 import IpcChannel from "./IpcChannel.ts";
-import {app, dialog} from "electron";
+import {app, dialog, shell} from "electron";
 
 export default class SystemInfoChannel extends IpcChannel {
     NAME = "file-system";
@@ -13,6 +13,14 @@ export default class SystemInfoChannel extends IpcChannel {
                 properties: ["openFile"],
                 filters: [{name: "ver.cfg", extensions: ["cfg"]}],
             }),
+            trash: async (paths: string[]) => {
+                for (const path of paths) {
+                    try {
+                        await shell.trashItem(path);
+                    } catch (_e) {
+                    }
+                }
+            },
         });
     }
 

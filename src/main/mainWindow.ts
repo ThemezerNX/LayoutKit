@@ -4,7 +4,7 @@ import BrowserWinHandler from "./BrowserWinHandler.ts";
 const winHandler = new BrowserWinHandler({
     height: 600,
     width: 1000,
-    minWidth: 800,
+    minWidth: 1000,
     frame: true,
     autoHideMenuBar: true,
 });

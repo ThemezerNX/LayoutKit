@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as trash from "trash";
 import {ncp} from "ncp";
 import {shell} from "electron";
 import * as mkdirp from "mkdirp";
@@ -68,7 +67,7 @@ export default (context: any, inject: any) => {
         delete(version: string) {
             return new Promise((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then(async (userDataPath) => {
-                    await trash(path.join(userDataPath, FIRMWARES_DIR, version));
+                    await context.$ipcService.fs.trash([path.join(userDataPath, FIRMWARES_DIR, version)]);
                     resolve(null);
                     await this.refresh();
                 });

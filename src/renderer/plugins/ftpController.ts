@@ -26,7 +26,6 @@ export default (context: any, inject: any) => {
                 context.store.commit("CONNECTING", false);
                 resolve(null);
             } catch (e) {
-                // console.error(e);
                 // Try again
             } finally {
                 context.store.commit("FTP_BUSY", false);
