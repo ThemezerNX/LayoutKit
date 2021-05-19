@@ -113,9 +113,9 @@ export default (context: any, inject: any) => {
                 await fetchLatestGithubAsset(directory, LAYOUTEDITOR_DIR, url, "application/x-zip-compressed");
             },
             async updateAllTools() {
-                await $toolManager.updateSarcTool();
+                // await $toolManager.updateSarcTool();
                 await $toolManager.updateToolbox();
-                await $toolManager.updateLayoutEditor();
+                // await $toolManager.updateLayoutEditor();
                 context.store.commit("CHECKING_FOR_TOOL_UPDATES_MESSAGE", "");
             },
             szs: {
