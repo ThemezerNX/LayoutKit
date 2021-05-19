@@ -62,7 +62,7 @@ export default (context: any, inject: any) => {
                             resolve(null);
                         });
                     });
-                }, 300);
+                }, 100);
             });
         },
         trimProjectIdTimestamp(projectId: string) {
@@ -72,14 +72,12 @@ export default (context: any, inject: any) => {
         },
         firmwareFiles(id: string) {
             return new Promise((resolve) => {
-                setTimeout(() => {
-                    context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                        const projectPath = path.join(userDataPath, PROJECTS_DIR, id);
-                        const files = getFiles(projectPath);
-                        const usableFiles = files.filter((f) => isTarget(f));
-                        resolve(usableFiles);
-                    });
-                }, 300);
+                context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
+                    const projectPath = path.join(userDataPath, PROJECTS_DIR, id);
+                    const files = getFiles(projectPath);
+                    const usableFiles = files.filter((f) => isTarget(f));
+                    resolve(usableFiles);
+                });
             });
         },
         openInExplorer(projectId: string) {

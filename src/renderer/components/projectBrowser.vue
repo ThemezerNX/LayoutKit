@@ -171,7 +171,6 @@ export default {
         activeProjectId: {
             immediate: true, // also watch initialization
             handler(newVal, oldVal) {
-                console.log(newVal, oldVal);
                 if (newVal && (oldVal || oldVal === "") && newVal !== oldVal) {
                     this.getFirmwareFiles(newVal);
                     this.$projectManager.createWatcher(newVal);

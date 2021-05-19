@@ -5,7 +5,7 @@ import {getFtpDestination} from "./managerUtils";
 
 export default (context: any, inject: any) => {
     const client = new ftp.Client(2000);
-    client.ftp.verbose = process.env.NODE_ENV === "development" && false;
+    client.ftp.verbose = process.env.NODE_ENV === "development";
 
     const initConnection = () => {
         return new Promise(async (resolve) => {

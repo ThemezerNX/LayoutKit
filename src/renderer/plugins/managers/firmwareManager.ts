@@ -27,19 +27,17 @@ export default (context: any, inject: any) => {
                             resolve(null);
                         });
                     });
-                }, 300);
+                }, 100);
             });
         },
         firmwareFiles(version) {
             return new Promise((resolve) => {
-                setTimeout(() => {
-                    context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
-                        const firmwarePath = path.join(userDataPath, FIRMWARES_DIR, version);
-                        const files = getFiles(firmwarePath);
-                        const usableFiles = files.filter((f) => isTarget(f));
-                        resolve(usableFiles);
-                    });
-                }, 300);
+                context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
+                    const firmwarePath = path.join(userDataPath, FIRMWARES_DIR, version);
+                    const files = getFiles(firmwarePath);
+                    const usableFiles = files.filter((f) => isTarget(f));
+                    resolve(usableFiles);
+                });
             });
         },
         import(directory) {
