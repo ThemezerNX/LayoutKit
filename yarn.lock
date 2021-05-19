@@ -1397,10 +1397,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@themezernx/target-parser@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@themezernx/target-parser/-/target-parser-1.0.4.tgz#08a01c4de477e77b34cb94cb71fdf98ef4115482"
-  integrity sha512-qcCHL4fUpBmCsGnHSwdxrFhoV24//ON3iFeMYpx/l88sVizwzZNG8qErGsTLZPhS2VU3bkkEIr5ZBY/cyfWjng==
+"@themezernx/target-parser@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@themezernx/target-parser/-/target-parser-1.0.5.tgz#f99d38fe697125e47d2405ba135d7f122f62fd5c"
+  integrity sha512-QkABjbyk175o3aoXnKtAyMdLePfZfi5mbmmWoso0qYGSN8HWSpGGIhBx2QS1qO0UNr+5E6D4qyhq4TA79MhLnQ==
 
 "@types/anymatch@*":
   version "1.3.1"

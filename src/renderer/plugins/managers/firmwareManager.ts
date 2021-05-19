@@ -46,7 +46,7 @@ export default (context: any, inject: any) => {
             return new Promise((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
                     fs.readFile(path.join(directory, VERSION_CFG), "utf8", (err, versionString) => {
-                        if (err) return console.error(err);
+                        if (err) return console.error("[firmwareManager]", err);
 
                         const newDirectory = path.join(userDataPath, FIRMWARES_DIR, versionString);
                         ncp(directory, newDirectory, () => {

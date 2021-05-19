@@ -7,12 +7,14 @@
             <vse-list>
                 <vse-list-item>
                     <template #description>
-                        Install changes
+                        Install changes ({{
+                            pushedInitial ? pushQueue.length : (activeProjectId && activeProjectId.length > 0 ? "initial" : "none")
+                        }})
                     </template>
                     <template #button>
                         <vs-button
-                            :disabled="installLoading || rebootLoading || !connected || installRecentlyClicked || restartRecentlyClicked"
-                            :loading="installLoading"
+                            :disabled="installLoading || pushingChanges || rebootLoading || !connected || installRecentlyClicked || restartRecentlyClicked || (pushQueue.length === 0 && pushedInitial) || !(activeProjectId && activeProjectId.length > 0)"
+                            :loading="installLoading || pushingChanges"
                             class="ma-0"
                             @click="installOnConsole()">
                             Install
@@ -65,6 +67,18 @@ export default {
         connected() {
             return !this.$store.state.connecting && this.$store.state.connected;
         },
+        pushingChanges() {
+            return this.$store.state.pushingChanges;
+        },
+        pushedInitial() {
+            return this.$store.state.pushedInitial;
+        },
+        pushQueue() {
+            return this.$store.state.pushQueue;
+        },
+        activeProjectId() {
+            return this.$store.state.activeProject.id;
+        },
         installOnChange: {
             get() {
                 return this.$store.state.settings.installOnChange;
@@ -91,7 +105,7 @@ export default {
                 this.installRecentlyClicked = false;
             }, 5000);
 
-            this.$ftpController.reboot().then(() => {
+            this.$projectManager.installQueue().then(() => {
                 this.installLoading = false;
             });
         },

@@ -44,7 +44,7 @@ export default {
             return this.$store.state.projectsLoading;
         },
         activeProjectIdTrimmed() {
-            this.$projectManager.trimProjectIdTimestamp(this.activeProjectId);
+            return this.$projectManager.trimProjectIdTimestamp(this.activeProjectId);
         },
         activeProjectId() {
             return this.$store.state.activeProject.id;

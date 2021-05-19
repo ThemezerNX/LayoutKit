@@ -8,6 +8,9 @@ export const state = () => ({
     firmwares: [],
     firmwaresLoading: false,
     checkingForToolUpdatesMessage: "",
+    pushedInitial: false,
+    pushQueue: [],
+    pushingChanges: false,
 });
 
 export const mutations = {
@@ -18,7 +21,7 @@ export const mutations = {
         state.connecting = value;
     },
     FTP_BUSY(state: any, value: boolean) {
-        state.awaitingFtpResponse = value;
+        state.ftpBusy = value;
     },
     ACTIVE_PROJECT(state: any, value: string) {
         state.activeProject = value || {id: ""};
@@ -37,5 +40,17 @@ export const mutations = {
     },
     CHECKING_FOR_TOOL_UPDATES_MESSAGE(state: any, value: string) {
         state.checkingForToolUpdatesMessage = value;
+    },
+    ADD_PUSH_QUEUE(state: any, value: string) {
+        state.pushQueue.push(value);
+    },
+    CLEAR_PUSH_QUEUE(state: any) {
+        state.pushQueue = [];
+    },
+    PUSHED_INITIAL(state: any, value: boolean) {
+        state.pushedInitial = value;
+    },
+    PUSHING_CHANGES(state: any, value: boolean) {
+        state.pushingChanges = value;
     },
 };

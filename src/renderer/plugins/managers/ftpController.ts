@@ -1,14 +1,11 @@
 // This file should contain all stuff related to rebooting and uploading.
+import * as path from "path";
 import * as ftp from "basic-ftp";
+import {getFtpDestination} from "./managerUtils";
 
 export default (context: any, inject: any) => {
     const client = new ftp.Client(2000);
-    client.ftp.verbose = process.env.NODE_ENV === "development";
-
-    // Reset FTP connection state
-    context.store.commit("CONNECTED", false);
-    context.store.commit("CONNECTING", false);
-    context.store.commit("FTP_BUSY", false);
+    client.ftp.verbose = process.env.NODE_ENV === "development" && false;
 
     const initConnection = () => {
         return new Promise(async (resolve) => {
@@ -17,10 +14,10 @@ export default (context: any, inject: any) => {
             try {
                 context.store.commit("FTP_BUSY", true);
                 await client.access({
-                    host: context.store.state.settings.switchIp,
-                    port: context.store.state.settings.switchPort,
-                    user: context.store.state.settings.switchUser,
-                    password: context.store.state.settings.switchPassword,
+                    host: context.store.state.settings.ftpIp,
+                    port: context.store.state.settings.ftpPort,
+                    user: context.store.state.settings.ftpUsername,
+                    password: context.store.state.settings.ftpPassword,
                 });
                 context.store.commit("CONNECTED", true);
                 context.store.commit("CONNECTING", false);
@@ -62,12 +59,32 @@ export default (context: any, inject: any) => {
                 });
             });
         },
-        install() {
-            if (context.store.state.settings.rebootOnInstall) {
-                this.reboot();
+        async install(filePaths: string[]) {
+            try {
+                console.log("[ftpController]: pushing files", filePaths);
+                for (const filePath of filePaths) {
+                    const destinationPath = getFtpDestination(filePath);
+                    const destinationDir = path.dirname(destinationPath);
+                    context.store.commit("FTP_BUSY", true);
+                    await client.ensureDir(destinationDir);
+                    console.log("[ftpController]:", filePath, "to", destinationPath);
+                    await client.uploadFrom(filePath, destinationPath);
+                }
+                if (context.store.state.settings.rebootOnInstall) {
+                    await this.reboot();
+                }
+            } catch (_e) {
+            } finally {
+                console.log("[ftpController]: Finished pushing files");
+                context.store.commit("FTP_BUSY", false);
             }
         },
     };
+
+    // Reset FTP connection state
+    context.store.commit("CONNECTED", false);
+    context.store.commit("CONNECTING", false);
+    context.store.commit("FTP_BUSY", false);
 
     const ping = () => {
         if (!context.store.state.ftpBusy) {

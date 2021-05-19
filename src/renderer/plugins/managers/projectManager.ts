@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as chokidar from "chokidar";
 import {ncp} from "ncp";
 import {shell} from "electron";
 import * as mkdirp from "mkdirp";
@@ -33,6 +34,8 @@ export default (context: any, inject: any) => {
         }
     };
 
+    let watcher = null;
+    const activeQueue: any = [];
     const $projectManager = {
         refresh() {
             return new Promise((resolve) => {
@@ -192,7 +195,75 @@ export default (context: any, inject: any) => {
                 });
             });
         },
+        async createWatcher(projectId) {
+            context.store.commit("CLEAR_PUSH_QUEUE");
+            context.store.commit("PUSHED_INITIAL", false);
+            // After switching the active project, clear the pushQueue and enable the install changes button and push ALL files the first time.
+            // After that, put every detected changed file path in the pushQueue
+            // Changes queue list
+
+            // Initialize changes watcher
+            // The easiest is to just watch for the whole projects folder, check the filename and upload
+            const userDataPath = await context.$ipcService.fs.getUserDataPath();
+            const projectsPath = path.join(userDataPath, PROJECTS_DIR, projectId);
+            if (!!watcher) {
+                await watcher.close();
+            }
+            watcher = chokidar.watch(projectsPath, {
+                ignored: /(^|[\/\\])\../, // ignore dotfiles
+                persistent: true,
+            });
+
+            watcher.on("change", (p) => {
+                console.log(`[projectManager] File ${p} has been changed`);
+                // If the initial state has been pushed
+                if (context.store.state.pushedInitial) {
+                    const filename = path.basename(p);
+                    if (isTarget(filename) && !context.store.state.pushQueue.includes(p)) {
+                        context.store.commit("ADD_PUSH_QUEUE", p);
+                        if (context.store.state.settings.installOnChange) {
+                            $projectManager.installQueue().then();
+                        }
+                    }
+                }
+            });
+        },
+        async installQueue() {
+            // If the initial project state hasn't been pushed yet
+            if (!context.store.state.pushedInitial) {
+                console.log("[projectManager] Initial state not pushed, fetching files");
+                const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                const projectPath = path.join(userDataPath, PROJECTS_DIR, context.store.state.activeProject.id);
+                const projectFiles = getFiles(projectPath).filter((p) => isTarget(path.basename(p)));
+                projectFiles.forEach(f => {
+                    activeQueue.push(path.join(projectPath, f));
+                });
+            } else {
+                context.store.state.pushQueue.forEach(f => {
+                    activeQueue.push(f);
+                });
+                context.store.commit("CLEAR_PUSH_QUEUE");
+            }
+
+            // If not already installing something
+            if (!context.store.state.pushingChanges) {
+                context.store.commit("PUSHING_CHANGES", true);
+                while (activeQueue.length > 0) {
+                    const sending = Array.from(activeQueue);
+                    activeQueue.length = 0;
+                    await context.$ftpController.install(sending);
+                }
+                $projectManager.setInstallDate(context.store.state.activeProject.id);
+                context.store.commit("PUSHING_CHANGES", false);
+                context.store.commit("PUSHED_INITIAL", true);
+            }
+        },
     };
+
+    // Set pushed_initial to false on boot
+    context.store.commit("PUSHED_INITIAL", false);
+    context.store.commit("PUSHING_CHANGES", false);
+    context.store.commit("CLEAR_PUSH_QUEUE");
 
     inject("projectManager", $projectManager);
     context.$projectManager = $projectManager;

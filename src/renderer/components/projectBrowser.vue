@@ -143,11 +143,7 @@ export default {
         },
         activeProjectId: {
             get() {
-                const id = this.$store.state.activeProject.id;
-                if (id) {
-                    this.getFirmwareFiles(id);
-                }
-                return id;
+                return this.$store.state.activeProject.id;
             },
             set(value) {
                 this.showFirmwareLoader();
@@ -172,6 +168,16 @@ export default {
         },
     },
     watch: {
+        activeProjectId: {
+            immediate: true, // also watch initialization
+            handler(newVal, oldVal) {
+                console.log(newVal, oldVal);
+                if (newVal && (oldVal || oldVal === "") && newVal !== oldVal) {
+                    this.getFirmwareFiles(newVal);
+                    this.$projectManager.createWatcher(newVal);
+                }
+            },
+        },
         projectsLoading(value) {
             if (value) {
                 this.showFirmwareLoader();

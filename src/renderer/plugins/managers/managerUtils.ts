@@ -1,4 +1,6 @@
 import * as fs from "fs";
+import * as path from "path";
+import {toTitleId} from "@themezernx/target-parser/dist";
 
 const PROJECTS_DIR = "projects";
 const FIRMWARES_DIR = "firmwares";
@@ -21,6 +23,12 @@ const getFiles = source =>
     fs.readdirSync(source, {withFileTypes: true})
         .map(d => d.name);
 
+const getFtpDestination = source => {
+    const filename = path.basename(source);
+    const titleId = toTitleId(filename);
+    return `/atmosphere/contents/${titleId}/romfs/lyt/${filename}`;
+};
+
 export {
     PROJECTS_DIR,
     FIRMWARES_DIR,
@@ -34,4 +42,5 @@ export {
     LAYOUTEDITOR_EXE,
     getDirectories,
     getFiles,
+    getFtpDestination,
 };

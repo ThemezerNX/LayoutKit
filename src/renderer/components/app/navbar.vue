@@ -38,9 +38,6 @@
         </template>
 
         <template #right>
-            <vs-row style="width: 80px; height: 32px">
-                <div ref="buildLoader"/>
-            </vs-row>
             <vs-tooltip :not-arrow="false" arrow bottom>
                 <vs-avatar :danger="!connected" :loading="connecting" :success="connected" class="ml-10" size="40">
                     <i class='bx bx-transfer'></i>
@@ -96,20 +93,8 @@ export default {
             return this.$store.state.connecting;
         },
     },
-    methods: {
-        buildLoading() {
-            // this.loader = this.$vs.loading({
-            //     target: this.$refs.buildLoader,
-            //     opacity: "0",
-            //     scale: "1.0",
-            //     text: "Packing SZS...", // TODO: remove text on scroll
-            // });
-            // this.loader.close();
-        },
-    },
     mounted() {
         this.$parent.$data.active = this.menuItems[0].path;
-        this.buildLoading();
     },
 };
 </script>
