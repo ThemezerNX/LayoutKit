@@ -34,6 +34,7 @@
         "@xpda-dev/webpack-step": "^0.1.2",
         "adm-zip": "^0.5.5",
         "ava": "2.4.0",
+        "axios": "^0.21.1",
         "babel-plugin-webpack-alias-7": "0.1.1",
         "basic-ftp": "^4.6.6",
         "boxicons": "^2.0.7",
