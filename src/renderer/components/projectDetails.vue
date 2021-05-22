@@ -1,5 +1,5 @@
 <template>
-    <vse-card :disabled="projectsLoading" shadow width="100%">
+    <vse-card :disabled="projectsLoading" shadow width="100%" max-width="450px" style="margin-left: 0">
         <template #title>
             <h2>Project Details</h2>
         </template>
@@ -33,12 +33,19 @@
 
 <script>
 import deleteDialog from "~/components/deleteDialog.vue";
+import fromNow from "from-now";
 
 export default {
     components: {deleteDialog},
     data: () => ({
         rebootLoading: false,
+        forceRecomputeCounter: 0,
     }),
+    mounted() {
+        setInterval(() => {
+            this.forceRecomputeCounter++;
+        }, 1000);
+    },
     computed: {
         projectsLoading() {
             return this.$store.state.projectsLoading;
@@ -50,7 +57,18 @@ export default {
             return this.$store.state.activeProject.id;
         },
         activeProjectLastInstall() {
-            return this.$store.state.activeProject.lastInstall;
+            this.forceRecomputeCounter;
+            const date = this.$store.state.activeProject.lastInstall;
+            if (date) {
+                try {
+                    return fromNow(date);
+                } catch (e) {
+                    console.error(e);
+                    return null;
+                }
+            } else {
+                return null;
+            }
         },
         activeProjectFirmware() {
             return this.$store.state.activeProject.firmware;

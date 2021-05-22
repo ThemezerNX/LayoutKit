@@ -11,7 +11,7 @@
 
         <form class="form">
             <div @click="selectCfgFile()">
-                <vs-input v-model="cfgPath" block class="file-select mb-10" label-placeholder="ver.cfg Path"
+                <vs-input v-model="cfgPath" block class="file-select mb-10" label-placeholder="ver.cfg path"
                           readonly></vs-input>
             </div>
             <div class="version">

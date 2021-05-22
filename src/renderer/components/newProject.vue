@@ -25,7 +25,7 @@
                 </template>
                 <template v-if="firmwares.length === 0" #message-danger>
                     No firmwares configured. Go to
-                    <nuxt-link to="/szs-manager/firmwares"><i>SZS Manager > Firmwares</i></nuxt-link>
+                    <nuxt-link to="/firmwares"><i>Firmwares</i></nuxt-link>
                     and add one first.
                 </template>
             </vs-select>

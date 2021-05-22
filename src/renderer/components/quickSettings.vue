@@ -1,5 +1,5 @@
 <template>
-    <vse-card shadow width="100%">
+    <vse-card shadow width="100%" max-width="450px" style="margin-left: 0">
         <template #title>
             <h2>Quick Settings</h2>
         </template>

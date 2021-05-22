@@ -1,9 +1,9 @@
 <template>
     <vs-row>
-        <vs-col class="pr-30" w="9">
+        <vs-col class="pr-30" w="8">
             <project-browser ref="browser"/>
         </vs-col>
-        <vs-col w="3">
+        <vs-col w="4">
             <vs-row>
                 <quick-settings/>
             </vs-row>

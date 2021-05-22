@@ -128,7 +128,7 @@ export default (context: any, inject: any) => {
             } else return;
         },
         setInstallDate(projectId: string) {
-            updateDetails(projectId, "lastInstall", new Date().getTime().toString());
+            updateDetails(projectId, "lastInstall", new Date().toString());
         },
         copyToNew(oldId, newName) {
             const newId = nameToId(newName);
@@ -205,6 +205,7 @@ export default (context: any, inject: any) => {
             const userDataPath = await context.$ipcService.fs.getUserDataPath();
             const projectsPath = path.join(userDataPath, PROJECTS_DIR, projectId);
             if (!!watcher) {
+                // Only watch one project directory at a time
                 await watcher.close();
             }
             watcher = chokidar.watch(projectsPath, {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <vse-card shadow width="100%">
+        <vse-card max-width="900px" shadow>
             <template #title>
                 <h2>Project Browser</h2>
             </template>

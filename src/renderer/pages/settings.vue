@@ -88,7 +88,7 @@
                         <h3>Updates</h3>
                         <vse-list-item>
                             <template #description>
-                                Check and download tool updates on launch
+                                Check and download tool updates on launch (Switch-Toolkit, Switch Theme Injector)
                             </template>
                             <template #button>
                                 <vs-switch v-model="checkToolUpdatesOnLaunch"/>
@@ -98,14 +98,6 @@
                 </template>
             </vse-card>
         </vs-col>
-        <vse-footer class="px-10" fixed shadow style="height: 84px">
-            <p class="center">
-                Made with ❤️ by ThemezerNX
-            </p>
-            <p class="center">
-                Source code available on <a href="#" @click="openSource">GitHub</a>
-            </p>
-        </vse-footer>
     </vs-row>
 </template>
 
@@ -172,6 +164,9 @@ export default {
         },
     },
     computed: {
+        randomEmoji() {
+            return positiveEmojis[Math.floor(Math.random() * positiveEmojis.length)];
+        },
         checkToolUpdatesOnLaunch: {
             get() {
                 return this.$store.state.settings.checkToolUpdatesOnLaunch;
@@ -179,12 +174,6 @@ export default {
             set(value) {
                 this.$store.commit("settings/CHECK_TOOL_UPDATES_ON_LAUNCH", value);
             },
-        },
-    },
-    methods: {
-        openSource(event) {
-            event.preventDefault();
-            this.$ipcService.system.openUrl("https://github.com/ThemezerNX/LayoutKit");
         },
     },
     head() {
@@ -204,9 +193,3 @@ export default {
     },
 };
 </script>
-
-<style lang="scss" scoped>
-.center {
-    text-align: center;
-}
-</style>

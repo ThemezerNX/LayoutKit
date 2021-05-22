@@ -19,7 +19,7 @@
             <div v-if="!!$slots.content" :class="{flex}" class="content">
                 <slot name="content"/>
             </div>
-            <div v-if="!!$slots.content" :class="{flex}" class="content">
+            <div v-if="!!$slots.content2" :class="{flex}" class="content">
                 <slot name="content2"/>
             </div>
         </div>

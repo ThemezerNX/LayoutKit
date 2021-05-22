@@ -60,6 +60,12 @@ export default {
         loader: null,
         menuItems: [
             {
+                id: "info",
+                path: "/",
+                title: "Info",
+                icon: "bx bxs-info-circle",
+            },
+            {
                 id: "projects",
                 path: "/projects",
                 title: "Projects",
