@@ -61,7 +61,8 @@ export default {
             const date = this.$store.state.activeProject.lastInstall;
             if (date) {
                 try {
-                    return fromNow(date);
+                    const fromString = fromNow(date);
+                    return fromString.toLowerCase() === "now" ? fromString : `${fromString} ago`;
                 } catch (e) {
                     console.error(e);
                     return null;

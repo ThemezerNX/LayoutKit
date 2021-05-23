@@ -38,10 +38,11 @@
                             </ul>
                         </div>
                         <h2 class="title-2 text-shadow user-select-none">How To Use</h2>
-                        <div>
+                        <div class="content-2">
                             <ul>
                                 <li>The 'Projects' tab shows all your working environments</li>
-                                <li>The 'Documentation' tab has many instructions and examples that can help you make your layout, or where to
+                                <li>The 'Documentation' tab has many instructions and examples that can help you make
+                                    your layout, or where to
                                     find
                                     specific components of the Switch's menus
                                 </li>
@@ -55,7 +56,9 @@
         </vs-col>
         <vse-footer class="px-10" fixed shadow style="height: 84px">
             <p class="center">
-                Made with {{ randomEmoji }} by ThemezerNX
+                Made with {{ randomEmoji }} by
+                <a href="#" @click.prevent="$ipcService.system.openUrl('https://github.com/ThemezerNX')">
+                    ThemezerNX</a>
             </p>
             <p class="center">
                 Source code available on

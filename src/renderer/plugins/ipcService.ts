@@ -11,6 +11,8 @@ const $ipcService = {
     fs: {
         getUserDataPath: () => fileSystemChannel("getUserDataPath"),
         selectSingleDirectory: () => fileSystemChannel("selectSingleDirectory"),
+        selectSaveLocation: (title: string, defaultPath: string, fileExtensionName: string, fileExtension: string) =>
+            fileSystemChannel("selectSaveLocation", title, defaultPath, fileExtensionName, fileExtension),
         selectCfgFile: () => fileSystemChannel("selectCfgFile"),
         trash: (paths: string[]) => fileSystemChannel("trash", paths),
     },

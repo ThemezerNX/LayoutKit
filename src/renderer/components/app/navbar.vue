@@ -60,22 +60,10 @@ export default {
         loader: null,
         menuItems: [
             {
-                id: "info",
-                path: "/",
-                title: "Info",
-                icon: "bx bxs-info-circle",
-            },
-            {
                 id: "projects",
                 path: "/projects",
                 title: "Projects",
                 icon: "bx bxs-wrench",
-            },
-            {
-                id: "documentation",
-                href: "https://themezernx.github.io/LayoutDocs/",
-                title: "Documentation",
-                icon: "bx bxs-book",
             },
             {
                 id: "firmwares",
@@ -84,10 +72,22 @@ export default {
                 icon: "bx bx-library",
             },
             {
+                id: "documentation",
+                href: "https://themezernx.github.io/LayoutDocs/",
+                title: "Documentation",
+                icon: "bx bxs-book",
+            },
+            {
                 id: "settings",
                 path: "/settings",
                 title: "Settings",
                 icon: "bx bxs-wrench",
+            },
+            {
+                id: "info",
+                path: "/",
+                title: "Info",
+                icon: "bx bxs-info-circle",
             },
         ],
     }),

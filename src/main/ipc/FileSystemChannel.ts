@@ -9,6 +9,11 @@ export default class SystemInfoChannel extends IpcChannel {
         super({
             getUserDataPath: () => app.getPath("userData"),
             selectSingleDirectory: () => dialog.showOpenDialogSync({properties: ["openDirectory"]}),
+            selectSaveLocation: (title: string, defaultPath: string, fileExtensionName: string, fileExtension: string) => dialog.showSaveDialogSync({
+                title,
+                defaultPath,
+                filters: [{name: fileExtensionName, extensions: [fileExtension]}],
+            }),
             selectCfgFile: () => dialog.showOpenDialogSync({
                 properties: ["openFile"],
                 filters: [{name: "ver.cfg", extensions: ["cfg"]}],

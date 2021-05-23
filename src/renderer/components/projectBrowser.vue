@@ -2,7 +2,7 @@
     <div>
         <vse-card max-width="900px" shadow>
             <template #title>
-                <h2>Project Browser</h2>
+                <h1>Projects</h1>
             </template>
             <template #content>
                 <vs-select v-if="renderVSSelect" v-model="activeProjectId" :disabled="projects.length === 0"
@@ -92,6 +92,15 @@
                                     >
                                         <i class='bx bx-wrench'></i>
                                     </vs-button>
+                                    <vs-button
+                                        :disabled="projectsLoading || createLayoutJsonLoading[file]"
+                                        :loading="createLayoutJsonLoading[file]"
+                                        icon
+                                        color="#b40a86"
+                                        @click="createLayoutJson(file)"
+                                    >
+                                        <i class='bx bx-save'></i>
+                                    </vs-button>
                                     <delete-dialog
                                         :args="[file]"
                                         :disabled="projectsLoading || firmwareFiles.length === 1"
@@ -129,6 +138,7 @@ export default {
         loader: null,
         openInToolboxLoading: false,
         openFileInToolboxLoading: {},
+        createLayoutJsonLoading: {},
     }),
     components: {newProject, copyProject, editProject, deleteDialog},
     mounted() {
@@ -249,6 +259,12 @@ export default {
             this.openInToolboxLoading = true;
             this.$toolManager.toolbox.openProjectFolder(this.activeProjectId).then(() => {
                 this.openInToolboxLoading = false;
+            });
+        },
+        createLayoutJson(fileName) {
+            this.$set(this.createLayoutJsonLoading, fileName, true);
+            this.$toolManager.layoutinjector.createLayoutJson(this.activeProjectId, fileName).then(() => {
+                this.$set(this.createLayoutJsonLoading, fileName, false);
             });
         },
     },

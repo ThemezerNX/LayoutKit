@@ -9,6 +9,8 @@ const TOOLS_DIR = "tools";
 
 const SARCTOOL_DIR = "sarctool";
 const SARCTOOL_EXE = "sarc_tool.exe";
+const THEMEINJECTOR_DIR = "themeinjector";
+const THEMEINJECTOR_EXE = "SwitchThemes.exe";
 const TOOLBOX_DIR = "toolbox";
 const TOOLBOX_EXE = "Toolbox.exe";
 const LAYOUTEDITOR_DIR = "layouteditor";
@@ -36,6 +38,8 @@ export {
     VERSION_CFG,
     SARCTOOL_DIR,
     SARCTOOL_EXE,
+    THEMEINJECTOR_EXE,
+    THEMEINJECTOR_DIR,
     TOOLBOX_DIR,
     TOOLBOX_EXE,
     LAYOUTEDITOR_DIR,

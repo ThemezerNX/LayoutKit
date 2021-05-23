@@ -2088,11 +2088,6 @@ acorn@^8.0.4:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.2.4.tgz#caba24b08185c3b56e3168e97d15ed17f4d31fd0"
   integrity sha512-Ibt84YwBDDA890eDiDCEqcbwvHlBvzzDkU2cGBBDDI1QWT12jTiXIOn2CIw5KK4i6N5Z2HUxwYjzriDyqaqqZg==
 
-adm-zip@^0.5.5:
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.5.5.tgz#b6549dbea741e4050309f1bb4d47c47397ce2c4f"
-  integrity sha512-IWwXKnCbirdbyXSfUDvCCrmYrOHANRZcc8NcRrvTlIApdl7PwE9oGcsYvNeJPAVY1M+70b4PxXGKIf8AEuiQ6w==
-
 agent-base@6:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
@@ -3791,6 +3786,11 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.1, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
+
+cross-unzip@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/cross-unzip/-/cross-unzip-0.2.1.tgz#01ed1d4bb243ba339b2c3f03c5ba7a78818984c6"
+  integrity sha1-Ae0dS7JDujObLD8Dxbp6eIGJhMY=
 
 crypto-browserify@^3.11.0:
   version "3.12.0"
@@ -12059,6 +12059,11 @@ widest-line@^3.1.0:
   integrity sha512-NsmoXalsWVDMGupxZ5R08ka9flZjjiLvHVAWYOKtiKM8ujtZWr9cRffak+uSE48+Ob8ObalXpwyeUiyDD6QFgg==
   dependencies:
     string-width "^4.0.0"
+
+win-7zip@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/win-7zip/-/win-7zip-0.1.1.tgz#14553f6dc56003d9a172f1fb5c488c7f167ec7de"
+  integrity sha1-FFU/bcVgA9mhcvH7XEiMfxZ+x94=
 
 window@4.2.6:
   version "4.2.6"
