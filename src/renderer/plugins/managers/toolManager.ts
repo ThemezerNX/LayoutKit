@@ -153,7 +153,7 @@ export default (context: any, inject: any) => {
                 },
             );
         },
-        async updateSwitchThemeInjector() {
+        async updateThemeInjector() {
             const userDataPath = await context.$ipcService.fs.getUserDataPath();
             const directory = path.join(userDataPath, TOOLS_DIR, THEMEINJECTOR_DIR);
             // const url = "https://api.github.com/repos/exelix11/SwitchThemeInjector/releases";
@@ -168,7 +168,7 @@ export default (context: any, inject: any) => {
             //     },
             // );
 
-            const directUrl = "https://github.com/ThemezerNX/LayoutKit/releases/download/beta-0.0.1/Release4.6.2-pre.7z";
+            const directUrl = "https://github.com/ThemezerNX/LayoutKit/releases/download/beta-0.0.2/SwitchThemeInjector-Release4.6.2-pre.7z";
             await fetchLatestAsset(
                 directory,
                 THEMEINJECTOR_DIR,
@@ -217,7 +217,7 @@ export default (context: any, inject: any) => {
         },
         async updateAllTools() {
             // await $toolManager.updateSarcTool();
-            await $toolManager.updateSwitchThemeInjector();
+            await $toolManager.updateThemeInjector();
             await $toolManager.updateToolbox();
             // await $toolManager.updateLayoutEditor();
             context.store.commit("CHECKING_FOR_TOOL_UPDATES_MESSAGE", "");

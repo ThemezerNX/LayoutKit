@@ -25,8 +25,8 @@ export default {
         this.$vs.setTheme("dark");
     },
     mounted() {
-        if (localStorage.vsTheme !== "dark") {
-            this.$vs.setTheme("light");
+        if (localStorage.vsTheme === "dark") {
+            this.$vs.setTheme("dark");
         }
 
         this.$ipcService.system.version().then(console.log);

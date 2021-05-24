@@ -30,8 +30,8 @@
                 <vs-button
                     :disabled="openInToolboxLoading || projectsLoading || projects.length === 0 || !(activeProjectId && activeProjectId.length > 0)"
                     :loading="openInToolboxLoading"
-                    icon
                     color="#0096D8"
+                    icon
                     @click="openInToolbox()"
                 >
                     <i class='bx bx-wrench'></i> Open All In Toolbox
@@ -87,8 +87,8 @@
                                         <vs-button
                                             :disabled="projectsLoading || openFileInToolboxLoading[file]"
                                             :loading="openFileInToolboxLoading[file]"
-                                            icon
                                             color="#0096D8"
+                                            icon
                                             @click="openFileInToolbox(file)"
                                         >
                                             <i class='bx bx-wrench'></i>
@@ -96,8 +96,8 @@
                                         <vs-button
                                             :disabled="projectsLoading || createLayoutJsonLoading[file]"
                                             :loading="createLayoutJsonLoading[file]"
-                                            icon
                                             color="#b40a86"
+                                            icon
                                             @click="createLayoutJson(file)"
                                         >
                                             <i class='bx bx-save'></i>
@@ -106,8 +106,8 @@
                                         <vs-button
                                             :disabled="projectsLoading || applyLayoutJsonLoading[file]"
                                             :loading="applyLayoutJsonLoading[file]"
-                                            icon
                                             color="#b40a86"
+                                            icon
                                             @click="applyLayoutJson(file)"
                                         >
                                             <i class='bx bxs-file-import'></i>
@@ -115,8 +115,8 @@
                                         </vs-button>
                                         <delete-dialog
                                             :args="[file]"
-                                            :disabled="projectsLoading || firmwareFiles.length === 1"
-                                            :handle="deleteFirmwareFile" :callback="getFirmwareFiles">
+                                            :callback="getFirmwareFiles"
+                                            :disabled="projectsLoading || firmwareFiles.length === 1" :handle="deleteFirmwareFile">
                                             <template #dataType>
                                                 project
                                             </template>

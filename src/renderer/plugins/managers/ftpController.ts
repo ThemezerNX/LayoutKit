@@ -3,6 +3,7 @@ import * as path from "path";
 import * as ftp from "basic-ftp";
 import {getFtpDestination} from "./managerUtils";
 import log from "electron-log";
+
 const ftpLog = log.scope("ftpController");
 
 export default (context: any, inject: any) => {
@@ -76,7 +77,7 @@ export default (context: any, inject: any) => {
                     await this.reboot();
                 }
             } catch (e) {
-                ftpLog.warn(e)
+                ftpLog.warn(e);
             } finally {
                 ftpLog.info("[ftpController]: Finished pushing files");
                 context.store.commit("FTP_BUSY", false);

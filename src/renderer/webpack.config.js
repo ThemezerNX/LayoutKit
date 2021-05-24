@@ -6,5 +6,5 @@ module.exports = {
             "~": path.resolve("./"),
             "@": path.resolve("./"),
         },
-    }
+    },
 };

@@ -1,6 +1,6 @@
 {
     "name": "layoutkit",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "An application with the most useful tools to create and test new layouts.",
     "main": "./dist/main/index.js",
     "scripts": {

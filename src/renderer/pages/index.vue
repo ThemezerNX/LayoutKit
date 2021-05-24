@@ -2,17 +2,17 @@
     <!-- General introduction here on a card. Loaded route should be saved to vuex and loaded again on boot. -->
     <vs-row>
         <vs-col w="12">
-            <vse-card shadow max-width="750px" height="100%">
+            <vse-card height="100%" max-width="750px" shadow>
                 <template #content>
                     <div class="content">
-                        <img class="image user-select-none" alt="application logo" src="~/assets/icons/icon-256.png">
+                        <img alt="application logo" class="image user-select-none" src="~/assets/icons/icon-256.png">
                         <h1 class="title text-shadow user-select-none">Welcome to LayoutKit!</h1>
                         <span class="slogan text-shadow user-select-none">
                             LayoutKit is a tool that makes it easier to create Nintendo Switch layouts<br>
                         </span>
                         <h2 class="title-2 text-shadow user-select-none getting-started">
-                            <a style="text-decoration: none;" target="_blank"
-                               href="https://themezernx.github.io/LayoutDocs/guide/#getting-started">
+                            <a href="https://themezernx.github.io/LayoutDocs/guide/#getting-started" style="text-decoration: none;"
+                               target="_blank">
                                 Getting Started <i class='bx bx-link-external'></i>
                             </a>
                         </h2>
@@ -95,7 +95,7 @@ export default {
     margin: 20px;
 
     .text-shadow {
-        text-shadow: 0 2px 10px #000;
+        text-shadow: 0 2px 10px #00000080;
     }
 
     .user-select-none {

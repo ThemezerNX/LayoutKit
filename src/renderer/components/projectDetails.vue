@@ -1,5 +1,5 @@
 <template>
-    <vse-card :disabled="projectsLoading" shadow width="100%" max-width="450px" style="margin-left: 0">
+    <vse-card :disabled="projectsLoading" max-width="450px" shadow style="margin-left: 0" width="100%">
         <template #title>
             <h2>Project Details</h2>
         </template>

@@ -7,6 +7,7 @@ import {shell} from "electron";
 import {FIRMWARES_DIR, getDirectories, getFiles, VERSION_CFG} from "./managerUtils";
 import {isTarget} from "@themezernx/target-parser/dist";
 import log from "electron-log";
+
 const firmwareLog = log.scope("firmwareManager");
 
 temp.track();

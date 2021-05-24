@@ -8,6 +8,7 @@ import editJsonFile from "edit-json-file";
 import {FIRMWARES_DIR, getDirectories, getFiles, PROJECTS_DIR} from "./managerUtils";
 import {isTarget} from "@themezernx/target-parser/dist";
 import log from "electron-log";
+
 const projectLog = log.scope("projectManager");
 
 const DETAILS_FILE = "details.json";

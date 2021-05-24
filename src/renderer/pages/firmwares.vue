@@ -39,8 +39,8 @@
                                         <vs-button
                                             :disabled="firmwaresLoading || openInToolboxLoading[version]"
                                             :loading="openInToolboxLoading[version]"
-                                            icon
                                             color="#0096D8"
+                                            icon
                                             @click.stop="openInToolbox(version)"
                                         >
                                             <i class='bx bx-wrench'></i>
