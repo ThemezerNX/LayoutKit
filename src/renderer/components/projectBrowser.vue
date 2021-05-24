@@ -64,7 +64,7 @@
                             <vs-th>
                                 Filename
                             </vs-th>
-                            <vs-th style="width: 350px;">
+                            <vs-th style="width: 370px;">
                                 Actions
                             </vs-th>
                         </vs-tr>
@@ -219,6 +219,7 @@ export default {
             }
             // Force rerender the dropdown, since the label is empty if the id changed while only one option was available
             this.forceRerenderVSSelect();
+            this.getFirmwareFiles();
         },
     },
     methods: {
