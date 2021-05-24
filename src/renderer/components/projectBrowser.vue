@@ -64,7 +64,7 @@
                             <vs-th>
                                 Filename
                             </vs-th>
-                            <vs-th style="width: 100px;">
+                            <vs-th style="width: 350px;">
                                 Actions
                             </vs-th>
                         </vs-tr>
@@ -82,33 +82,46 @@
                                 <vs-td>
                                     {{ file }}
                                 </vs-td>
-                                <vs-td class="actions">
-                                    <vs-button
-                                        :disabled="projectsLoading || openFileInToolboxLoading[file]"
-                                        :loading="openFileInToolboxLoading[file]"
-                                        icon
-                                        color="#0096D8"
-                                        @click="openFileInToolbox(file)"
-                                    >
-                                        <i class='bx bx-wrench'></i>
-                                    </vs-button>
-                                    <vs-button
-                                        :disabled="projectsLoading || createLayoutJsonLoading[file]"
-                                        :loading="createLayoutJsonLoading[file]"
-                                        icon
-                                        color="#b40a86"
-                                        @click="createLayoutJson(file)"
-                                    >
-                                        <i class='bx bx-save'></i>
-                                    </vs-button>
-                                    <delete-dialog
-                                        :args="[file]"
-                                        :disabled="projectsLoading || firmwareFiles.length === 1"
-                                        :handle="deleteFirmwareFile" :callback="getFirmwareFiles">
-                                        <template #dataType>
-                                            project
-                                        </template>
-                                    </delete-dialog>
+                                <vs-td>
+                                    <div class="actions">
+                                        <vs-button
+                                            :disabled="projectsLoading || openFileInToolboxLoading[file]"
+                                            :loading="openFileInToolboxLoading[file]"
+                                            icon
+                                            color="#0096D8"
+                                            @click="openFileInToolbox(file)"
+                                        >
+                                            <i class='bx bx-wrench'></i>
+                                        </vs-button>
+                                        <vs-button
+                                            :disabled="projectsLoading || createLayoutJsonLoading[file]"
+                                            :loading="createLayoutJsonLoading[file]"
+                                            icon
+                                            color="#b40a86"
+                                            @click="createLayoutJson(file)"
+                                        >
+                                            <i class='bx bx-save'></i>
+                                            Save JSON
+                                        </vs-button>
+                                        <vs-button
+                                            :disabled="projectsLoading || applyLayoutJsonLoading[file]"
+                                            :loading="applyLayoutJsonLoading[file]"
+                                            icon
+                                            color="#b40a86"
+                                            @click="applyLayoutJson(file)"
+                                        >
+                                            <i class='bx bxs-file-import'></i>
+                                            Apply JSON
+                                        </vs-button>
+                                        <delete-dialog
+                                            :args="[file]"
+                                            :disabled="projectsLoading || firmwareFiles.length === 1"
+                                            :handle="deleteFirmwareFile" :callback="getFirmwareFiles">
+                                            <template #dataType>
+                                                project
+                                            </template>
+                                        </delete-dialog>
+                                    </div>
                                 </vs-td>
                             </vs-tr>
                         </template>
@@ -139,6 +152,7 @@ export default {
         openInToolboxLoading: false,
         openFileInToolboxLoading: {},
         createLayoutJsonLoading: {},
+        applyLayoutJsonLoading: {},
     }),
     components: {newProject, copyProject, editProject, deleteDialog},
     mounted() {
@@ -223,11 +237,11 @@ export default {
             }
         },
         refresh() {
-            if (!this.projectsLoading) {
+            if (!this.projectsLoading && !this.spinRefreshIcon) {
                 this.spinRefreshIcon = true;
                 setTimeout(() => {
                     this.spinRefreshIcon = false;
-                }, 300);
+                }, 400);
             }
 
             this.firmwareFiles = [];
@@ -265,6 +279,12 @@ export default {
             this.$set(this.createLayoutJsonLoading, fileName, true);
             this.$toolManager.layoutinjector.createLayoutJson(this.activeProjectId, fileName).then(() => {
                 this.$set(this.createLayoutJsonLoading, fileName, false);
+            });
+        },
+        applyLayoutJson(fileName) {
+            this.$set(this.applyLayoutJsonLoading, fileName, true);
+            this.$toolManager.layoutinjector.applyLayoutJson(this.activeProjectId, fileName).then(() => {
+                this.$set(this.applyLayoutJsonLoading, fileName, false);
             });
         },
     },

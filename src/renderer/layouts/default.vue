@@ -177,5 +177,6 @@ $sides: (top, bottom, left, right);
 // Actions col in tables should flex
 .actions {
     display: flex;
+    float: right;
 }
 </style>

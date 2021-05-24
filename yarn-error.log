@@ -1,5 +1,5 @@
 Arguments: 
-  c:\program files\nodejs\node.exe c:\Program Files (x86)\Yarn\bin\yarn.js upgrade @themezernx@latest
+  c:\program files\nodejs\node.exe c:\Program Files (x86)\Yarn\bin\yarn.js add win-7zip coss-unzip
 
 PATH: 
   C:\Users\ihave\dev\ThemezerNX\LayoutKitElectron\node_modules\.bin;C:\Program Files\Oculus\Support\oculus-runtime;c:\devkitPro\msys2\usr\bin;C:\Program Files\AdoptOpenJDK\jdk-15.0.1.9-hotspot\bin;c:\python39\scripts\;c:\python39\;c:\program files\haskell\bin;c:\program files\haskell platform\8.6.5\lib\extralibs\bin;c:\program files\haskell platform\8.6.5\bin;c:\program files (x86)\common files\oracle\java\javapath;c:\program files\graphicsmagick-1.3.35-q16;c:\program files\nvidia gpu computing toolkit\cuda\v10.2\bin;c:\program files\nvidia gpu computing toolkit\cuda\v10.2\libnvvp;c:\program files\oculus\support\oculus-runtime;c:\program files (x86)\common files\intel\shared libraries\redist\intel64\compiler;c:\program files\imagemagick-7.0.8-q16;c:\programdata\dockerdesktop\version-bin;c:\program files\docker\docker\resources\bin;c:\program files\intel\icls client\;c:\windows\system32;c:\windows;c:\windows\system32\wbem;c:\windows\system32\windowspowershell\v1.0\;c:\windows\system32\openssh\;c:\program files\putty\;c:\adb;c:\program files\guiffy;c:\program files (x86)\winmerge;c:\program files\dotnet\;c:\program files\git\cmd;c:\program files (x86)\nvidia corporation\dds utilities;c:\devkitpro\tools\bin;c:\windows\system32;c:\windows;c:\windows\system32\wbem;c:\windows\system32\windowspowershell\v1.0\;c:\windows\system32\openssh\;c:\program files (x86)\intel\intel(r) management engine components\dal;c:\program files\intel\intel(r) management engine components\dal;c:\program files\nvidia corporation\nvidia nvdlisr;c:\program files\java\jdk1.8.0_191\bin;c:\program files (x86)\livestreamer;c:\program files\microsoft sql server\130\tools\binn\;c:\program files\microsoft sql server\client sdk\odbc\170\tools\binn\;c:\windows\system32;c:\windows;c:\windows\system32\wbem;c:\windows\system32\windowspowershell\v1.0\;c:\windows\system32\openssh\;c:\program files\nvidia corporation\nsight compute 2019.5.0\;c:\ffmpeg\bin;c:\winavr-20100110\bin;c:\winavr-20100110\utils\bin;c:\php-7.4.10-nts-win32-vc15-x64;c:\program files\sourcegear\common\diffmerge\;c:\program files\java\jdk-11.0.1\bin;k:\wii\tools\wit-v3.03a-r8245-cygwin\bin;c:\program files (x86)\wiimm\wit;c:\program files\haskell platform\8.6.5\mingw\bin;c:\program files (x86)\yarn\bin\;c:\program files\git\cmd;c:\program files\nodejs\;c:\programdata\chocolatey\bin;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\PowerShell\7\;C:\Program Files\Git\cmd;C:\Program Files (x86)\dotnet\;G:\VRP Essentials\_adb;C:\Users\ihave\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\ihave\AppData\Local\Programs\Python\Python37\;C:\Users\ihave\AppData\Roaming\cabal\bin;C:\Users\ihave\AppData\Roaming\local\bin;C:\Users\ihave\anaconda3\Library\mingw-w64\bin;C:\Users\ihave\anaconda3\Library\usr\bin;C:\Users\ihave\anaconda3\Library\bin;C:\Users\ihave\anaconda3\Scripts;C:\Python38-32\Scripts\;C:\Python38-32\;C:\Python27\;C:\Users\ihave\AppData\Local\Microsoft\WindowsApps;C:\Users\ihave\AppData\Local\GitHubDesktop\bin;C:\Users\ihave\AppData\Local\Microsoft\WindowsApps;C:\Program Files (x86)\Nmap;C:\Program Files\Multipass\bin;C:\Program Files\PostgreSQL\12\bin;C:\Users\ihave\.dotnet\tools;C:\Users\ihave\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files (x86)\Wiimm\WIT;C:\Users\ihave\AppData\Local\Yarn\bin;C:\Users\ihave\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.8_qbz5n2kfra8p0\LocalCache\local-packages\Python38\Scripts;C:\Users\ihave\AppData\Roaming\npm;C:\Users\ihave\.deno\bin
@@ -14,8 +14,8 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@themezernx: Request "https://registry.yarnpkg.com/@themezernx" returned a 405
-      at Request.params.callback [as _callback] (c:\Program Files (x86)\Yarn\lib\cli.js:66106:18)
+  Error: https://registry.yarnpkg.com/coss-unzip: Not found
+      at Request.params.callback [as _callback] (c:\Program Files (x86)\Yarn\lib\cli.js:66097:18)
       at Request.self.callback (c:\Program Files (x86)\Yarn\lib\cli.js:140749:22)
       at Request.emit (events.js:315:20)
       at Request.<anonymous> (c:\Program Files (x86)\Yarn\lib\cli.js:141721:10)
@@ -40,7 +40,7 @@ npm manifest:
           "test:e2e": "cross-env NODE_ENV=test TEST_TYPE=e2e ava",
           "test": "yarn run test:unit && yarn run test:e2e",
           "_preinstall": "node .electron-nuxt/check-engines.js",
-          "_postinstall": "electron-builder install-app-deps "
+          "_postinstall": "electron-builder install-app-deps"
       },
       "keywords": [],
       "author": "Migushthe2nd",
@@ -54,15 +54,15 @@ npm manifest:
           "@fortawesome/fontawesome-free": "5.15.3",
           "@nuxt/types": "^2.15.3",
           "@nuxt/typescript-build": "2.1.0",
-          "@themezernx/target-parser": "^1.0.4",
+          "@themezernx/target-parser": "^1.0.5",
           "@types/mkdirp": "^1.0.1",
           "@vue/test-utils": "1.1.0",
           "@xpda-dev/core": "^0.1.6",
           "@xpda-dev/electron-builder": "^0.2.1",
           "@xpda-dev/electron-launcher": "^0.3.0",
           "@xpda-dev/webpack-step": "^0.1.2",
-          "adm-zip": "^0.5.5",
           "ava": "2.4.0",
+          "axios": "^0.21.1",
           "babel-plugin-webpack-alias-7": "0.1.1",
           "basic-ftp": "^4.6.6",
           "boxicons": "^2.0.7",
@@ -74,6 +74,8 @@ npm manifest:
           "electron": "12.0.7",
           "electron-builder": "22.10.5",
           "electron-devtools-installer": "3.1.1",
+          "electron-log": "^4.3.5",
+          "from-now": "^1.0.2",
           "mkdirp": "^1.0.4",
           "native-ext-loader": "2.3.0",
           "ncp": "^2.0.0",
@@ -1498,10 +1500,10 @@ Lockfile:
     dependencies:
       defer-to-connect "^1.0.1"
   
-  "@themezernx/target-parser@^1.0.4":
-    version "1.0.4"
-    resolved "https://registry.yarnpkg.com/@themezernx/target-parser/-/target-parser-1.0.4.tgz#08a01c4de477e77b34cb94cb71fdf98ef4115482"
-    integrity sha512-qcCHL4fUpBmCsGnHSwdxrFhoV24//ON3iFeMYpx/l88sVizwzZNG8qErGsTLZPhS2VU3bkkEIr5ZBY/cyfWjng==
+  "@themezernx/target-parser@^1.0.5":
+    version "1.0.5"
+    resolved "https://registry.yarnpkg.com/@themezernx/target-parser/-/target-parser-1.0.5.tgz#f99d38fe697125e47d2405ba135d7f122f62fd5c"
+    integrity sha512-QkABjbyk175o3aoXnKtAyMdLePfZfi5mbmmWoso0qYGSN8HWSpGGIhBx2QS1qO0UNr+5E6D4qyhq4TA79MhLnQ==
   
   "@types/anymatch@*":
     version "1.3.1"
@@ -2189,11 +2191,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.2.4.tgz#caba24b08185c3b56e3168e97d15ed17f4d31fd0"
     integrity sha512-Ibt84YwBDDA890eDiDCEqcbwvHlBvzzDkU2cGBBDDI1QWT12jTiXIOn2CIw5KK4i6N5Z2HUxwYjzriDyqaqqZg==
   
-  adm-zip@^0.5.5:
-    version "0.5.5"
-    resolved "https://registry.yarnpkg.com/adm-zip/-/adm-zip-0.5.5.tgz#b6549dbea741e4050309f1bb4d47c47397ce2c4f"
-    integrity sha512-IWwXKnCbirdbyXSfUDvCCrmYrOHANRZcc8NcRrvTlIApdl7PwE9oGcsYvNeJPAVY1M+70b4PxXGKIf8AEuiQ6w==
-  
   agent-base@6:
     version "6.0.2"
     resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
@@ -2632,6 +2629,13 @@ Lockfile:
     version "1.11.0"
     resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
     integrity sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
+  
+  axios@^0.21.1:
+    version "0.21.1"
+    resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.1.tgz#22563481962f4d6bde9a76d516ef0e5d3c09b2b8"
+    integrity sha512-dKQiRHxGD9PPRIUNIWvZhPTPpl1rf/OxTYKsqKUDjBwYylTvV7SjSHJb9ratfyzM6wCdLCOYLzs73qpg5c4iGA==
+    dependencies:
+      follow-redirects "^1.10.0"
   
   babel-loader@^8.2.2:
     version "8.2.2"
@@ -4219,6 +4223,13 @@ Lockfile:
     dependencies:
       mimic-response "^1.0.0"
   
+  deep-assign@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/deep-assign/-/deep-assign-1.0.0.tgz#b092743be8427dc621ea0067cdec7e70dd19f37b"
+    integrity sha1-sJJ0O+hCfcYh6gBnzex+cN0Z83s=
+    dependencies:
+      is-obj "^1.0.0"
+  
   deep-equal@^1.0.0:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/deep-equal/-/deep-equal-1.1.1.tgz#b5c98c942ceffaf7cb051e24e1434a25a2e6076a"
@@ -4664,6 +4675,11 @@ Lockfile:
       rimraf "^3.0.2"
       semver "^7.2.1"
       unzip-crx-3 "^0.2.0"
+  
+  electron-log@^4.3.5:
+    version "4.3.5"
+    resolved "https://registry.yarnpkg.com/electron-log/-/electron-log-4.3.5.tgz#2aad5f93842b9b5214a1b4a10e47b5ac5c9ec104"
+    integrity sha512-J5Ew3axdk7W4jzzxKLSAi1sqbcAoo9CzHuBVsG0tT47j256xKulNrWFf3lZmHJ1KDXOQUcuwOngQF0jjmpEdpw==
   
   electron-publish@22.10.5:
     version "22.10.5"
@@ -5313,7 +5329,7 @@ Lockfile:
       inherits "^2.0.3"
       readable-stream "^2.3.6"
   
-  follow-redirects@^1.13.0:
+  follow-redirects@^1.10.0, follow-redirects@^1.13.0:
     version "1.14.1"
     resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.1.tgz#d9114ded0a1cfdd334e164e6662ad02bfd91ff43"
     integrity sha512-HWqDgT7ZEkqRzBvc2s64vSZ/hfOceEol3ac/7tKwzuvEyWx3/4UegXh5oBOIotkGsObyk3xznnSRVADBgWSQVg==
@@ -5367,6 +5383,13 @@ Lockfile:
     version "0.5.2"
     resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
     integrity sha1-PYyt2Q2XZWn6g1qx+OSyOhBWBac=
+  
+  from-now@^1.0.2:
+    version "1.0.2"
+    resolved "https://registry.yarnpkg.com/from-now/-/from-now-1.0.2.tgz#07fe119754c0613009dc9b9365d131a7326df446"
+    integrity sha1-B/4Rl1TAYTAJ3JuTZdExpzJt9EY=
+    dependencies:
+      deep-assign "^1.0.0"
   
   from2@^2.1.0:
     version "2.3.0"

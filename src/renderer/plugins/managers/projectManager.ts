@@ -7,6 +7,8 @@ import * as mkdirp from "mkdirp";
 import editJsonFile from "edit-json-file";
 import {FIRMWARES_DIR, getDirectories, getFiles, PROJECTS_DIR} from "./managerUtils";
 import {isTarget} from "@themezernx/target-parser/dist";
+import log from "electron-log";
+const projectLog = log.scope("projectManager");
 
 const DETAILS_FILE = "details.json";
 const INVALID_ID_CHARS_REGEX = /[\\~#*{}\/:<>?|"\s]/gm;
@@ -214,7 +216,7 @@ export default (context: any, inject: any) => {
             });
 
             watcher.on("change", (p) => {
-                console.log(`[projectManager] File ${p} has been changed`);
+                projectLog.info(`[projectManager] File ${p} has been changed`);
                 // If the initial state has been pushed
                 if (context.store.state.pushedInitial) {
                     const filename = path.basename(p);
@@ -230,7 +232,7 @@ export default (context: any, inject: any) => {
         async installQueue() {
             // If the initial project state hasn't been pushed yet
             if (!context.store.state.pushedInitial) {
-                console.log("[projectManager] Initial state not pushed, fetching files");
+                projectLog.info("[projectManager] Initial state not pushed, fetching files");
                 const userDataPath = await context.$ipcService.fs.getUserDataPath();
                 const projectPath = path.join(userDataPath, PROJECTS_DIR, context.store.state.activeProject.id);
                 const projectFiles = getFiles(projectPath).filter((p) => isTarget(path.basename(p)));

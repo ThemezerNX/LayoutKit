@@ -2,6 +2,8 @@
 import * as path from "path";
 import * as ftp from "basic-ftp";
 import {getFtpDestination} from "./managerUtils";
+import log from "electron-log";
+const ftpLog = log.scope("ftpController");
 
 export default (context: any, inject: any) => {
     const client = new ftp.Client(2000);
@@ -61,21 +63,22 @@ export default (context: any, inject: any) => {
         },
         async install(filePaths: string[]) {
             try {
-                console.log("[ftpController]: pushing files", filePaths);
+                ftpLog.info("[ftpController]: pushing files", filePaths);
                 for (const filePath of filePaths) {
                     const destinationPath = getFtpDestination(filePath);
                     const destinationDir = path.dirname(destinationPath);
                     context.store.commit("FTP_BUSY", true);
                     await client.ensureDir(destinationDir);
-                    console.log("[ftpController]:", filePath, "to", destinationPath);
+                    ftpLog.info("[ftpController]:", filePath, "to", destinationPath);
                     await client.uploadFrom(filePath, destinationPath);
                 }
                 if (context.store.state.settings.rebootOnInstall) {
                     await this.reboot();
                 }
-            } catch (_e) {
+            } catch (e) {
+                ftpLog.warn(e)
             } finally {
-                console.log("[ftpController]: Finished pushing files");
+                ftpLog.info("[ftpController]: Finished pushing files");
                 context.store.commit("FTP_BUSY", false);
             }
         },

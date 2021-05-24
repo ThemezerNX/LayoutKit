@@ -34,27 +34,29 @@
                                 <vs-td>
                                     <h2 class="ma-0">{{ version }}</h2>
                                 </vs-td>
-                                <vs-td class="actions">
-                                    <vs-button
-                                        :disabled="firmwaresLoading || openInToolboxLoading[version]"
-                                        :loading="openInToolboxLoading[version]"
-                                        icon
-                                        color="#0096D8"
-                                        @click.stop="openInToolbox(version)"
-                                    >
-                                        <i class='bx bx-wrench'></i>
-                                    </vs-button>
-                                    <vs-button :disabled="firmwaresLoading" icon
-                                               @click.stop="openInExplorer(version)">
-                                        Open Folder
-                                        <i class='bx bx-link-external'></i>
-                                    </vs-button>
-                                    <delete-dialog :args="[version]" :disabled="firmwaresLoading"
-                                                   :handle="deleteFirmware">
-                                        <template #dataType>
-                                            firmware
-                                        </template>
-                                    </delete-dialog>
+                                <vs-td>
+                                    <div class="actions">
+                                        <vs-button
+                                            :disabled="firmwaresLoading || openInToolboxLoading[version]"
+                                            :loading="openInToolboxLoading[version]"
+                                            icon
+                                            color="#0096D8"
+                                            @click.stop="openInToolbox(version)"
+                                        >
+                                            <i class='bx bx-wrench'></i>
+                                        </vs-button>
+                                        <vs-button :disabled="firmwaresLoading" icon
+                                                   @click.stop="openInExplorer(version)">
+                                            Open Folder
+                                            <i class='bx bx-link-external'></i>
+                                        </vs-button>
+                                        <delete-dialog :args="[version]" :disabled="firmwaresLoading"
+                                                       :handle="deleteFirmware">
+                                            <template #dataType>
+                                                firmware
+                                            </template>
+                                        </delete-dialog>
+                                    </div>
                                 </vs-td>
 
                                 <template v-if="getFirmwareFiles(version).length > 0" #expand>
@@ -133,11 +135,14 @@ export default {
         },
         refresh() {
             this.firmwareFiles = [];
-            this.spinRefreshIcon = true;
+            if (!this.spinRefreshIcon) {
+                this.spinRefreshIcon = true;
+                setTimeout(() => {
+                    this.spinRefreshIcon = false;
+                }, 400);
+            }
 
-            this.$firmwareManager.refresh().then(() => {
-                this.spinRefreshIcon = false;
-            });
+            this.$firmwareManager.refresh().then();
         },
         openInExplorer(version) {
             this.$firmwareManager.openInExplorer(version);

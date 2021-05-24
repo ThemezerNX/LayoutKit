@@ -14,6 +14,7 @@ const $ipcService = {
         selectSaveLocation: (title: string, defaultPath: string, fileExtensionName: string, fileExtension: string) =>
             fileSystemChannel("selectSaveLocation", title, defaultPath, fileExtensionName, fileExtension),
         selectCfgFile: () => fileSystemChannel("selectCfgFile"),
+        selectLayoutFile: () => fileSystemChannel("selectLayoutFile"),
         trash: (paths: string[]) => fileSystemChannel("trash", paths),
     },
 };

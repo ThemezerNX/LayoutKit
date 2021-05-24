@@ -18,14 +18,14 @@ export default (context: any, inject: any) => {
         },
     };
 
-    context.store.registerModule("popup", storeModule);
+    context.store.registerModule("popupState", storeModule);
 
     const $popup = {
         message(message: string) {
-            context.store.commit("popup/SET_MESSAGE", message);
+            context.store.commit("popupState/SET_MESSAGE", message);
         },
         error(error: Error) {
-            context.store.commit("popup/SET_ERROR", error.message);
+            context.store.commit("popupState/SET_ERROR", error.message);
         },
     };
 

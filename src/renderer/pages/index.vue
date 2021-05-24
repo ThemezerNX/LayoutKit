@@ -41,12 +41,12 @@
                         <div class="content-2">
                             <ul>
                                 <li>The 'Projects' tab shows all your working environments</li>
+                                <li>The 'Firmwares' tab shows all the firmwares you have imported and can work with</li>
                                 <li>The 'Documentation' tab has many instructions and examples that can help you make
                                     your layout, or where to
                                     find
                                     specific components of the Switch's menus
                                 </li>
-                                <li>The 'Firmwares' tab shows all the firmwares you have imported and can work with</li>
                                 <li>The 'Settings' tab lets you configure your preferences and Switch's FTP details</li>
                             </ul>
                         </div>
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-const positiveEmojis = ["❤️", "✨", "🔥", "👍", "💪", "🤪", "🎉", "🦠", "🤠", "🚀", "🎆"];
+const positiveEmojis = ["❤️", "✨", "🔥", "👍", "💪", "🤪", "🎉", "🦠", "🤠", "🚀"];
 
 export default {
     data: () => ({}),

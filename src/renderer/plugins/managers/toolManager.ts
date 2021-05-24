@@ -17,19 +17,21 @@ import {
 import axios from "axios";
 import Downloader from "nodejs-file-downloader";
 import editJsonFile from "edit-json-file";
-import {unzip} from "cross-unzip";
-import * as util from "util";
 import {execFile, spawn} from "child_process";
-import {toNice} from "@themezernx/target-parser/dist";
-
-const unzipPromise = util.promisify(unzip);
 // 'spawn' if the program stays open, 'execFile' if it exits automatically
+import {toNice} from "@themezernx/target-parser/dist";
+import log from "electron-log";
+import * as sevenBin from "7zip-bin";
+import {extractFull} from "node-7z";
+
+const toolLog = log.scope("toolManager");
+const pathTo7zip = sevenBin.path7za.replace("app.asar", "app.asar.unpacked"); // fix asar issues
 
 const UPDATE_MESSAGE_TIMEOUT = 300;
 
 export default (context: any, inject: any) => {
     const setUpdateMessage = (message: string) => {
-        console.log(message);
+        toolLog.info(message);
         context.store.commit("CHECKING_FOR_TOOL_UPDATES_MESSAGE", message);
     };
     const fetchLatestAsset = (toolDir, toolName, {
@@ -40,7 +42,7 @@ export default (context: any, inject: any) => {
         directVersion,
     }) => {
         return new Promise((resolve) => {
-            console.log(`[${toolName}] Checking for updates...`);
+            toolLog.info(`[${toolName}] Checking for updates...`);
             fs.readFile(path.join(toolDir, VERSION_CFG), "utf8", async (err, versionString) => {
                 let currentVersion = versionString;
                 if (err) currentVersion = String(0);
@@ -66,7 +68,7 @@ export default (context: any, inject: any) => {
                             asset.name = githubAsset?.name;
                             asset.version = new Date(updatedAt).getTime().toString();
                         } else {
-                            console.log(`[${toolName}] No releases found`);
+                            toolLog.warn(`[${toolName}] No releases found`);
                             resolve(null);
                         }
                     } else if (directUrl) {
@@ -87,11 +89,18 @@ export default (context: any, inject: any) => {
 
                             const zipPath = path.join(toolDir, asset.name);
                             try {
-                                console.log(asset.url);
                                 await downloader.download();
                                 setUpdateMessage(`[${toolName}] Download done, unpacking...`);
-                                console.log(zipPath, toolDir);
-                                await unzipPromise(zipPath, toolDir);
+                                const unzip = extractFull(zipPath, toolDir, {
+                                    $bin: pathTo7zip,
+                                });
+
+                                const unzipPromise = new Promise((resolve, reject) => {
+                                    unzip.on("end", resolve);
+                                    unzip.on("error", reject);
+                                });
+
+                                await unzipPromise;
 
                                 // Save version
                                 fs.writeFileSync(path.join(toolDir, VERSION_CFG), asset.version);
@@ -101,7 +110,7 @@ export default (context: any, inject: any) => {
                                     resolve(null);
                                 }, UPDATE_MESSAGE_TIMEOUT);
                             } catch (e) {
-                                console.error(e);
+                                toolLog.error(e);
                                 setUpdateMessage(`[${toolName}] Download failed!`);
                                 setTimeout(() => {
                                     resolve(null);
@@ -112,11 +121,11 @@ export default (context: any, inject: any) => {
                             }
                         }, UPDATE_MESSAGE_TIMEOUT);
                     } else {
-                        console.log(`[${toolName}] No update found`);
+                        toolLog.info(`[${toolName}] No update found`);
                         resolve(null);
                     }
                 } catch (e) {
-                    console.log(e);
+                    toolLog.error(e);
                     setUpdateMessage(`[${toolName}] Could not check for updates`);
                     setTimeout(() => {
                         resolve(null);
@@ -278,20 +287,56 @@ export default (context: any, inject: any) => {
                     const newFileName = `${context.store.state.activeProject.name}-${toNice(fileName)}.json`;
                     // Unpack the szs next to the original file
                     try {
-                        const savePath = await context.$ipcService.fs.selectSaveLocation("Select save location for layout", newFileName, "Layout File", "json");
-                        console.log(savePath);
+                        const savePath = await context.$ipcService.fs.selectSaveLocation("Select save location for layout", newFileName, "Layout JSON", "json");
                         if (savePath?.length > 0) {
-                            console.log([layoutinjectorPath, "diff", stockPath, filePath, savePath].join(" "));
-                            execFile(layoutinjectorPath, ["diff", stockPath, filePath, savePath], () => {
+                            execFile(layoutinjectorPath, ["diff", stockPath, filePath, savePath], (_err, stdout, stderr) => {
                                 // ^ diff <original szs file> <modified szs file> <output json path>
-                                // Prettify the json
-                                const json = editJsonFile(savePath, {stringify_width: 4});
-                                json.save();
+                                if (stdout) toolLog.info(stdout);
+                                if (stderr?.trim().length > 0) {
+                                    toolLog.error(stderr);
+                                    context.$popup.error(new Error(stderr.trim()));
+                                } else {
+                                    // Prettify the json
+                                    const json = editJsonFile(savePath, {stringify_width: 4});
+                                    json.save();
+                                }
                                 resolve(null);
                             });
+                        } else {
+                            resolve(null);
                         }
                     } catch (e) {
-                        console.error(e);
+                        toolLog.error(e);
+                        resolve(null);
+                    }
+                });
+            },
+            applyLayoutJson(projectId: string, fileName: string) {
+                return new Promise(async (resolve) => {
+                    const userDataPath = await context.$ipcService.fs.getUserDataPath();
+                    const layoutinjectorPath = path.join(userDataPath, TOOLS_DIR, THEMEINJECTOR_DIR, THEMEINJECTOR_EXE);
+
+                    const filePath = path.join(userDataPath, PROJECTS_DIR, projectId, fileName);
+                    // Unpack the szs next to the original file
+                    try {
+                        const layoutFile = await context.$ipcService.fs.selectLayoutFile();
+                        if (layoutFile?.length > 0) {
+                            toolLog.info("Applying layout json:", layoutinjectorPath, ["szs", filePath, layoutFile, `out=${filePath.replace(".szs", ".new.szs")}`].join(" "));
+                            execFile(layoutinjectorPath, ["szs", filePath, layoutFile, `out=${filePath}`], (_err, stdout, stderr) => {
+                                // ^ szs <input szs file> <layout json> <out=outfile.szs>
+                                if (stdout) toolLog.info(stdout);
+                                if (stderr) {
+                                    toolLog.error(stderr);
+                                    context.$popup.error(new Error(stderr.trim()));
+                                }
+                                resolve(null);
+                            });
+                        } else {
+                            resolve(null);
+                        }
+                    } catch (e) {
+                        toolLog.error(e);
+                        resolve(null);
                     }
                 });
             },

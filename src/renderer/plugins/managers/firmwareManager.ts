@@ -6,6 +6,8 @@ import {ncp} from "ncp";
 import {shell} from "electron";
 import {FIRMWARES_DIR, getDirectories, getFiles, VERSION_CFG} from "./managerUtils";
 import {isTarget} from "@themezernx/target-parser/dist";
+import log from "electron-log";
+const firmwareLog = log.scope("firmwareManager");
 
 temp.track();
 
@@ -44,7 +46,7 @@ export default (context: any, inject: any) => {
             return new Promise((resolve) => {
                 context.$ipcService.fs.getUserDataPath().then((userDataPath) => {
                     fs.readFile(path.join(directory, VERSION_CFG), "utf8", (err, versionString) => {
-                        if (err) return console.error("[firmwareManager]", err);
+                        if (err) return firmwareLog.error("[firmwareManager]", err);
 
                         const newDirectory = path.join(userDataPath, FIRMWARES_DIR, versionString);
                         ncp(directory, newDirectory, () => {
