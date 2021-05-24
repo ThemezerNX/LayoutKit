@@ -25,7 +25,7 @@ export default (context: any) => {
     ipcRenderer.on("updateDownloaded", () => {
         context.store.commit("autoUpdater/SET_MESSAGE", "Done! Restarting now...");
         setTimeout(() => {
-            context.$ipcService.system.quitAndInstall();
+            context.$ipcService.system.quitAndInstallUpdate();
         }, 2000);
     });
 
