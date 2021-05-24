@@ -284,10 +284,10 @@ export default (context: any, inject: any) => {
 
                     const stockPath = path.join(userDataPath, FIRMWARES_DIR, context.store.state.activeProject.firmware, fileName);
                     const filePath = path.join(userDataPath, PROJECTS_DIR, projectId, fileName);
-                    const newFileName = `${context.store.state.activeProject.name} (${toNice(fileName)}).json`;
+                    const newFileName = `${context.store.state.activeProject.name} (${toNice(fileName)})`;
                     // Unpack the szs next to the original file
                     try {
-                        const savePath = await context.$ipcService.fs.selectSaveLocation("Select save location for layout", newFileName, "Layout JSON", "json");
+                        const savePath = await context.$ipcService.fs.selectSaveLocation("Select save location for layout", newFileName + ".json", "Layout JSON", "json");
                         if (savePath?.length > 0) {
                             execFile(layoutinjectorPath, ["diff", stockPath, filePath, savePath], (_err, stdout, stderr) => {
                                 // ^ diff <original szs file> <modified szs file> <output json path>
