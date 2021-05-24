@@ -284,7 +284,7 @@ export default (context: any, inject: any) => {
 
                     const stockPath = path.join(userDataPath, FIRMWARES_DIR, context.store.state.activeProject.firmware, fileName);
                     const filePath = path.join(userDataPath, PROJECTS_DIR, projectId, fileName);
-                    const newFileName = `${context.store.state.activeProject.name}-${toNice(fileName)}.json`;
+                    const newFileName = `${context.store.state.activeProject.name} (${toNice(fileName)}).json`;
                     // Unpack the szs next to the original file
                     try {
                         const savePath = await context.$ipcService.fs.selectSaveLocation("Select save location for layout", newFileName, "Layout JSON", "json");
@@ -298,6 +298,7 @@ export default (context: any, inject: any) => {
                                 } else {
                                     // Prettify the json
                                     const json = editJsonFile(savePath, {stringify_width: 4});
+                                    json.set("PatchName", newFileName)
                                     json.save();
                                 }
                                 resolve(null);
@@ -317,11 +318,10 @@ export default (context: any, inject: any) => {
                     const layoutinjectorPath = path.join(userDataPath, TOOLS_DIR, THEMEINJECTOR_DIR, THEMEINJECTOR_EXE);
 
                     const filePath = path.join(userDataPath, PROJECTS_DIR, projectId, fileName);
-                    // Unpack the szs next to the original file
                     try {
                         const layoutFile = await context.$ipcService.fs.selectLayoutFile();
                         if (layoutFile?.length > 0) {
-                            toolLog.info("Applying layout json:", layoutinjectorPath, ["szs", filePath, layoutFile, `out=${filePath.replace(".szs", ".new.szs")}`].join(" "));
+                            toolLog.info("Applying layout json:", layoutinjectorPath, ["szs", filePath, layoutFile, `out=${filePath}`].join(" "));
                             execFile(layoutinjectorPath, ["szs", filePath, layoutFile, `out=${filePath}`], (_err, stdout, stderr) => {
                                 // ^ szs <input szs file> <layout json> <out=outfile.szs>
                                 if (stdout) toolLog.info(stdout);
