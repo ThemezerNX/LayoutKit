@@ -1,7 +1,7 @@
 # **LayoutKit** 📦
 
 <p align="center">
-  <img src="src/renderer/assets/icons/icon-256.png">
+  <img width="150" height="150" src="src/renderer/assets/icons/icon-256.png">
 </p>
 <h1 align="center">Welcome to LayoutKit!</h1>
 <p align="center">
