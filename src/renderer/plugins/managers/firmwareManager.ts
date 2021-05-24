@@ -69,12 +69,20 @@ export default (context: any, inject: any) => {
             });
         },
         delete(version: string) {
-            return new Promise((resolve) => {
-                context.$ipcService.fs.getUserDataPath().then(async (userDataPath) => {
-                    await context.$ipcService.fs.trash([path.join(userDataPath, FIRMWARES_DIR, version)]);
-                    resolve(null);
-                    await this.refresh();
-                });
+            return new Promise((resolve, reject) => {
+                const usedIn = context.store.state.projects
+                    .filter((p) => p.firmware === version)
+                    .map((p) => p.name);
+                if (usedIn.length > 0) {
+                    // Firmware in use
+                    reject(`This firmware is still in use by ${usedIn.join(", ")}. You have to remove those first, before you may delete firmware ${version}.`);
+                } else {
+                    context.$ipcService.fs.getUserDataPath().then(async (userDataPath) => {
+                        await context.$ipcService.fs.trash([path.join(userDataPath, FIRMWARES_DIR, version)]);
+                        resolve(null);
+                        await this.refresh();
+                    });
+                }
             });
         },
         async openFirmwareFolderInToolbox(version) {

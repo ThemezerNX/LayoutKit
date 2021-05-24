@@ -55,11 +55,18 @@ export default {
     methods: {
         del() {
             this.loading = true;
-            this.handle(...this.args).then(() => {
-                this.loading = false;
-                this.active = false;
-                if (this.callback) this.callback();
-            });
+            this.handle(...this.args)
+                .then(() => {
+                    this.loading = false;
+                    this.active = false;
+                    if (this.callback) this.callback();
+                })
+                .catch((e) => {
+                    this.loading = false;
+                    this.active = false;
+                    this.$popup.error(new Error(e));
+                    if (this.callback) this.callback();
+                });
         },
     },
 };
