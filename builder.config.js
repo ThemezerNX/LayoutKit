@@ -1,3 +1,4 @@
+require("dotenv").config();
 const ICONS_DIR = "build/icons/";
 
 const windowsOS = {
@@ -21,6 +22,10 @@ module.exports = {
     directories: {
         output: "build",
     },
+    publish: {
+        provider: "github",
+        token: process.env.GITHUB_ACCESS_TOKEN
+    },
     files: [
         "package.json",
         {
@@ -30,12 +35,6 @@ module.exports = {
         {
             from: "dist/renderer",
             to: "dist/renderer/",
-        },
-    ],
-    extraResources: [
-        {
-            from: "src/extraResources/",
-            to: "",
         },
     ],
     ...windowsOS,

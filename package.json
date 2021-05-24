@@ -1,15 +1,18 @@
 {
     "name": "layoutkit",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "An application with the most useful tools to create and test new layouts.",
     "main": "./dist/main/index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ThemezerNX/LayoutKit.git"
+    },
     "scripts": {
         "dev": "node .electron-nuxt/dev.js",
-        "build": "yarn run build:icons && node .electron-nuxt/build.js",
+        "build": "yarn run build:both && node .electron-nuxt/build.js --publish never",
+        "build:both": "yarn run build:icons && node .electron-nuxt/build.js",
         "build:icons": "electron-icon-builder --flatten --input=./src/renderer/assets/icons/icon.png --output=./build",
-        "test:unit": "cross-env NODE_ENV=test TEST_TYPE=unit ava",
-        "test:e2e": "cross-env NODE_ENV=test TEST_TYPE=e2e ava",
-        "test": "yarn run test:unit && yarn run test:e2e",
+        "deploy": "yarn run build:both --publish always",
         "_preinstall": "node .electron-nuxt/check-engines.js",
         "_postinstall": "electron-builder install-app-deps"
     },
@@ -27,12 +30,10 @@
         "@nuxt/typescript-build": "2.1.0",
         "@themezernx/target-parser": "^1.0.5",
         "@types/mkdirp": "^1.0.1",
-        "@vue/test-utils": "1.1.0",
         "@xpda-dev/core": "^0.1.6",
         "@xpda-dev/electron-builder": "^0.2.1",
         "@xpda-dev/electron-launcher": "^0.3.0",
         "@xpda-dev/webpack-step": "^0.1.2",
-        "ava": "2.4.0",
         "axios": "^0.21.1",
         "babel-plugin-webpack-alias-7": "0.1.1",
         "basic-ftp": "^4.6.6",
@@ -41,6 +42,7 @@
         "chokidar": "^3.5.1",
         "cross-env": "7.0.2",
         "deepmerge": "4.2.2",
+        "dotenv": "^10.0.0",
         "edit-json-file": "^1.6.0",
         "electron": "12.0.7",
         "electron-builder": "22.10.5",
@@ -65,6 +67,7 @@
     },
     "dependencies": {
         "7zip-bin": "^5.1.1",
+        "electron-updater": "^4.3.9",
         "electron-window-state": "^5.0.3",
         "nuxt": "^2.15.3"
     }

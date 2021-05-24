@@ -1,5 +1,5 @@
 import Vue from "vue";
-import popup from "./Popup.vue";
+import popup from "./popup.vue";
 
 export default (context: any, inject: any) => {
     const storeModule = {
@@ -17,17 +17,20 @@ export default (context: any, inject: any) => {
             },
         },
     };
-
-    context.store.registerModule("popupState", storeModule);
+    context.store.registerModule("popup", storeModule);
 
     const $popup = {
         message(message: string) {
-            context.store.commit("popupState/SET_MESSAGE", message);
+            context.store.commit("popup/SET_MESSAGE", message);
         },
         error(error: Error) {
-            context.store.commit("popupState/SET_ERROR", error.message);
+            context.store.commit("popup/SET_ERROR", error?.message);
         },
     };
+
+    // Reset vuex persistent
+    $popup.message(null);
+    $popup.error(null);
 
     inject("popup", $popup);
     context.$popup = $popup;

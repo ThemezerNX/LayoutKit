@@ -7,6 +7,7 @@ const $ipcService = {
     system: {
         version: () => systemChannel("version"),
         openUrl: (url: string) => systemChannel("openUrl", url),
+        quitAndInstallUpdate: () => systemChannel("quitAndInstallUpdate"),
     },
     fs: {
         getUserDataPath: () => fileSystemChannel("getUserDataPath"),

@@ -20,10 +20,10 @@ export default {
     }),
     computed: {
         message() {
-            return this.$store.state.popupState?.message;
+            return this.$store.state.popup?.message;
         },
         error() {
-            return this.$store.state.popupState?.error;
+            return this.$store.state.popup?.error;
         },
     },
     watch: {

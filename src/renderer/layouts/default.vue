@@ -7,6 +7,7 @@
             <nuxt/>
         </div>
         <popup/>
+        <auto-updater/>
         <update-checker/>
     </div>
 </template>

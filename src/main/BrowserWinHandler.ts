@@ -2,6 +2,7 @@
 import {EventEmitter} from "events";
 import {app, BrowserWindow} from "electron";
 import * as windowStateKeeper from "electron-window-state";
+import {autoUpdater} from "electron-updater";
 
 const DEV_SERVER_URL = process.env.DEV_SERVER_URL;
 const isProduction = process.env.NODE_ENV === "production";
@@ -65,6 +66,21 @@ export default class BrowserWinHandler {
         // automatically (the listeners will be removed when the window is closed)
         // and restore the maximized or full screen state
         mainWindowState.manage(this.browserWindow);
+
+        // Auto-updater
+        if (isProduction) {
+            this.browserWindow.once("ready-to-show", () => {
+                setTimeout(() => {
+                    autoUpdater.checkForUpdatesAndNotify().then();
+                }, 1000);
+            });
+            autoUpdater.on("update-available", () => {
+                this.browserWindow.webContents.send("updateAvailable");
+            });
+            autoUpdater.on("update-downloaded", () => {
+                this.browserWindow.webContents.send("updateDownloaded");
+            });
+        }
 
         this.browserWindow.on("closed", () => {
             // Dereference the window object
