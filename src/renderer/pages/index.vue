@@ -1,6 +1,6 @@
 <template>
     <!-- General introduction here on a card. Loaded route should be saved to vuex and loaded again on boot. -->
-    <vs-row>
+    <vs-row style="padding-bottom: 84px">
         <vs-col w="12">
             <vse-card height="100%" max-width="750px" shadow>
                 <template #content>
