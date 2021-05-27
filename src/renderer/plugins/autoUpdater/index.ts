@@ -22,6 +22,13 @@ export default (context: any) => {
         context.store.commit("autoUpdater/SET_MESSAGE", "Downloading update...");
     });
 
+    ipcRenderer.on("updateError", () => {
+        context.store.commit("autoUpdater/SET_MESSAGE", "Update Failed!");
+        setTimeout(() => {
+            context.store.commit("autoUpdater/SET_MESSAGE", null);
+        }, 2000);
+    });
+
     ipcRenderer.on("updateDownloaded", () => {
         context.store.commit("autoUpdater/SET_MESSAGE", "Done! Restarting now...");
         setTimeout(() => {

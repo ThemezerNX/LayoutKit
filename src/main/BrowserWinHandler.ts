@@ -3,6 +3,7 @@ import {EventEmitter} from "events";
 import {app, BrowserWindow} from "electron";
 import * as windowStateKeeper from "electron-window-state";
 import {autoUpdater} from "electron-updater";
+import log from "electron-log";
 
 const DEV_SERVER_URL = process.env.DEV_SERVER_URL;
 const isProduction = process.env.NODE_ENV === "production";
@@ -71,11 +72,16 @@ export default class BrowserWinHandler {
         if (isProduction) {
             this.browserWindow.once("ready-to-show", () => {
                 setTimeout(() => {
+                    log.transports.file.level = "debug";
+                    autoUpdater.logger = log;
                     autoUpdater.checkForUpdatesAndNotify().then();
                 }, 1000);
             });
             autoUpdater.on("update-available", () => {
                 this.browserWindow.webContents.send("updateAvailable");
+            });
+            autoUpdater.on("error", () => {
+                this.browserWindow.webContents.send("updateError");
             });
             autoUpdater.on("update-downloaded", () => {
                 this.browserWindow.webContents.send("updateDownloaded");
