@@ -9,7 +9,7 @@ const windowsOS = {
     },
 
     nsis: {
-        differentialPackage: true,
+        differentialPackage: false,
         perMachine: true,
         oneClick: false,
         allowToChangeInstallationDirectory: true,
