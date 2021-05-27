@@ -72,7 +72,7 @@ export default class BrowserWinHandler {
         if (isProduction) {
             this.browserWindow.once("ready-to-show", () => {
                 setTimeout(() => {
-                    log.transports.file.level = "debug";
+                    log.transports.file.level = "info";
                     autoUpdater.logger = log;
                     autoUpdater.checkForUpdatesAndNotify().then();
                 }, 1000);
