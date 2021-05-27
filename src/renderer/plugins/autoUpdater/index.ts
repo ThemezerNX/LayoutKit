@@ -37,4 +37,6 @@ export default (context: any) => {
     });
 
     Vue.component("autoUpdater", autoUpdater);
+
+    // comment
 }
