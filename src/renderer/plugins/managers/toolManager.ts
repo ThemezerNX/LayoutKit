@@ -168,7 +168,7 @@ export default (context: any, inject: any) => {
             //     },
             // );
 
-            const directUrl = "https://github.com/ThemezerNX/LayoutKit/releases/download/beta-0.0.2/SwitchThemeInjector-Release4.6.2-pre.7z";
+            const directUrl = "https://github.com/ThemezerNX/LayoutKit/releases/download/v0.0.2/SwitchThemeInjector-Release4.6.2-pre.7z";
             await fetchLatestAsset(
                 directory,
                 THEMEINJECTOR_DIR,
