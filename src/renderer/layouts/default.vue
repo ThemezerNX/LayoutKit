@@ -30,7 +30,7 @@ export default {
             this.$vs.setTheme("dark");
         }
 
-        this.$ipcService.system.version().then(console.log);
+        this.$ipcService.system.os().then(console.log);
     },
 };
 </script>

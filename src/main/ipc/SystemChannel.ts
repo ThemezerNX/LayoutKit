@@ -1,7 +1,7 @@
 // @ts-ignore
 import IpcChannel from "./IpcChannel.ts";
 import {execSync} from "child_process";
-import {shell} from "electron";
+import {app, shell} from "electron";
 import {autoUpdater} from "electron-updater";
 
 export default class SystemChannel extends IpcChannel {
@@ -9,7 +9,8 @@ export default class SystemChannel extends IpcChannel {
 
     constructor() {
         super({
-            version: (): string => execSync("uname -a").toString(),
+            os: (): string => execSync("uname -a").toString(),
+            version: (): string => app.getVersion(),
             openUrl(url: string) {
                 shell.openExternal(url).then();
             },

@@ -177,7 +177,7 @@ export default {
         },
     },
     head() {
-        const metaTitle = "Settings";
+        const metaTitle = "Settings - LayoutKit";
 
         return {
             title: metaTitle,

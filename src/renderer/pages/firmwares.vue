@@ -162,7 +162,7 @@ export default {
         },
     },
     head() {
-        const metaTitle = "Firmwares";
+        const metaTitle = "Firmwares - LayoutKit";
 
         return {
             title: metaTitle,

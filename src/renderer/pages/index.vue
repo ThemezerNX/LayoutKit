@@ -11,7 +11,8 @@
                             LayoutKit is a tool that makes it easier to create Nintendo Switch layouts<br>
                         </span>
                         <h2 class="title-2 text-shadow user-select-none getting-started">
-                            <a href="https://themezernx.github.io/LayoutDocs/guide/#getting-started" style="text-decoration: none;"
+                            <a href="https://themezernx.github.io/LayoutDocs/guide/#getting-started"
+                               style="text-decoration: none;"
                                target="_blank">
                                 Getting Started <i class='bx bx-link-external'></i>
                             </a>
@@ -56,7 +57,7 @@
         </vs-col>
         <vse-footer class="px-10" fixed shadow style="height: 84px">
             <p class="center">
-                Made with {{ randomEmoji }} by
+                v{{ applicationVersion }} - Made with {{ randomEmoji }} by
                 <a href="#" @click.prevent="$ipcService.system.openUrl('https://github.com/ThemezerNX')">
                     ThemezerNX</a>
             </p>
@@ -77,8 +78,14 @@
 const positiveEmojis = ["❤️", "✨", "🔥", "👍", "💪", "🤪", "🎉", "🦠", "🤠", "🚀"];
 
 export default {
-    data: () => ({}),
+    data: () => ({
+        applicationVersion: null,
+    }),
+    mounted() {
+        this.$ipcService.system.version().then((s) => this.applicationVersion = s);
+    },
     computed: {
+
         randomEmoji() {
             return positiveEmojis[Math.floor(Math.random() * positiveEmojis.length)];
         },

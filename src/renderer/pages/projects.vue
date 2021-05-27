@@ -23,7 +23,7 @@ export default {
     components: {projectBrowser, quickSettings, projectDetails},
     data: () => ({}),
     head() {
-        const metaTitle = "Projects";
+        const metaTitle = "Projects - LayoutKit";
 
         return {
             title: metaTitle,
