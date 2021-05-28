@@ -4,6 +4,7 @@ import {
     FIRMWARES_DIR,
     getFiles,
     LAYOUTEDITOR_DIR,
+    LAYOUTEDITOR_EXE,
     PROJECTS_DIR,
     SARCTOOL_DIR,
     SARCTOOL_EXE,
@@ -219,7 +220,7 @@ export default (context: any, inject: any) => {
             // await $toolManager.updateSarcTool();
             await $toolManager.updateThemeInjector();
             await $toolManager.updateToolbox();
-            // await $toolManager.updateLayoutEditor();
+            await $toolManager.updateLayoutEditor();
             context.store.commit("CHECKING_FOR_TOOL_UPDATES_MESSAGE", "");
         },
         szs: {
@@ -244,36 +245,46 @@ export default (context: any, inject: any) => {
                 });
             },
         },
-        toolbox: {
+        editor: {
             open() {
                 return this.openPaths([]); // quick solution
             },
-            openPaths(paths: Array<string>) {
+            openPaths(paths: Array<string>, awaitClose: boolean = false) {
                 return new Promise(async (resolve) => {
                     const userDataPath = await context.$ipcService.fs.getUserDataPath();
-                    const toolboxPath = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR, TOOLBOX_EXE);
-                    const ls = spawn(toolboxPath, paths);
-                    ls.stdout.on("data", () => {
+                    let editorPath;
+                    if (context.store.state.settings.preferredEditor === "toolbox") {
+                        editorPath = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR, TOOLBOX_EXE);
+                    } else if (context.store.state.settings.preferredEditor === "layouteditor") {
+                        editorPath = path.join(userDataPath, TOOLS_DIR, LAYOUTEDITOR_DIR, LAYOUTEDITOR_EXE);
+                    }
+
+                    const ls = spawn(editorPath, paths);
+                    if (awaitClose) {
+                        ls.stdout.on("end", () => {
+                            resolve(null);
+                        });
+                    } else {
                         setTimeout(() => {
                             resolve(null);
                         }, 500);
-                    });
+                    }
                 });
             },
-            async openFolder(dirPath) {
+            async openFolder(dirPath, awaitClose: boolean = false) {
                 const filePaths = getFiles(dirPath)
                     .map((f) => path.join(dirPath, f));
-                await this.openPaths(filePaths);
+                await this.openPaths(filePaths, awaitClose);
             },
             async openProjectFiles(projectId: string, files: Array<string>) {
                 const userDataPath = await context.$ipcService.fs.getUserDataPath();
                 const filePaths = files.map((f) => path.join(userDataPath, PROJECTS_DIR, projectId, f));
-                await this.openPaths(filePaths);
+                await this.openPaths(filePaths, true);
             },
             async openProjectFolder(projectId) {
                 const userDataPath = await context.$ipcService.fs.getUserDataPath();
                 const projectPath = path.join(userDataPath, PROJECTS_DIR, projectId);
-                await this.openFolder(projectPath);
+                await this.openFolder(projectPath, true);
             },
         },
         layoutinjector: {
@@ -298,7 +309,7 @@ export default (context: any, inject: any) => {
                                 } else {
                                     // Prettify the json
                                     const json = editJsonFile(savePath, {stringify_width: 4});
-                                    json.set("PatchName", newFileName)
+                                    json.set("PatchName", newFileName);
                                     json.save();
                                 }
                                 resolve(null);

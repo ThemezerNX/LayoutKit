@@ -6,6 +6,7 @@ export const state = () => ({
     ftpUsername: "nxthemer",
     ftpPassword: "nxthemer",
     checkToolUpdatesOnLaunch: true,
+    preferredEditor: "toolbox",
 });
 
 export const mutations = {
@@ -29,5 +30,8 @@ export const mutations = {
     },
     CHECK_TOOL_UPDATES_ON_LAUNCH(state: any, value: boolean) {
         state.checkToolUpdatesOnLaunch = value;
+    },
+    PREFERRED_EDITOR(state: any, value: string) {
+        state.preferredEditor = value;
     },
 };

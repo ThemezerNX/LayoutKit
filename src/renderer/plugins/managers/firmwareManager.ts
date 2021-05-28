@@ -102,7 +102,7 @@ export default (context: any, inject: any) => {
                         // Very unlikely!
                         fs.renameSync(filePath, filePath.replace(fileName, `${version}-${fileName}`));
                     }
-                    context.$toolManager.toolbox.openFolder(dirPath).then(resolve);
+                    context.$toolManager.editor.openFolder(dirPath).then(resolve);
                 });
             });
         },

@@ -266,13 +266,13 @@ export default {
         },
         openFileInToolbox(fileName) {
             this.$set(this.openFileInToolboxLoading, fileName, true);
-            this.$toolManager.toolbox.openProjectFiles(this.activeProjectId, [fileName]).then(() => {
+            this.$toolManager.editor.openProjectFiles(this.activeProjectId, [fileName]).then(() => {
                 this.$set(this.openFileInToolboxLoading, fileName, false);
             });
         },
         openInToolbox() {
             this.openInToolboxLoading = true;
-            this.$toolManager.toolbox.openProjectFolder(this.activeProjectId).then(() => {
+            this.$toolManager.editor.openProjectFolder(this.activeProjectId).then(() => {
                 this.openInToolboxLoading = false;
             });
         },

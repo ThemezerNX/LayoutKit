@@ -11,7 +11,7 @@ LayoutKit is a tool that makes it easier to create Nintendo Switch layouts.
 ## **Features** 📝
 
 - Easy project environment management
-- Easily and visually edit files in Switch-Toolbox
+- Easily and visually edit files in Switch-Toolbox or SwitchLayoutEditor
 - Import and export layout json files using Switch Theme Injector
 - Wirelessly transfer menu files to the Switch over FTP
 - Automatically push files after changes were made
@@ -31,6 +31,7 @@ LayoutKit is a tool that makes it easier to create Nintendo Switch layouts.
 ## **Included in this kit** 📜
 
 - [Switch Toolbox](https://github.com/KillzXGaming/Switch-Toolbox) by @KillzXGaming
+- [SwitchLayoutEditor](https://github.com/FuryBaguette/SwitchLayoutEditor) by @FuryBaguette and @exelix11
 - [Switch Theme Injector](https://github.com/exelix11/SwitchThemeInjector) by @exelix11
 
 ## **Screenshots** 🖼️

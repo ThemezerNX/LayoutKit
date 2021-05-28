@@ -85,6 +85,22 @@
                                 </vs-input>
                             </template>
                         </vse-list-item>
+                        <h3>Tools</h3>
+                        <vse-list-item>
+                            <template #description>
+                                Preferred editor
+                            </template>
+                            <template #button>
+                                <div class="radio">
+                                    <vs-radio color="#0096D8" v-model="preferredEditor" val="toolbox">
+                                        Switch-Toolbox
+                                    </vs-radio>
+                                    <vs-radio color="#0096D8" v-model="preferredEditor" val="layouteditor">
+                                        SwitchLayoutEditor
+                                    </vs-radio>
+                                </div>
+                            </template>
+                        </vse-list-item>
                         <h3>Updates</h3>
                         <vse-list-item>
                             <template #description>
@@ -175,6 +191,14 @@ export default {
                 this.$store.commit("settings/CHECK_TOOL_UPDATES_ON_LAUNCH", value);
             },
         },
+        preferredEditor: {
+            get() {
+                return this.$store.state.settings.preferredEditor;
+            },
+            set(value) {
+                this.$store.commit("settings/PREFERRED_EDITOR", value);
+            },
+        },
     },
     head() {
         const metaTitle = "Settings - LayoutKit";
@@ -193,3 +217,9 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.radio {
+    display: inline-flex;
+}
+</style>

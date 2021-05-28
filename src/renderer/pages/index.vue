@@ -26,6 +26,11 @@
                                        @click.prevent="$ipcService.system.openUrl('https://github.com/KillzXGaming/Switch-Toolbox')">
                                         Switch-Toolbox
                                     </a>
+                                    or
+                                    <a href="#"
+                                       @click.prevent="$ipcService.system.openUrl('https://github.com/FuryBaguette/SwitchLayoutEditor')">
+                                        SwitchLayoutEditor
+                                    </a>
                                 </li>
                                 <li>Import and export layout json files using
                                     <a href="#"
