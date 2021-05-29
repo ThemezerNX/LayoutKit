@@ -116,7 +116,8 @@
                                         <delete-dialog
                                             :args="[file]"
                                             :callback="getFirmwareFiles"
-                                            :disabled="projectsLoading || firmwareFiles.length === 1" :handle="deleteFirmwareFile">
+                                            :disabled="projectsLoading || firmwareFiles.length === 1"
+                                            :handle="deleteFirmwareFile">
                                             <template #dataType>
                                                 project
                                             </template>

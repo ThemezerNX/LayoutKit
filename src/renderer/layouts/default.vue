@@ -26,11 +26,17 @@ export default {
         this.$vs.setTheme("dark");
     },
     mounted() {
+        this.$ipcService.system.os().then(console.log);
+
+        // Restore theme on boot
         if (localStorage.vsTheme === "dark") {
             this.$vs.setTheme("dark");
         }
 
-        this.$ipcService.system.os().then(console.log);
+        // Create initial watcher on boot
+        if (this.$store.state.activeProject.id?.length > 0) {
+            this.$projectManager.createWatcher(this.$store.state.activeProject.id);
+        }
     },
 };
 </script>

@@ -206,12 +206,13 @@ export default (context: any, inject: any) => {
             // Initialize changes watcher
             // The easiest is to just watch for the whole projects folder, check the filename and upload
             const userDataPath = await context.$ipcService.fs.getUserDataPath();
-            const projectsPath = path.join(userDataPath, PROJECTS_DIR, projectId);
+            const projectPath = path.join(userDataPath, PROJECTS_DIR, projectId);
             if (!!watcher) {
                 // Only watch one project directory at a time
                 await watcher.close();
             }
-            watcher = chokidar.watch(projectsPath, {
+            projectLog.info("Creating watcher on", projectPath);
+            watcher = chokidar.watch(projectPath, {
                 ignored: /(^|[\/\\])\../, // ignore dotfiles
                 persistent: true,
             });

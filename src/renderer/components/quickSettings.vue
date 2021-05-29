@@ -8,7 +8,9 @@
                 <vse-list-item>
                     <template #description>
                         Install changes ({{
-                            pushedInitial ? pushQueue.length : (activeProjectId && activeProjectId.length > 0 ? "initial" : "none")
+                            pushedInitial
+                                ? (pushQueue.length + (pushQueue.length === 1 ? " file" : " files"))
+                                : (activeProjectId && activeProjectId.length > 0 ? "initial" : "none")
                         }})
                     </template>
                     <template #button>
