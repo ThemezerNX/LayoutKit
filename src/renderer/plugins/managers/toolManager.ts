@@ -252,14 +252,23 @@ export default (context: any, inject: any) => {
             openPaths(paths: Array<string>, awaitClose: boolean = false) {
                 return new Promise(async (resolve) => {
                     const userDataPath = await context.$ipcService.fs.getUserDataPath();
-                    let editorPath;
+                    let editorWorkingDir, editorPath;
                     if (context.store.state.settings.preferredEditor === "toolbox") {
+                        editorWorkingDir = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR);
                         editorPath = path.join(userDataPath, TOOLS_DIR, TOOLBOX_DIR, TOOLBOX_EXE);
                     } else if (context.store.state.settings.preferredEditor === "layouteditor") {
+                        editorWorkingDir = path.join(userDataPath, TOOLS_DIR, LAYOUTEDITOR_DIR);
                         editorPath = path.join(userDataPath, TOOLS_DIR, LAYOUTEDITOR_DIR, LAYOUTEDITOR_EXE);
                     }
 
-                    const ls = spawn(editorPath, paths);
+                    const ls = spawn(editorPath, paths, {cwd: editorWorkingDir});
+                    ls.stdout.on("error", (data) => {
+                        toolLog.error(data);
+                    });
+                    // If this "on data" is not here, the switch-toolbox will freeze when for example opening RdtBase.bflyt
+                    ls.stdout.on("data", () => {
+                    });
+
                     if (awaitClose) {
                         ls.stdout.on("end", () => {
                             resolve(null);

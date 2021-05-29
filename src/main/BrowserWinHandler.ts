@@ -28,7 +28,6 @@ export default class BrowserWinHandler {
         this._createInstance();
     }
 
-
     _createInstance() {
         if (!gotTheLock) {
             app.quit();
