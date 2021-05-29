@@ -8,6 +8,7 @@ import log from "electron-log";
 const DEV_SERVER_URL = process.env.DEV_SERVER_URL;
 const isProduction = process.env.NODE_ENV === "production";
 const isDev = process.env.NODE_ENV === "development";
+const gotTheLock = app.requestSingleInstanceLock();
 
 export default class BrowserWinHandler {
     _eventEmitter: EventEmitter;
@@ -29,12 +30,25 @@ export default class BrowserWinHandler {
 
 
     _createInstance() {
-        // This method will be called when Electron has finished
-        // initialization and is ready to create browser windows.
-        // Some APIs can only be used after this event occurs.
-        app.on("ready", () => {
-            this._create();
-        });
+        if (!gotTheLock) {
+            app.quit();
+        } else {
+            app.on("second-instance", () => {
+                // Someone tried to run a second instance, we should focus our window.
+                if (this.browserWindow) {
+                    if (this.browserWindow.isMinimized()) this.browserWindow.restore();
+                    this.browserWindow.focus();
+                }
+            });
+
+            // This method will be called when Electron has finished
+            // initialization and is ready to create browser windows.
+            // Some APIs can only be used after this event occurs.
+            app.on("ready", () => {
+                this._create();
+            });
+        }
+
 
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
