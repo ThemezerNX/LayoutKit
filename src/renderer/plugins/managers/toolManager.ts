@@ -157,28 +157,16 @@ export default (context: any, inject: any) => {
         async updateThemeInjector() {
             const userDataPath = await context.$ipcService.fs.getUserDataPath();
             const directory = path.join(userDataPath, TOOLS_DIR, THEMEINJECTOR_DIR);
-            // const url = "https://api.github.com/repos/exelix11/SwitchThemeInjector/releases";
-            // await fetchLatestAsset(
-            //     directory,
-            //     SWITCHTHEMEINJECTOR_DIR,
-            //     {
-            //         url,
-            //         expectedMimeType: "application/octet-stream",
-            //         assetNameContains: ".7z",
-            //         directUrl: null,
-            //     },
-            // );
-
-            const directUrl = "https://github.com/ThemezerNX/LayoutKit/releases/download/v0.0.2/SwitchThemeInjector-Release4.6.2-pre.7z";
+            const url = "https://api.github.com/repos/exelix11/SwitchThemeInjector/releases";
             await fetchLatestAsset(
                 directory,
                 THEMEINJECTOR_DIR,
                 {
-                    url: null,
-                    expectedMimeType: null,
-                    assetNameContains: null,
-                    directUrl,
-                    directVersion: "4.6.1",
+                    url,
+                    expectedMimeType: "application/x-zip-compressed",
+                    assetNameContains: ".zip",
+                    directUrl: null,
+                    directVersion: null,
                 },
             );
         },
