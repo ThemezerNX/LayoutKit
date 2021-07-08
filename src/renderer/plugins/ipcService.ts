@@ -5,7 +5,6 @@ const fileSystemChannel = (command, ...args) => ipcRenderer.invoke("file-system"
 
 const $ipcService = {
     system: {
-        os: () => systemChannel("os"),
         version: () => systemChannel("version"),
         openUrl: (url: string) => systemChannel("openUrl", url),
         quitAndInstallUpdate: () => systemChannel("quitAndInstallUpdate"),

@@ -9,7 +9,6 @@ export default class SystemChannel extends IpcChannel {
 
     constructor() {
         super({
-            os: (): string => execSync("uname -a").toString(),
             version: (): string => app.getVersion(),
             openUrl(url: string) {
                 shell.openExternal(url).then();
