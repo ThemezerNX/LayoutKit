@@ -26,7 +26,7 @@ LayoutKit is a tool that makes it easier to create Nintendo Switch layouts.
 ### **Steps**
 
 1. Download the latest release from the [releases page](https://github.com/ThemezerNX/LayoutKit/releases).
-2. Follow the steps in [LayoutDocs](https://themezernx.github.io/LayoutDocs/guide/).
+2. Follow the steps in [LayoutDocs](https://layoutdocs.themezer.net/guide/).
 
 ## **Included in this kit** 📜
 

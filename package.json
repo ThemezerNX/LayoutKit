@@ -9,10 +9,10 @@
     },
     "scripts": {
         "dev": "node .electron-nuxt/dev.js",
-        "build": "yarn run build:both && node .electron-nuxt/build.js --publish never",
-        "build:both": "yarn run build:icons && node .electron-nuxt/build.js",
+        "build:app": "node .electron-nuxt/build.js",
         "build:icons": "electron-icon-builder --flatten --input=./src/renderer/assets/icons/icon.png --output=./build",
-        "deploy": "yarn run build:both --publish always",
+        "build": "yarn run build:icons && yarn run build:app",
+        "deploy": "yarn run build --publish always",
         "_preinstall": "node .electron-nuxt/check-engines.js",
         "_postinstall": "electron-builder install-app-deps"
     },
@@ -45,7 +45,7 @@
         "dotenv": "^10.0.0",
         "edit-json-file": "^1.6.0",
         "electron": "12.0.7",
-        "electron-builder": "22.10.5",
+        "electron-builder": "^22.11.7",
         "electron-devtools-installer": "3.1.1",
         "electron-log": "^4.3.5",
         "from-now": "^1.0.2",

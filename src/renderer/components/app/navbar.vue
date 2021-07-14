@@ -73,7 +73,7 @@ export default {
             },
             {
                 id: "documentation",
-                href: "https://themezernx.github.io/LayoutDocs/",
+                href: "https://layoutdocs.themezer.net/",
                 title: "Documentation",
                 icon: "bx bxs-book",
             },
