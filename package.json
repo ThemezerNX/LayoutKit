@@ -1,7 +1,7 @@
 {
     "name": "layoutkit",
-    "version": "0.0.9",
-    "description": "An application with the most useful tools to create new layouts.",
+    "version": "0.0.10",
+    "description": "A tool that makes it easier to create Nintendo Switch layouts.",
     "main": "./dist/main/index.js",
     "repository": {
         "type": "git",
