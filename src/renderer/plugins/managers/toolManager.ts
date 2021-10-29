@@ -61,8 +61,8 @@ export default (context: any, inject: any) => {
                         const releases = res.data;
                         if (releases?.length > 0) {
                             const githubAsset = res.data[0]["assets"].find((a) =>
-                                a.content_type === expectedMimeType &&
-                                assetNameContains ? a.name.includes(assetNameContains) : true,
+                                a.content_type == expectedMimeType &&
+                                (assetNameContains ? a.name.includes(assetNameContains) : true),
                             );
                             asset.url = githubAsset?.browser_download_url;
                             asset.name = githubAsset?.name;
