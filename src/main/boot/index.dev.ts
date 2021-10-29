@@ -21,6 +21,9 @@ app.on("ready", () => {
     installExtension(VUEJS_DEVTOOLS);
 });
 
+if (process.platform === "win32") {
+    app.setAppUserModelId(app.name);
+}
 
 const handleProcessExit = () => {
     app.exit(0);
