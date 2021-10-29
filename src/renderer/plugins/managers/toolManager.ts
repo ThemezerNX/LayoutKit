@@ -46,7 +46,7 @@ export default (context: any, inject: any) => {
             toolLog.info(`[${toolName}] Checking for updates...`);
             fs.readFile(path.join(toolDir, VERSION_CFG), "utf8", async (err, versionString) => {
                 let currentVersion = versionString;
-                if (err) currentVersion = String(0);
+                if (err || isNaN(Number(currentVersion))) currentVersion = String(0);
 
                 try {
                     let asset = {
@@ -65,9 +65,8 @@ export default (context: any, inject: any) => {
                                 assetNameContains ? a.name.includes(assetNameContains) : true,
                             );
                             asset.url = githubAsset?.browser_download_url;
-                            const updatedAt = githubAsset?.updated_at;
                             asset.name = githubAsset?.name;
-                            asset.version = new Date(updatedAt).getTime().toString();
+                            asset.version = new Date(githubAsset?.updated_at).getTime().toString();
                         } else {
                             toolLog.warn(`[${toolName}] No releases found`);
                             resolve(null);
