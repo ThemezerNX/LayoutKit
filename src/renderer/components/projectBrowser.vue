@@ -34,7 +34,7 @@
                     icon
                     @click="openInToolbox()"
                 >
-                    <i class='bx bx-wrench'></i> Open All In Toolbox
+                    <i class='bx bx-wrench'></i> Open All In Editor
                 </vs-button>
                 <vse-spacer/>
                 <vs-button

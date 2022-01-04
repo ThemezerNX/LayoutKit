@@ -104,7 +104,7 @@
                         <h3>Updates</h3>
                         <vse-list-item>
                             <template #description>
-                                Check and download tool updates on launch (Switch-Toolkit, Switch Theme Injector)
+                                Check for and download tool updates on launch (Switch-Toolbox, SwitchLayoutEditor, Switch Theme Injector)
                             </template>
                             <template #button>
                                 <vs-switch v-model="checkToolUpdatesOnLaunch"/>
