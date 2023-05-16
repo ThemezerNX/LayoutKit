@@ -37,7 +37,7 @@ export default (context: any, inject: any) => {
     };
     const fetchLatestAsset = (toolDir, toolName, {
         url,
-        expectedMimeType,
+        expectedMimeTypes,
         assetNameContains,
         directUrl,
         directVersion,
@@ -61,7 +61,7 @@ export default (context: any, inject: any) => {
                         const releases = res.data;
                         if (releases?.length > 0) {
                             const githubAsset = res.data[0]["assets"].find((a) =>
-                                a.content_type == expectedMimeType &&
+                                expectedMimeTypes.includes(a.content_type)  &&
                                 (assetNameContains ? a.name.includes(assetNameContains) : true),
                             );
                             asset.url = githubAsset?.browser_download_url;
@@ -146,7 +146,7 @@ export default (context: any, inject: any) => {
                 SARCTOOL_DIR,
                 {
                     url,
-                    expectedMimeType: "application/x-zip-compressed",
+                    expectedMimeTypes: ["application/x-zip-compressed", "application/zip"],
                     assetNameContains: null,
                     directUrl: null,
                     directVersion: null,
@@ -162,7 +162,7 @@ export default (context: any, inject: any) => {
                 THEMEINJECTOR_DIR,
                 {
                     url,
-                    expectedMimeType: "application/x-zip-compressed",
+                    expectedMimeTypes: ["application/x-zip-compressed", "application/zip"],
                     assetNameContains: ".zip",
                     directUrl: null,
                     directVersion: null,
@@ -179,7 +179,7 @@ export default (context: any, inject: any) => {
                 TOOLBOX_DIR,
                 {
                     url,
-                    expectedMimeType: "application/octet-stream",
+                    expectedMimeTypes: ["application/octet-stream"],
                     assetNameContains: null,
                     directUrl: null,
                     directVersion: null,
@@ -196,7 +196,7 @@ export default (context: any, inject: any) => {
                 LAYOUTEDITOR_DIR,
                 {
                     url,
-                    expectedMimeType: "application/x-zip-compressed",
+                    expectedMimeTypes: ["application/x-zip-compressed", "application/zip"],
                     assetNameContains: null,
                     directUrl: null,
                     directVersion: null,

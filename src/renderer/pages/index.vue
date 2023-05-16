@@ -90,7 +90,6 @@ export default {
         this.$ipcService.system.version().then((s) => this.applicationVersion = s);
     },
     computed: {
-
         randomEmoji() {
             return positiveEmojis[Math.floor(Math.random() * positiveEmojis.length)];
         },
