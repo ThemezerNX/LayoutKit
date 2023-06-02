@@ -9,6 +9,7 @@ LayoutKit is a tool that makes it easier to create Nintendo Switch layouts.
 </p>
 <p align="center">
     <a href="https://ko-fi.com/Q5Q47KAM3"><img height="20" src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi" /></a>
+    <a href="https://github.com/ThemezerNX/LayoutKit/releases"><img height="20" src="https://img.shields.io/github/downloads/ThemezerNX/LayoutKit/total.svg" alt="download count badge" /></a>
 </p>
 
 ## **Features** 📝
