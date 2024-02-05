@@ -1,6 +1,6 @@
 {
     "name": "layoutkit",
-    "version": "0.0.12",
+    "version": "0.0.13",
     "description": "A tool that makes it easier to create Nintendo Switch layouts.",
     "main": "./dist/main/index.js",
     "repository": {
@@ -19,7 +19,7 @@
     "keywords": [],
     "author": "Migushthe2nd",
     "engines": {
-        "node": ">=12.13.0"
+        "node": ">=14.0"
     },
     "resolutions": {
         "@types/node": "12.12.6"

@@ -1,7 +1,6 @@
 <template>
     <div>
         <app-navbar/>
-        <app-sidebar/>
         <!--    Use this scroll detector component to pad the main page 84 pixels down (the height of the navbar)    -->
         <div id="padding-scroll-content" class="pa-20" style="padding-top: 104px !important;">
             <nuxt/>
@@ -14,11 +13,10 @@
 
 <script>
 import appNavbar from "~/components/app/navbar.vue";
-import appSidebar from "~/components/app/sidebar.vue";
 import updateChecker from "~/components/updateChecker.vue";
 
 export default {
-    components: {appNavbar, appSidebar, updateChecker},
+    components: {appNavbar, updateChecker},
     data: () => ({
         activeSidebar: false,
     }),
