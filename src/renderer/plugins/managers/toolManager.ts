@@ -179,7 +179,7 @@ export default (context: any, inject: any) => {
                 TOOLBOX_DIR,
                 {
                     url,
-                    expectedMimeTypes: ["application/octet-stream"],
+                    expectedMimeTypes: ["application/x-zip-compressed"],
                     assetNameContains: null,
                     directUrl: null,
                     directVersion: null,
