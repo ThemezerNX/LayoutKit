@@ -25,11 +25,11 @@ LayoutKit is a tool that makes it easier to create Nintendo Switch layouts.
 
 ### **Requirements**
 
-- Windows
+- Windows (portable)
 
 ### **Steps**
 
-1. Download the latest release from the [releases page](https://github.com/ThemezerNX/LayoutKit/releases).
+1. Download the latest portable release from the [releases page](https://github.com/ThemezerNX/LayoutKit/releases).
 2. Follow the steps in [LayoutDocs](https://layoutdocs.themezer.net/guide/).
 
 ## **Included in this kit** 📜

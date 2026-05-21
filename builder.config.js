@@ -4,21 +4,14 @@ const ICONS_DIR = "build/icons/";
 const windowsOS = {
     win: {
         icon: ICONS_DIR + "icon.ico",
-        target: "nsis",
-    },
-
-    nsis: {
-        differentialPackage: true,
-        perMachine: true,
-        oneClick: false,
-        allowToChangeInstallationDirectory: true,
+        target: "portable",
     },
 };
 
 module.exports = {
     productName: "LayoutKit",
     appId: "net.themezer.layoutkit",
-    artifactName: "setup-${version}.${ext}",
+    artifactName: "portable-${version}.${ext}",
     directories: {
         output: "build",
     },
